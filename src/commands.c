@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:56:57 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/22 13:34:11 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/22 16:51:51 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ void	handle_command(t_environment *env, const char *cmd)
 		{
 			while (env->env_var[++i])
 				printf("%s\n", env->env_var[i]);
+		}
+		if (ft_strcmp(tokens[0], "pwd") == 0)
+		{
+			pwd(env->env_var);
 		}
 		free(tokens);
 	}

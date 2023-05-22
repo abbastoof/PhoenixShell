@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:05:33 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/22 14:27:52 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/22 17:11:22 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,17 @@
 // 	free(str_array);
 // }
 
-char	*find_path(char **envp, char *str)
+char	*find_path(char **envp, char *str, char *replace, int flag)
 {
 	while (ft_strncmp(str, *envp, ft_strlen(str)))
 		envp++;
-	return (*envp + ft_strlen(str));
+	if (flag == 0)
+		return (*envp + ft_strlen(str));
+	else if ((flag == 1) && (replace != NULL))
+	{
+		ft_strjoin_inplace(*envp, str, replace);
+	}
+	return (NULL);
 }
 
 void	initialize_minishell(t_minishell *line)

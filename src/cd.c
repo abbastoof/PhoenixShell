@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/22 16:32:49 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/22 17:38:42 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	dollorsign_exist(char **env, char *path)
 	if ((path + 1) == NULL)
 	{
 		ft_putstr_fd("bash: cd: $: No such file or directory\n", 2);
+		printf("got here\n");
 		return (-1);
 	}
 	else
 	{
 		path = path + 1;
-		path = find_path(env, path);
+		path = find_path(env, path, NULL, 0);
 		path += 1;
 	}
 	return (0);
@@ -78,15 +79,18 @@ void	cd(t_environment *env, char *args)
 		perror("minishell: cd");
 	else
 	{
-		// int i = -1;
-		// while (env->env_var[++i])
-		// {
-		// 	if (ft_strnstr(env->env_var[i], "OLDPWD", 6)  NULL)
+		if (find_path(env->env_var, "OLDPWD=", NULL, 0) == NULL)
+		{
+			ft_realloc(env->env_var, env->counter + 2);
+			find_path(env->env_var, "OLDPWD=", cwd, 1);
 		}
-		set_environment_variable("OLDPWD", cwd, env->env_var);
+		else
+		{
+			find_path(env->env_var, "OLDPWD=", cwd, 1);
+		}
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 			perror("minishell: getcwd");
 		else
-			set_environment_variable("PWD", cwd, env->env_var);
+			find_path(env->env_var, "PWD=", cwd, 1);
 	}
 }

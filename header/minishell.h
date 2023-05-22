@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/22 15:35:30 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/22 17:12:34 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ void		commands(char *cmd);
 // void		initialize_minishell(t_minishell *line);
 void		handle_command(t_environment *env, const char *cmd);
 void		free_env(t_environment *env);
-char		*find_path(char **envp, char *str);
+char		*find_path(char **envp, char *str, char *replace, int flag);
 void		cd(t_environment *env, char *args);
 void		set_environment_variable(const char *name, const char *value,
 				char **env);
+void		pwd(char **env);
+void		ft_strjoin_inplace(char *dest, const char *s1, const char *s2);
 
 # define TOKEN_CMD 1
 # define TOKEN_ARG 2

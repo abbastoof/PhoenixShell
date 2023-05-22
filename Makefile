@@ -6,13 +6,14 @@
 #    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/05/22 15:37:25 by mtoof            ###   ########.fr        #
+#    Updated: 2023/05/22 16:53:19 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 SRC_DIR = ./src
-SRC = main.c helper.c ft_strcmp.c commands.c ft_realloc.c cd.c set_env_var.c
+SRC = main.c helper.c ft_strcmp.c commands.c ft_realloc.c cd.c set_env_var.c \
+		pwd.c
 HEADER_DIR = ./header
 HEADER = minishell.h
 OBJ_DIR = ./obj
