@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
+#    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/05/22 11:30:33 by atoof            ###   ########.fr        #
+#    Updated: 2023/05/22 15:37:25 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 SRC_DIR = ./src
-SRC = main.c helper.c ft_strcmp.c commands.c ft_realloc.c cd.c
+SRC = main.c helper.c ft_strcmp.c commands.c ft_realloc.c cd.c set_env_var.c
 HEADER_DIR = ./header
 HEADER = minishell.h
 OBJ_DIR = ./obj

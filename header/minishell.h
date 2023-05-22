@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/22 12:16:46 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/22 15:35:30 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void		handle_command(t_environment *env, const char *cmd);
 void		free_env(t_environment *env);
 char		*find_path(char **envp, char *str);
 void		cd(t_environment *env, char *args);
+void		set_environment_variable(const char *name, const char *value,
+				char **env);
 
 # define TOKEN_CMD 1
 # define TOKEN_ARG 2
