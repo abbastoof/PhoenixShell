@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/22 14:16:00 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/22 12:58:43 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	initialize_environment(t_environment *env, char **environ)
 	int	i;
 
 	i = 0;
-	env->counter = -1;
 	while (environ[i])
 		i++;
+	env->counter = i;
 	env->env_var = malloc(sizeof(char *) * (i + 1));
 	if (env->env_var == NULL)
 	{
@@ -31,8 +31,8 @@ void	initialize_environment(t_environment *env, char **environ)
 	{
 		if (ft_strnstr(environ[i], "OLDPWD", 6) != NULL)
 			i++;
-		env->env_var[++env->counter] = ft_strdup(environ[i]);
-		if (env->env_var[env->counter] == NULL)
+		env->env_var[i] = ft_strdup(environ[i]);
+		if (env->env_var[i] == NULL)
 		{
 			perror("minishell: strdup");
 			exit(EXIT_FAILURE);
@@ -54,8 +54,7 @@ int	main(int ac, char **av)
 		cmd = readline("Minishell>");
 		add_history(cmd);
 		handle_command(&env, cmd);
-		if (cmd)
-			free(cmd);
+		free(cmd);
 	}
 	free_env(&env);
 	return (0);

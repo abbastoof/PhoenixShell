@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:56:57 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/22 16:51:51 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/24 13:34:58 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	handle_command(t_environment *env, const char *cmd)
 		if (ft_strcmp(tokens[0], "export") == 0)
 		{
 			ptr = ft_realloc(env->env_var, env->counter + 2);
+			free(env->env_var);
 			env->env_var = ptr;
 		}
 		if (ft_strcmp(tokens[0], "env") == 0)
@@ -38,9 +39,9 @@ void	handle_command(t_environment *env, const char *cmd)
 			while (env->env_var[++i])
 				printf("%s\n", env->env_var[i]);
 		}
-		if (ft_strcmp(tokens[0], "pwd") == 0)
+		if (ft_strcmp(tokens[0], "echo") == 0)
 		{
-			pwd(env->env_var);
+			echo(tokens + 1);
 		}
 		free(tokens);
 	}
