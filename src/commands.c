@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:56:57 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/24 13:34:58 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/24 17:02:56 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_command(t_environment *env, const char *cmd)
 		if (ft_strcmp(tokens[0], "cd") == 0)
 		{
 			path = tokens[1];
-			cd(env, path);
+			ft_cd(env, path);
 		}
 		if (ft_strcmp(tokens[0], "export") == 0)
 		{

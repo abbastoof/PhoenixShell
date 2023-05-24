@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/22 13:22:47 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/24 17:16:01 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	set_environment_variable(const char *name, const char *value)
 	}
 }
 
-void	cd(t_environment *env, char *args)
+void	ft_cd(t_environment *env, char *args)
 {
 	char	*path;
 	char	cwd[1024];

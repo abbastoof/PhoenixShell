@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/24 14:01:20 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/24 17:02:26 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ typedef struct s_environment
 void		echo(char **args);
 void		commands(char *cmd);
 void		free_env(t_environment *env);
-void		cd(t_environment *env, char *args);
+void		ft_cd(t_environment *env, char *args);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
 // void		initialize_minishell(t_minishell *line);
 int			ft_strcmp(const char *s1, const char *s2);
 void		handle_command(t_environment *env, const char *cmd);
 void		initialize_environment(t_environment *env, char **environ);
+
 
 # define TOKEN_CMD 1
 # define TOKEN_ARG 2
