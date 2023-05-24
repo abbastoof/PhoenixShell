@@ -6,14 +6,14 @@
 #    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/05/24 13:48:43 by atoof            ###   ########.fr        #
+#    Updated: 2023/05/24 14:02:00 by atoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 SRC_DIR = src/
 BUILT_IN_DIR = src/built-in/
-SRC = main.c helper.c ft_strcmp.c commands.c ft_realloc.c
+SRC = main.c helper.c ft_strcmp.c commands.c ft_realloc.c env_init.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT))
 HEADER_DIR = header/
