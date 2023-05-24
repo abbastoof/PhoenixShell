@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
+#    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/05/24 14:02:00 by atoof            ###   ########.fr        #
+#    Updated: 2023/05/24 19:58:16 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ OBJ_DIR = obj/
 OBJS = $(SRCS:%.c=$(OBJ_DIR)%.o)
 LIBFT = ./libft/libft.a
 FLAGS = -Wall -Werror -Wextra
+EXTRA_FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
 # ANSI escape sequences for text formatting
 BOLD = \033[1m
@@ -41,7 +42,7 @@ $(NAME): $(OBJS)
 	else \
 		echo "$(YELLOW)$(BOLD)Compiling $(NAME)...$(NC)"; \
 		make -C ./libft; \
-		cc $(FLAGS) -lreadline $(OBJS) -I$(HEADER_DIR) $(LIBFT) -o $@ ; \
+		cc $(FLAGS) $(EXTRA_FLAGS) $(OBJS) -I$(HEADER_DIR) $(LIBFT) -o $@ ; \
 		echo "$(GREEN)$(BOLD)$(NAME) successfully compiled!$(NC)"; \
 	fi
 
