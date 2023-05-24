@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:43:35 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/24 18:07:35 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/24 19:55:26 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(t_environment *env)
+void	pwd(char **env)
 {
-	printf("%s\n", find_path(env->env_var, "PWD="));
+	char	cwd[1024];
+
+	(void)env;
+	printf("%s\n", getcwd(cwd, ft_strlen(cwd)));
 }

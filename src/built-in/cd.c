@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/24 17:16:01 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/24 19:56:00 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	set_environment_variable(const char *name, const char *value)
 	}
 }
 
-void	ft_cd(t_environment *env, char *args)
+void	cd(t_environment *env, char *args)
 {
 	char	*path;
 	char	cwd[1024];
@@ -70,6 +70,8 @@ void	ft_cd(t_environment *env, char *args)
 
 	path = args;
 	(void)env;
+	if (!args)
+		return ;
 	if (path[0] == '$')
 	{
 		if ((path + 1) == NULL)
@@ -100,12 +102,12 @@ void	ft_cd(t_environment *env, char *args)
 	}
 	if (chdir(path) < 0)
 		perror("minishell: cd");
-	else
-	{
-		set_environment_variable("OLDPWD", cwd);
-		if (getcwd(cwd, sizeof(cwd)) == NULL)
-			perror("minishell: getcwd");
-		else
-			set_environment_variable("PWD", cwd);
-	}
+	// else
+	// {
+	// 	set_environment_variable("OLDPWD", cwd);
+	// 	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	// 		perror("minishell: getcwd");
+	// 	else
+	// 		set_environment_variable("PWD", cwd);
+	// }
 }
