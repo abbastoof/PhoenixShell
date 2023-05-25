@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/24 17:02:26 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/25 11:29:25 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <readline/history.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <stdio.h>
 # include <sys/syslimits.h>
+# include <signal.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -43,12 +44,14 @@ typedef struct s_environment
 	int		counter;
 }			t_environment;
 
+void		pwd(char **env);
 void		echo(char **args);
 void		commands(char *cmd);
+void		setup_signal_handlers(void);
 void		free_env(t_environment *env);
-void		ft_cd(t_environment *env, char *args);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
+void		ft_cd(t_environment *env, char *args);
 // void		initialize_minishell(t_minishell *line);
 int			ft_strcmp(const char *s1, const char *s2);
 void		handle_command(t_environment *env, const char *cmd);

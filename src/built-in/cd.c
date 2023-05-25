@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/24 19:56:00 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/25 10:48:51 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	set_environment_variable(const char *name, const char *value)
 	}
 }
 
-void	cd(t_environment *env, char *args)
+void	ft_cd(t_environment *env, char *args)
 {
 	char	*path;
 	char	cwd[1024];
