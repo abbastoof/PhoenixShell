@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/25 12:02:55 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/25 12:26:09 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_environment
 void		pwd(void);
 void		echo(char **args);
 void		commands(char *cmd);
-void		setup_signal_handlers(void);
+void		sigint_handler(int signum);
 void		free_env(t_environment *env);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
