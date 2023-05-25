@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/25 10:48:51 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/25 14:33:31 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,43 +24,43 @@ void	ft_strjoin_inplace(char *dest, const char *s1, const char *s2)
 	*dest = '\0';
 }
 
-void	set_environment_variable(const char *name, const char *value)
-{
-	int		i;
-	char	*new_value;
-	char	**new_environ;
+// void	set_environment_variable(const char *name, const char *value)
+// {
+// 	int		i;
+// 	char	*new_value;
+// 	char	**new_environ;
 
-	i = 0;
-	while (environ[i] && (ft_strncmp(environ[i], name, ft_strlen(name)) != 0
-			|| environ[i][ft_strlen(name)] != '='))
-		i++;
-	new_value = malloc(ft_strlen(name) + ft_strlen(value) + 2);
-	if (new_value == NULL)
-	{
-		perror("minishell: malloc");
-		exit(EXIT_FAILURE);
-	}
-	ft_strjoin_inplace(new_value, name, value);
-	if (environ[i])
-	{
-		free(environ[i]);
-		environ[i] = new_value;
-	}
-	else
-	{
-		new_environ = malloc((i + 2) * sizeof(char *));
-		if (new_environ == NULL)
-		{
-			perror("minishell: malloc");
-			exit(EXIT_FAILURE);
-		}
-		ft_memcpy(new_environ, environ, i * sizeof(char *));
-		new_environ[i] = new_value;
-		new_environ[i + 1] = NULL;
-		free(environ);
-		environ = new_environ;
-	}
-}
+// 	i = 0;
+// 	while (environ[i] && (ft_strncmp(environ[i], name, ft_strlen(name)) != 0
+// 			|| environ[i][ft_strlen(name)] != '='))
+// 		i++;
+// 	new_value = malloc(ft_strlen(name) + ft_strlen(value) + 2);
+// 	if (new_value == NULL)
+// 	{
+// 		perror("minishell: malloc");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	ft_strjoin_inplace(new_value, name, value);
+// 	if (environ[i])
+// 	{
+// 		free(environ[i]);
+// 		environ[i] = new_value;
+// 	}
+// 	else
+// 	{
+// 		new_environ = malloc((i + 2) * sizeof(char *));
+// 		if (new_environ == NULL)
+// 		{
+// 			perror("minishell: malloc");
+// 			exit(EXIT_FAILURE);
+// 		}
+// 		ft_memcpy(new_environ, environ, i * sizeof(char *));
+// 		new_environ[i] = new_value;
+// 		new_environ[i + 1] = NULL;
+// 		free(environ);
+// 		environ = new_environ;
+// 	}
+// }
 
 void	ft_cd(t_environment *env, char *args)
 {
