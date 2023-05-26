@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/25 19:51:24 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/26 11:29:57 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_token
 	char		*value;
 }				t_token;
 
-typedef struct s_info
+typedef struct s_lexer
 {
 	int		indx;
 	char	*crnt_str;
@@ -64,7 +64,7 @@ typedef struct s_info
 	int		inquote;
 	int		indquote;
 	t_token	*token;
-}			t_info;
+}			t_lexer;
 
 typedef struct s_environment
 {
