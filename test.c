@@ -33,42 +33,51 @@ typedef struct s_lexerstate
 	t_token	*tokens;
 }			t_lexerstate;
 
-void	assign_token_type(char *str, t_token *token)
+void	assign_token_type(char *str, t_token *token, t_lexerstate *state)
 {
 	if (strcmp(str, "|") == 0)
 	{
-		token->type = TOKEN_PIPE;
+		token[state->token_index].type = TOKEN_PIPE;
+		state->token_index++;
 	}
 	else if (strcmp(str, "<") == 0)
 	{
-		token->type = TOKEN_INPUT;
+		token[state->token_index].type = TOKEN_INPUT;
+		state->token_index++;
 	}
 	else if (strcmp(str, ">") == 0)
 	{
-		token->type = TOKEN_OUTPUT;
+		token[state->token_index].type = TOKEN_OUTPUT;
+		state->token_index++;
 	}
 	else if (strcmp(str, ">>") == 0)
 	{
-		token->type = TOKEN_OUTPUT_APPEND;
+		token[state->token_index].type = TOKEN_OUTPUT_APPEND;
+		state->token_index++;
 	}
 	else if (strcmp(str, "<<") == 0)
 	{
-		token->type = TOKEN_HEREDOC;
+		token[state->token_index].type = TOKEN_HEREDOC;
+		state->token_index++;
 	}
 	else if (str[0] == '$')
 	{
 		if (strcmp(str, "$?") == 0)
 		{
-			token->type = TOKEN_EXIT_STATUS;
+			token[state->token_index].type = TOKEN_EXIT_STATUS;
+			state->token_index++;
 		}
 		else
 		{
-			token->type = TOKEN_VARIABLE;
+			token[state->token_index].type = TOKEN_VARIABLE;
+			state->token_index++;
 		}
 	}
 	else
 	{
-		token->type = (token->type == TOKEN_CMD) ? TOKEN_ARG : token->type;
+		token[state->token_index].type = (token->type == TOKEN_CMD) ? TOKEN_ARG : token->type;
+		token->value = strdup(str);
+		state->token_index++;
 	}
 }
 
@@ -87,13 +96,9 @@ void	handle_quote(t_lexerstate *state, int token_type)
 	int	*within_quote;
 
 	if (token_type == TOKEN_QUOTE)
-	{
 		within_quote = &(state->within_single_quote);
-	}
 	else
-	{
 		within_quote = &(state->within_double_quote);
-	}
 	if (*within_quote == 0)
 	{
 		*within_quote = 1;
@@ -133,12 +138,12 @@ t_token	*tokenize_command(char *command_line)
 		{
 			*(state.current_character) = '\0';
 			assign_token_type(state.start_position,
-					&(state.tokens[state.token_index]));
+					&(state.tokens[state.token_index]), &state);
 			state.start_position = state.current_character + 1;
 		}
 		state.current_character++;
 	}
-	assign_token_type(state.start_position, &(state.tokens[state.token_index]));
+	assign_token_type(state.start_position, &(state.tokens[state.token_index]), &state);
 		// Handle last argument
 	return (state.tokens);
 }

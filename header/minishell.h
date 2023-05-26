@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/26 11:29:57 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/26 15:27:54 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_lexer
 	char	*start;
 	int		inquote;
 	int		indquote;
+	int		token_indx;
 	t_token	*token;
 }			t_lexer;
 
@@ -78,6 +79,7 @@ void		commands(char *cmd);
 void		sigint_handler(int signum);
 void		free_env(t_environment *env);
 char		*find_path(char **envp, char *str);
+int			is_word(char *str, int token_type);
 char		**ft_realloc(char **ptr, size_t size);
 void		ft_cd(t_environment *env, char *args);
 // void		initialize_minishell(t_minishell *line);

@@ -6,7 +6,7 @@
 #    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/05/25 13:03:28 by atoof            ###   ########.fr        #
+#    Updated: 2023/05/26 15:26:54 by atoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ BUILT_IN_DIR = src/built-in/
 LEXER_D = src/lexer/
 SRC = main.c helper.c ft_strcmp.c commands.c ft_realloc.c env_init.c signals.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c
-SRC_LEX = lexer.c
+SRC_LEX = lexer.c lexer_helper.c
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
 		$(addprefix $(LEXER_D), $(SRC_LEX))
 HEADER_DIR = header/
