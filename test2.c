@@ -6,10 +6,11 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:56:06 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/29 16:07:30 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/29 17:59:55 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <readline/history.h>
 #include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +40,27 @@ size_t	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+{
+	size_t	dest_lng;
+	size_t	src_lng;
+	size_t	i;
+
+	src_lng = ft_strlen(src);
+	dest_lng = 0;
+	if (dst)
+		dest_lng = ft_strlen(dst);
+	i = dest_lng;
+	if (!src || !*src)
+		return (dest_lng);
+	else if (dstsize <= dest_lng)
+		return (dstsize + src_lng);
+	while (*src && dstsize > dest_lng && i != dstsize - 1)
+		*(dst + i++) = *src++;
+	*(dst + i) = '\0';
+	return (dest_lng + src_lng);
 }
 
 char	*ft_strjoin(char const *s1, char const s2)
@@ -123,15 +145,24 @@ void	handlequote(char *str, t_lexer *state)
 void	join_char(char *str, t_lexer *state)
 {
 	printf("state->flag = %d, str[state->i] = %c\n", state->flag,
-		str[state->i]);
+			str[state->i]);
+	if (state->tmp == NULL)
+	{
+		state->tmp = malloc(sizeof(char) * 2);
+		if (!state->tmp)
+			return ;
+	}
 	state->res = ft_strjoin(state->tmp, str[state->i]);
-	free(state->tmp);
+	if (state->tmp)
+		free(state->tmp);
 	state->tmp = state->res;
 	state->i++;
 }
 
 int	is_word(char *str, t_lexer *state)
 {
+	state->flag = 0;
+	state->i = 0;
 	while (str[state->i] == ' ' || str[state->i] == '\t')
 		state->i++;
 	while (str[state->i])
@@ -139,15 +170,11 @@ int	is_word(char *str, t_lexer *state)
 		handlequote(str, state);
 		if ((str[state->i] && state->flag == 0 && str[state->i] != ' ')
 			&& (str[state->i] != '\'') && (str[state->i] != '\"'))
-		{
 			join_char(str, state);
-		}
 		else if ((str[state->i] && (state->flag == 1 && str[state->i] != '\''))
-			|| (str[state->i] && (state->flag == 2
-					&& str[state->i] != '\"')))
-		{
+						|| (str[state->i] && (state->flag == 2
+						&& str[state->i] != '\"')))
 			join_char(str, state);
-		}
 		else if (state->flag == 0 && str[state->i] == ' ')
 			break ;
 	}
@@ -155,17 +182,22 @@ int	is_word(char *str, t_lexer *state)
 		ft_putstr_fd("The quote is not closed\n", 2);
 	else if (state->flag == 2)
 		ft_putstr_fd("The double quotes are not closed\n", 2);
-	printf("cmd = %s\n", state->res);
+	printf("cmd = %s\n", state->tmp);
 	return (0);
 }
 
 static void	init_info(t_lexer *state)
 {
-	state->flag = 0;
-	state->i = 0;
-	state->tmp = calloc(1, 1);
 	state->inquote = 0;
 	state->indquote = 0;
+}
+
+void	ft_free(t_lexer *state)
+{
+	printf("going for free\n");
+	if (state->tmp)
+		free(state->tmp);
+	state->tmp = NULL;
 }
 
 int	main(void)
@@ -177,9 +209,15 @@ int	main(void)
 	while (1)
 	{
 		cmd = readline("my shell$>");
+		add_history(cmd);
 		is_word(cmd, &state);
-		if (cmd)
+		if (cmd != '\0')
 			free(cmd);
+		if (state.tmp != NULL)
+		{
+			// printf("tmp = %p\n", state.tmp);
+			ft_free(&state);
+		}
 	}
 	return (0);
 }
