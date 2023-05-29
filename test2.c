@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:56:06 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/29 13:10:20 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/29 14:24:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int	is_word(char *str, t_lexer *state)
 	flag = 0;
 	i = 0;
 	tmp = calloc(1, 1);
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
 	while (str[i])
 	{
-		if (flag == 2 && (str[i + 1] == ' ' || str[i + 1] == '\0'))
-			break ;
 		if (str[i] == '\'' && !state->indquote)
 		{
 			if (str[i] == '\'' && flag == 0)
@@ -82,9 +82,9 @@ int	is_word(char *str, t_lexer *state)
 				i++;
 				state->inquote = 1;
 			}
-			else if (str[i] == '\'' && flag == 1)
+			if (str[i] == '\'' && flag == 1)
 			{
-				flag = 2;
+				flag = 0;
 				i++;
 				state->inquote = 0;
 			}
@@ -93,23 +93,33 @@ int	is_word(char *str, t_lexer *state)
 		{
 			if (str[i] == '\"' && flag == 0)
 			{
-				flag = 1;
-				i++;
-				state->indquote = 1;
-			}
-			else if (str[i] == '\"' && flag == 1)
-			{
 				flag = 2;
 				i++;
 				state->indquote = 1;
 			}
+			if (str[i] == '\"' && flag == 2)
+			{
+				flag = 0;
+				i++;
+				state->indquote = 0;
+			}
 		}
-		if (flag == 2 && (str[i] != '\'' || str[i] != '\"'))
+		if (str[i] && !flag && str[i] != ' ' && ((str[i] != '\'') && (str[i] != '\"')))
 		{
+			printf("flag = %d, str[i] = %c\n",flag, str[i]);
 			res = ft_strjoin(tmp, str[i]);
 			free(tmp);
 			tmp = res;
 		}
+		else if ((str[i] && (flag == 1 && str[i] != '\'')) || (str[i] && (flag == 2 && str[i] != '\"')))
+		{
+			printf("flag = %d, str[i] = %c\n",flag, str[i]);
+			res = ft_strjoin(tmp, str[i]);
+			free(tmp);
+			tmp = res;
+		}
+		else
+			break ;
 		i++;
 	}
 	printf("%s\n", tmp);
