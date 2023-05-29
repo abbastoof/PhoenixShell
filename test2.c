@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:56:06 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/29 14:29:32 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/29 15:10:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,23 @@ char	*ft_strjoin(char const *s1, char const s2)
 	return (NULL);
 }
 
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (s)
+	{
+		while (*s)
+		{
+			ft_putchar_fd(*s, fd);
+			s++;
+		}
+	}
+}
+
 int	is_word(char *str, t_lexer *state)
 {
 	int		i;
@@ -89,7 +106,7 @@ int	is_word(char *str, t_lexer *state)
 				state->inquote = 0;
 			}
 		}
-		if (str[i] == '\"' && !state->inquote)
+		else if (str[i] == '\"' && !state->inquote)
 		{
 			if (str[i] == '\"' && flag == 0)
 			{
@@ -122,7 +139,11 @@ int	is_word(char *str, t_lexer *state)
 			break ;
 		i++;
 	}
-	printf("%s\n", tmp);
+	printf("flg = %d\n", flag);
+	if (flag == 1)
+		ft_putstr_fd("The quote is not closed\n", 2);
+	else if (flag == 2)
+		ft_putstr_fd("The double quotes are not closed\n", 2);
 	return (0);
 }
 
