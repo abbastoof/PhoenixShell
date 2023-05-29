@@ -6,15 +6,15 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:56:06 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/29 15:10:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/29 15:51:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <readline/readline.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 typedef struct s_lexer
 {
@@ -25,6 +25,10 @@ typedef struct s_lexer
 	int		indquote;
 	int		token_indx;
 	char	*str_cat;
+	int		flag;
+	int		i;
+	char	*tmp;
+	char	*res;
 }			t_lexer;
 
 size_t	ft_strlen(const char *str)
@@ -54,7 +58,7 @@ char	*ft_strjoin(char const *s1, char const s2)
 			sjoin[i] = s1[i];
 		sjoin[len1] = s2;
 		len1++;
-		sjoin [len1] = '\0';
+		sjoin[len1] = '\0';
 		return (sjoin);
 	}
 	return (NULL);
@@ -77,83 +81,89 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
+void	handledquote(char *str, t_lexer *state)
+{
+	if (str[state->i] == '\"' && !state->inquote)
+	{
+		if (str[state->i] == '\"' && state->flag == 0)
+		{
+			state->flag = 2;
+			state->i++;
+			state->indquote = 1;
+		}
+		if (str[state->i] == '\"' && state->flag == 2)
+		{
+			state->flag = 0;
+			state->i++;
+			state->indquote = 0;
+		}
+	}
+}
+
+void	handlequote(char *str, t_lexer *state)
+{
+	if (str[state->i] == '\'' && !state->indquote)
+	{
+		if (str[state->i] == '\'' && state->flag == 0)
+		{
+			state->flag = 1;
+			state->i++;
+			state->inquote = 1;
+		}
+		if (str[state->i] == '\'' && state->flag == 1)
+		{
+			state->flag = 0;
+			state->i++;
+			state->inquote = 0;
+		}
+	}
+	handledquote(str, state);
+}
+
+void	join_char(t_lexer state)
+{
+	printf("state->flag = %d, str[state->i] = %c\n", state->flag,
+		str[state->i]);
+	state->res = ft_strjoin(state->tmp, str[state->i]);
+	free(state->tmp);
+	state->tmp = state->res;
+	state->i++;
+}
+
 int	is_word(char *str, t_lexer *state)
 {
-	int		i;
-	int		flag;
-	char	*tmp;
-	char	*res;
-
-	flag = 0;
-	i = 0;
-	tmp = calloc(1, 1);
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	while (str[i])
+	while (str[state->i] == ' ' || str[state->i] == '\t')
+		state->i++;
+	while (str[state->i])
 	{
-		if (str[i] == '\'' && !state->indquote)
-		{
-			if (str[i] == '\'' && flag == 0)
-			{
-				flag = 1;
-				i++;
-				state->inquote = 1;
-			}
-			if (str[i] == '\'' && flag == 1)
-			{
-				flag = 0;
-				i++;
-				state->inquote = 0;
-			}
-		}
-		else if (str[i] == '\"' && !state->inquote)
-		{
-			if (str[i] == '\"' && flag == 0)
-			{
-				flag = 2;
-				i++;
-				state->indquote = 1;
-			}
-			if (str[i] == '\"' && flag == 2)
-			{
-				flag = 0;
-				i++;
-				state->indquote = 0;
-			}
-		}
-		if (str[i] && !flag && str[i] != ' ' && ((str[i] != '\'') && (str[i] != '\"')))
-		{
-			printf("flag = %d, str[i] = %c\n",flag, str[i]);
-			res = ft_strjoin(tmp, str[i]);
-			free(tmp);
-			tmp = res;
-		}
-		else if ((str[i] && (flag == 1 && str[i] != '\'')) || (str[i] && (flag == 2 && str[i] != '\"')))
-		{
-			printf("flag = %d, str[i] = %c\n",flag, str[i]);
-			res = ft_strjoin(tmp, str[i]);
-			free(tmp);
-			tmp = res;
-		}
-		else if (flag == 0 && str[i] == ' ')
+		handlequote(str, state);
+		if ((str[state->i] && state->flag == 0 && str[state->i] != ' ')
+			&& (str[state->i] != '\'') && (str[state->i] != '\"'))
+			join_char(state);
+		else if ((str[state->i] && (state->flag == 1 && str[state->i] != '\''))
+			|| (str[state->i] && (state->flag == 2
+					&& str[state->i] != '\"')))
+			join_char(state);
+		else if (state->flag == 0 && str[state->i] == ' ')
 			break ;
-		i++;
 	}
-	printf("flg = %d\n", flag);
-	if (flag == 1)
+	if (state->flag == 1)
 		ft_putstr_fd("The quote is not closed\n", 2);
-	else if (flag == 2)
+	else if (state->flag == 2)
 		ft_putstr_fd("The double quotes are not closed\n", 2);
 	return (0);
 }
 
 static void	init_info(t_lexer *state)
 {
+	state->flag = 0;
+	state->i = 0;
+	state->tmp = calloc(1, 1);
 	state->inquote = 0;
 	state->indquote = 0;
 }
 
-int main()
+int	main(void)
 {
 	char	*cmd;
 	t_lexer	state;
