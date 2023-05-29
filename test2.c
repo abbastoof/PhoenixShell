@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:56:06 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/29 14:24:11 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/29 14:29:32 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	is_word(char *str, t_lexer *state)
 			free(tmp);
 			tmp = res;
 		}
-		else
+		else if (flag == 0 && str[i] == ' ')
 			break ;
 		i++;
 	}
