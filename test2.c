@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:56:06 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/29 15:51:11 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/29 16:07:30 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	handlequote(char *str, t_lexer *state)
 	handledquote(str, state);
 }
 
-void	join_char(t_lexer state)
+void	join_char(char *str, t_lexer *state)
 {
 	printf("state->flag = %d, str[state->i] = %c\n", state->flag,
 		str[state->i]);
@@ -139,11 +139,15 @@ int	is_word(char *str, t_lexer *state)
 		handlequote(str, state);
 		if ((str[state->i] && state->flag == 0 && str[state->i] != ' ')
 			&& (str[state->i] != '\'') && (str[state->i] != '\"'))
-			join_char(state);
+		{
+			join_char(str, state);
+		}
 		else if ((str[state->i] && (state->flag == 1 && str[state->i] != '\''))
 			|| (str[state->i] && (state->flag == 2
 					&& str[state->i] != '\"')))
-			join_char(state);
+		{
+			join_char(str, state);
+		}
 		else if (state->flag == 0 && str[state->i] == ' ')
 			break ;
 	}
@@ -151,6 +155,7 @@ int	is_word(char *str, t_lexer *state)
 		ft_putstr_fd("The quote is not closed\n", 2);
 	else if (state->flag == 2)
 		ft_putstr_fd("The double quotes are not closed\n", 2);
+	printf("cmd = %s\n", state->res);
 	return (0);
 }
 
