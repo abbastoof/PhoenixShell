@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/26 15:23:54 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/29 19:58:15 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,18 @@ static void	init_info(t_lexer *state, char *line)
 	state->token = malloc(sizeof(t_token) * 1024);
 }
 
-t_token	*lexer(char *line)
+t_token	*lexer(char *line, t_environment *env)
 {
 	t_lexer	state;
 
 	init_info(&state, line);
 	while (state.crnt_str[state.indx])
 	{
-		if (state.crnt_str[state.indx] == '\'' && !state.indquote)
-			handlequote(&state, TOKEN_QUOTE);
-		else if (state.crnt_str[state.indx] == '\"' && !state.inquote)
-			handlequote(&state, TOKEN_DQUOTE);
-		else if (state.crnt_str[state.indx] == ' ' || '\t' && !state.inquote
+		if (state.crnt_str + state.indx == '\'' && !state.indquote)
+			is_word(state.crnt_str + state.indx, &state, env);
+		else if (state.crnt_str + state.indx == '\"' && !state.inquote)
+			is_word(state.crnt_str + state.indx, &state, env);
+		else if (state.crnt_str + state.indx == ' ' || '\t' && !state.inquote
 			&& !state.indquote)
 		{
 			assign_token_type(state.start, state.token, &state);
@@ -91,10 +91,10 @@ t_token	*lexer(char *line)
 	}
 }
 
-void	process_cmd(char *line)
+void	process_cmd(char *line, t_environment *env)
 {
 	t_token	*tokens;
 
-	tokens = lexer(line);
+	tokens = lexer(line, env);
 	// handle_command(tokens);
 }

@@ -3,54 +3,131 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/26 16:26:00 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/29 20:02:42 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_word(char *str, int token_type, t_lexer *state)
+char	*ft_chrjoin(char const *s1, char const s2)
 {
-	int i;
-	int flag;
+	size_t	len1;
+	size_t	i;
+	char	*sjoin;
 
-	flag = 0;
-	i = 0;
-	while (str[i] != '\0')
+	if (s1)
 	{
-		if (str[i] == '\'' && !state->indquote)
-		{
-			if (str[i] == '\'' && flag == 0)
-			{
-				flag = 1;
-				state->inquote = 1;
-			}
-			else if (str[i] == '\'' && flag == 1)
-			{
-				flag = 2;
-				state->inquote = 0;
-			}
-		}
-		if (str[i] == '\"' && !state->inquote)
-		{
-			if (str[i] == '\"' && flag == 0)
-            {
-				flag = 1;
-                state->indquote = 1;
-            }
-			else if (str[i] == '\"' && flag == 1)
-			{
-            	flag = 2;
-                state->indquote = 1;
-            }
-		}
-		if (flag == 2 && (str[i + 1] == ' ' || str[i + 1] == '\0'))
-			break ;
-		i++;
+		len1 = ft_strlen(s1);
+		sjoin = (char *)malloc(sizeof(char) * (len1 + 2));
+		if (!sjoin)
+			return (NULL);
+		i = -1;
+		while (s1[++i])
+			sjoin[i] = s1[i];
+		sjoin[len1] = s2;
+		len1++;
+		sjoin[len1] = '\0';
+		return (sjoin);
 	}
-	if (flag == 2 && str[i + 1] == '\'' || str[i + 1] == '\"')
-		handle_strcat(str, state);
+	return (NULL);
+}
+
+void	handledquote(char *str, t_lexer *state)
+{
+	if (str[state->i] == '\"' && !state->inquote)
+	{
+		if (str[state->i] == '\"' && state->flag == 0)
+		{
+			state->flag = 2;
+			state->i++;
+			state->indquote = 1;
+		}
+		if (str[state->i] == '\"' && state->flag == 2)
+		{
+			state->flag = 0;
+			state->i++;
+			state->indquote = 0;
+		}
+	}
+}
+
+void	handlequote(char *str, t_lexer *state)
+{
+	if (str[state->i] == '\'' && !state->indquote)
+	{
+		if (str[state->i] == '\'' && state->flag == 0)
+		{
+			state->flag = 1;
+			state->i++;
+			state->inquote = 1;
+		}
+		if (str[state->i] == '\'' && state->flag == 1)
+		{
+			state->flag = 0;
+			state->i++;
+			state->inquote = 0;
+		}
+	}
+	handledquote(str, state);
+}
+
+void	join_char(char *str, t_lexer *state, t_environment *env)
+{
+	char	*var;
+	int		str_indx;
+
+	str_indx = state->i;
+	if (state->tmp == NULL)
+	{
+		state->tmp = malloc(sizeof(char) * 2);
+		if (!state->tmp)
+			return ;
+	}
+	if (str[state->i] == '$')
+	{
+		while (str[state->i] != ' ' || str[state->i] != '\t'
+			|| str[state->i] != '\0')
+		{
+			state->res = ft_chrjoin(state->tmp, str[state->i]);
+			if (state->tmp)
+				free(state->tmp);
+			state->tmp = state->res;
+			state->i++;
+		}
+	}
+	state->res = ft_chrjoin(state->tmp, str[state->i]);
+	if (state->tmp)
+		free(state->tmp);
+	state->tmp = state->res;
+	state->i++;
+}
+
+int	is_word(char *str, t_lexer *state, t_environment *env)
+{
+	state->flag = 0;
+	state->i = 0;
+	while (str[state->i] == ' ' || str[state->i] == '\t')
+		state->i++;
+	while (str[state->i])
+	{
+		handlequote(str, state);
+		if ((str[state->i] && state->flag == 0 && str[state->i] != ' ')
+			&& (str[state->i] != '\'') && (str[state->i] != '\"'))
+			join_char(str, state, env);
+		else if ((str[state->i] && (state->flag == 1 && str[state->i] != '\''))
+			|| (str[state->i] && (state->flag == 2 && str[state->i] != '\"')))
+			join_char(str, state, env);
+		else if (state->flag == 0 && str[state->i] == ' ')
+			break ;
+	}
+	//TODO: ERROR HANDLING
+	if (state->flag == 1)
+		ft_putstr_fd("The quote is not closed\n", 2);
+	else if (state->flag == 2)
+		ft_putstr_fd("The double quotes are not closed\n", 2);
+	//TODO: ERROR HANDLING
+	return (0);
 }
