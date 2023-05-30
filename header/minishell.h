@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/29 19:04:09 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/30 11:46:34 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_lexer
 	char	*crnt_str;
 	char	*start;
 	int		flag;
+	char	path;
 	int		i;
 	int		inquote;
 	int		indquote;
@@ -87,9 +88,11 @@ char		**ft_realloc(char **ptr, size_t size);
 void		ft_cd(t_environment *env, char *args);
 // void		initialize_minishell(t_minishell *line);
 int			ft_strcmp(const char *s1, const char *s2);
+char		*ft_chrjoin(char const *s1, char const s2);
 void		process_cmd(char *line, t_environment *env);
 void		handle_command(t_environment *env, const char *cmd);
 int			is_word(char *str, t_lexer *state, t_environment *env);
+char		*var_finder(char *str, t_lexer *state, t_environment *env);
 void		initialize_environment(t_environment *env, char **environ);
 
 #endif

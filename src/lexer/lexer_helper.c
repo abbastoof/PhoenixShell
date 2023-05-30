@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/29 20:02:42 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/30 11:48:17 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,9 @@ void	join_char(char *str, t_lexer *state, t_environment *env)
 			return ;
 	}
 	if (str[state->i] == '$')
-	{
-		while (str[state->i] != ' ' || str[state->i] != '\t'
-			|| str[state->i] != '\0')
-		{
-			state->res = ft_chrjoin(state->tmp, str[state->i]);
-			if (state->tmp)
-				free(state->tmp);
-			state->tmp = state->res;
-			state->i++;
-		}
-	}
+		state->path = var_finder(str, state, env);
+	if (state->path != NULL)
+		
 	state->res = ft_chrjoin(state->tmp, str[state->i]);
 	if (state->tmp)
 		free(state->tmp);

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/29 19:58:15 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/30 11:46:15 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void	init_info(t_lexer *state, char *line)
 	state->inquote = 0;
 	state->indquote = 0;
 	state->indx = 0;
+	state->path = NULL;
 	state->token_indx = 0;
 	state->start = line;
 	state->crnt_str = line;
