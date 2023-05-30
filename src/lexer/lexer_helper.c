@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/30 17:50:15 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/30 23:09:40 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,13 @@ void	join_char(char *str, t_lexer *state, t_environment *env, int var_flag)
 		state->path = var_finder(str, state, env, var_flag);
 	if (state->path != NULL)
 	{
-		
+		state->i += ft_strlen(state->path);
+		state->res = ft_strjoin(state->tmp, state->path);
+		if (state->path && var_flag == 0)
+			free(state->path);
 	}
-	state->res = ft_chrjoin(state->tmp, str[state->i]);
+	else
+		state->res = ft_chrjoin(state->tmp, str[state->i]);
 	if (state->tmp)
 		free(state->tmp);
 	state->tmp = state->res;

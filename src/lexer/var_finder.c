@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/30 17:59:51 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/30 23:26:28 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ char	*var_finder(char *str, t_lexer *state, t_environment *env, int var_flag)
 		if (!des)
 			return (NULL);
 	}
-	state->i++;
-	if (!ft_isalpha(str[state->i]))
+	if (var_flag == 1)
+		state->i++;
+	if (!ft_isalpha(str[state->i]) && var_flag == 1)
 		return (NULL);
 	while (str[state->i] != ' ' || str[state->i] != '\t'
 		|| str[state->i] != '\0')
@@ -36,7 +37,8 @@ char	*var_finder(char *str, t_lexer *state, t_environment *env, int var_flag)
 		des = var;
 		state->i++;
 	}
-	path = find_path(env, des);
-	free(des);
-	return (path);
+	if (var_flag == 1)
+		return (find_path(env, des));
+	else
+		return (des);
 }
