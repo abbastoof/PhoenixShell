@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/30 11:48:17 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/30 17:50:15 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	handlequote(char *str, t_lexer *state)
 	handledquote(str, state);
 }
 
-void	join_char(char *str, t_lexer *state, t_environment *env)
+void	join_char(char *str, t_lexer *state, t_environment *env, int var_flag)
 {
 	char	*var;
 	int		str_indx;
@@ -87,9 +87,11 @@ void	join_char(char *str, t_lexer *state, t_environment *env)
 			return ;
 	}
 	if (str[state->i] == '$')
-		state->path = var_finder(str, state, env);
+		state->path = var_finder(str, state, env, var_flag);
 	if (state->path != NULL)
+	{
 		
+	}
 	state->res = ft_chrjoin(state->tmp, str[state->i]);
 	if (state->tmp)
 		free(state->tmp);
@@ -97,7 +99,7 @@ void	join_char(char *str, t_lexer *state, t_environment *env)
 	state->i++;
 }
 
-int	is_word(char *str, t_lexer *state, t_environment *env)
+int	is_word(char *str, t_lexer *state, t_environment *env, int var_flag)
 {
 	state->flag = 0;
 	state->i = 0;
@@ -108,10 +110,10 @@ int	is_word(char *str, t_lexer *state, t_environment *env)
 		handlequote(str, state);
 		if ((str[state->i] && state->flag == 0 && str[state->i] != ' ')
 			&& (str[state->i] != '\'') && (str[state->i] != '\"'))
-			join_char(str, state, env);
+			join_char(str, state, env, var_flag);
 		else if ((str[state->i] && (state->flag == 1 && str[state->i] != '\''))
 			|| (str[state->i] && (state->flag == 2 && str[state->i] != '\"')))
-			join_char(str, state, env);
+			join_char(str, state, env, var_flag);
 		else if (state->flag == 0 && str[state->i] == ' ')
 			break ;
 	}

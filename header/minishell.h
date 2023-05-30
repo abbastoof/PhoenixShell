@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/30 11:46:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/30 17:47:38 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <sys/syslimits.h>
-# include <signal.h>
 
 # define TOKEN_CMD 1
 # define TOKEN_ARG 2
@@ -52,9 +52,9 @@ typedef struct s_lst
 
 typedef struct s_token
 {
-	int			type;
-	char		*value;
-}				t_token;
+	int		type;
+	char	*value;
+}			t_token;
 
 typedef struct s_lexer
 {
@@ -91,8 +91,10 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);
 void		process_cmd(char *line, t_environment *env);
 void		handle_command(t_environment *env, const char *cmd);
-int			is_word(char *str, t_lexer *state, t_environment *env);
-char		*var_finder(char *str, t_lexer *state, t_environment *env);
+int			is_word(char *str, t_lexer *state, t_environment *env,
+				int var_flag);
+char		*var_finder(char *str, t_lexer *state, t_environment *env,
+				int var_flag);
 void		initialize_environment(t_environment *env, char **environ);
 
 #endif

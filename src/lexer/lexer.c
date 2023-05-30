@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/30 11:46:15 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/30 17:47:32 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ t_token	*lexer(char *line, t_environment *env)
 	while (state.crnt_str[state.indx])
 	{
 		if (state.crnt_str + state.indx == '\'' && !state.indquote)
-			is_word(state.crnt_str + state.indx, &state, env);
+			is_word(state.crnt_str + state.indx, &state, env, 0);
 		else if (state.crnt_str + state.indx == '\"' && !state.inquote)
-			is_word(state.crnt_str + state.indx, &state, env);
+			is_word(state.crnt_str + state.indx, &state, env, 1);
 		else if (state.crnt_str + state.indx == ' ' || '\t' && !state.inquote
 			&& !state.indquote)
 		{
