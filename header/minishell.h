@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/30 23:26:45 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/31 16:03:38 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_token
 {
 	int		type;
 	char	*value;
+	t_lst	*lst;
 }			t_token;
 
 typedef struct s_lexer
@@ -62,13 +63,14 @@ typedef struct s_lexer
 	char	*crnt_str;
 	char	*start;
 	int		flag;
-	char	path;
+	char	*path;
 	int		i;
 	int		inquote;
 	int		indquote;
 	int		token_indx;
 	char	*tmp;
 	char	*res;
+	char	*var;
 	t_token	*token;
 }			t_lexer;
 
@@ -91,6 +93,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);
 void		process_cmd(char *line, t_environment *env);
 void		handle_command(t_environment *env, const char *cmd);
+char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
 int			is_word(char *str, t_lexer *state, t_environment *env,
 				int var_flag);
 char		*var_finder(char *str, t_lexer *state, t_environment *env,

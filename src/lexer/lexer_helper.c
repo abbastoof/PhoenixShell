@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/30 23:09:40 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/31 18:48:20 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	handlequote(char *str, t_lexer *state)
 
 void	join_char(char *str, t_lexer *state, t_environment *env, int var_flag)
 {
-	char	*var;
 	int		str_indx;
 
 	str_indx = state->i;
@@ -87,20 +86,26 @@ void	join_char(char *str, t_lexer *state, t_environment *env, int var_flag)
 			return ;
 	}
 	if (str[state->i] == '$')
-		state->path = var_finder(str, state, env, var_flag);
-	if (state->path != NULL)
 	{
-		state->i += ft_strlen(state->path);
-		state->res = ft_strjoin(state->tmp, state->path);
-		if (state->path && var_flag == 0)
-			free(state->path);
+		state->path = var_finder(str, state, env, var_flag);
+		if (state->path != NULL)
+		{
+			state->i += ft_strlen(state->path);
+			state->res = ft_strjoin(state->tmp, state->path);
+			if (state->path && var_flag == 0)
+				free(state->path);
+		}
+		else if (state->path == NULL)
+			state->i++;
 	}
 	else
+	{
 		state->res = ft_chrjoin(state->tmp, str[state->i]);
-	if (state->tmp)
-		free(state->tmp);
-	state->tmp = state->res;
-	state->i++;
+		if (state->tmp)
+			free(state->tmp);
+		state->tmp = state->res;
+		state->i++;
+	}
 }
 
 int	is_word(char *str, t_lexer *state, t_environment *env, int var_flag)

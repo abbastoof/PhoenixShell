@@ -3,42 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   var_finder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/30 23:26:28 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/05/31 18:46:26 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\f'
+		|| c == '\r')
+		return (1);
+	return (0);
+}
+
 char	*var_finder(char *str, t_lexer *state, t_environment *env, int var_flag)
 {
-	char	*var;
+	int		indx;
 	char	*des;
-	char	*path;
 
+	if (var_flag == 1 && !ft_isspace(str[state->i + 1]) && str[state->i
+			+ 1] != '\0' && str[state->i + 1] != '\"')
+		state->i++;
+	else if (var_flag == 1 && (!ft_isspace(str[state->i + 1]) || str[state->i
+				+ 1] == '\0' || str[state->i + 1] == '\"'))
+		return ("$");
+	indx = state->i;
+	// if (!ft_isalpha(str[indx]) && var_flag == 1)
+	// {
+	// 	return (NULL);
+	// }
+	des = ft_calloc(1, 1);
 	if (!des)
-	{
-		des = ft_calloc(1, 1);
-		if (!des)
-			return (NULL);
-	}
-	if (var_flag == 1)
-		state->i++;
-	if (!ft_isalpha(str[state->i]) && var_flag == 1)
 		return (NULL);
-	while (str[state->i] != ' ' || str[state->i] != '\t'
-		|| str[state->i] != '\0')
-	{
-		var = ft_chrjoin(des, str[state->i]);
-		if (des)
-			free(des);
-		des = var;
-		state->i++;
-	}
+	while (str[indx] != ' ' && str[indx] != '\t' && str[indx] != '\0'
+		&& str[indx] != '\'' && str[indx] != '\"')
+		indx++;
+	state->var = ft_strnjoin(des, (str + state->i), indx - state->i);
+	free(des);
+	des = NULL;
 	if (var_flag == 1)
-		return (find_path(env, des));
+		return (find_path(env->env_var, state->var));
 	else
-		return (des);
+		return (state->var);
 }
