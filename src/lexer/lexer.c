@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/31 17:35:48 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/31 20:07:45 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ static void	init_info(t_lexer *state, char *line)
 	state->indquote = 0;
 	state->indx = 0;
 	state->path = NULL;
+	state->var = NULL;
+	state->tmp = NULL;
 	state->token_indx = 0;
 	state->start = line;
 	state->crnt_str = line;
-	state->var = NULL;
 	state->token = malloc(sizeof(t_token) * 1024);
 }
 

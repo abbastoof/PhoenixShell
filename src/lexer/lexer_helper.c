@@ -6,34 +6,11 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/31 18:48:20 by atoof            ###   ########.fr       */
+/*   Updated: 2023/05/31 20:21:10 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*ft_chrjoin(char const *s1, char const s2)
-{
-	size_t	len1;
-	size_t	i;
-	char	*sjoin;
-
-	if (s1)
-	{
-		len1 = ft_strlen(s1);
-		sjoin = (char *)malloc(sizeof(char) * (len1 + 2));
-		if (!sjoin)
-			return (NULL);
-		i = -1;
-		while (s1[++i])
-			sjoin[i] = s1[i];
-		sjoin[len1] = s2;
-		len1++;
-		sjoin[len1] = '\0';
-		return (sjoin);
-	}
-	return (NULL);
-}
 
 void	handledquote(char *str, t_lexer *state)
 {
@@ -79,28 +56,29 @@ void	join_char(char *str, t_lexer *state, t_environment *env, int var_flag)
 	int		str_indx;
 
 	str_indx = state->i;
-	if (state->tmp == NULL)
+	if (!state->tmp)
 	{
-		state->tmp = malloc(sizeof(char) * 2);
+		state->tmp = ft_calloc(sizeof(char), 2);
 		if (!state->tmp)
 			return ;
 	}
 	if (str[state->i] == '$')
 	{
 		state->path = var_finder(str, state, env, var_flag);
+		printf("path = %s\n", (state->path));
 		if (state->path != NULL)
 		{
-			state->i += ft_strlen(state->path);
+			printf("strlen path = %d\n", (int)ft_strlen(state->path));
+			printf("strlen tmp = %d\n", (int)ft_strlen(state->tmp));
+			printf("res = %s\n", ft_strjoin(state->tmp, state->path));
 			state->res = ft_strjoin(state->tmp, state->path);
 			if (state->path && var_flag == 0)
 				free(state->path);
 		}
-		else if (state->path == NULL)
-			state->i++;
 	}
 	else
 	{
-		state->res = ft_chrjoin(state->tmp, str[state->i]);
+		state->res = ft_strnjoin(state->tmp, str + state->i, 1);
 		if (state->tmp)
 			free(state->tmp);
 		state->tmp = state->res;
@@ -127,10 +105,13 @@ int	is_word(char *str, t_lexer *state, t_environment *env, int var_flag)
 			break ;
 	}
 	//TODO: ERROR HANDLING
+	printf("flag = %d\n", state->flag);
 	if (state->flag == 1)
 		ft_putstr_fd("The quote is not closed\n", 2);
 	else if (state->flag == 2)
 		ft_putstr_fd("The double quotes are not closed\n", 2);
 	//TODO: ERROR HANDLING
+	printf("strlen tmp = %s\n", (state->tmp));
+	state->indx += state->i;
 	return (0);
 }
