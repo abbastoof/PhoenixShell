@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_finder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/05/31 20:22:22 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 14:55:21 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*var_finder(char *str, t_lexer *state, t_environment *env, int var_flag)
 	char	*des;
 
 	if (var_flag == 1 && !ft_isspace(str[state->i + 1]) && str[state->i
-			+ 1] != '\0' && str[state->i + 1] != '\"')
+			+ 1] != '\0' && str[state->i + 1] != '\"' && str[state->i + 1] != '\\')
 		state->i++;
 	else if (var_flag == 1 && (!ft_isspace(str[state->i + 1]) || str[state->i
 				+ 1] == '\0' || str[state->i + 1] == '\"'))

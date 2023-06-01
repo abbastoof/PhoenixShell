@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/31 16:03:38 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 13:47:08 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ void		process_cmd(char *line, t_environment *env);
 void		handle_command(t_environment *env, const char *cmd);
 char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
 int			is_word(char *str, t_lexer *state, t_environment *env,
+				int var_flag);
+void		dollar_handler(char *str, t_lexer *state, t_environment *env,
 				int var_flag);
 char		*var_finder(char *str, t_lexer *state, t_environment *env,
 				int var_flag);
