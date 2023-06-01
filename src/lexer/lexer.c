@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/31 20:07:45 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 17:11:04 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,17 @@ t_token	*lexer(char *line, t_environment *env)
 			is_word(state.crnt_str + state.indx, &state, env, 0);
 		else if (state.crnt_str[state.indx] == '\"' && !state.inquote)
 			is_word(state.crnt_str + state.indx, &state, env, 1);
-		else if (((state.crnt_str[state.indx] == ' ') || (state.crnt_str[state.indx] == '\t'))
+		else if ((ft_isspace(state.crnt_str[state.indx]))
 			&& (!state.inquote) && (!state.indquote))
 		{
 			assign_token_type(state.start, state.token, &state);
 			state.start = &state.crnt_str[state.indx + 1];
+			printf("start = %s\n", state.start);
 		}
 		state.indx++;
 	}
 	assign_token_type(state.start, &(state.token[state.token_indx]), &state);
+	printf("token type is: %d\n", state.token->type);
 	return (state.token);
 }
 
@@ -101,5 +103,6 @@ void	process_cmd(char *line, t_environment *env)
 	t_token	*tokens;
 
 	tokens = lexer(line, env);
-	// handle_command(tokens);
+	handle_command(env, tokens);
+	handle_dollar(env, tokens);
 }

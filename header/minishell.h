@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 15:47:30 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 16:11:48 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void		ft_cd(t_environment *env, char *args);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);
 void		process_cmd(char *line, t_environment *env);
-void		handle_command(t_environment *env, const char *cmd);
+void		handle_command(t_environment *env, t_token *tokens);
 char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
 int			is_word(char *str, t_lexer *state, t_environment *env,
 				int var_flag);
