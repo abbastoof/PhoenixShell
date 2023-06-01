@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:05:33 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 15:46:45 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 17:56:47 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	ft_isspace(int c)
 	return (0);
 }
 
-int        ft_isquote(int c)
+int	ft_isquote(int c)
 {
-    if (c == '\'' || c == '\"')
-        return (1);
-    return (0);
+	if (c == '\'' || c == '\"')
+		return (1);
+	return (0);
 }
 
 void	ft_free_strarray(char **str_array)
@@ -65,7 +65,7 @@ void	initialize_minishell(t_lst *line)
 	line->cmd = NULL;
 }
 
-void	free_env(t_environment *env)
+void	free_env(t_env *env)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 14:27:35 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 17:57:37 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	handlequote(char *str, t_lexer *state)
 	handledquote(str, state);
 }
 
-void	join_char(char *str, t_lexer *state, t_environment *env, int var_flag)
+void	join_char(char *str, t_lexer *state, t_env *env, int var_flag)
 {
-	int		str_indx;
+	int	str_indx;
 
 	str_indx = state->i;
 	if (!state->tmp)
@@ -65,7 +65,7 @@ void	join_char(char *str, t_lexer *state, t_environment *env, int var_flag)
 	dollar_handler(str, state, env, var_flag);
 }
 
-int	is_word(char *str, t_lexer *state, t_environment *env, int var_flag)
+int	is_word(char *str, t_lexer *state, t_env *env, int var_flag)
 {
 	state->flag = 0;
 	state->i = 0;
@@ -78,7 +78,8 @@ int	is_word(char *str, t_lexer *state, t_environment *env, int var_flag)
 			&& (str[state->i] != '\'') && (str[state->i] != '\"'))
 			join_char(str, state, env, var_flag);
 		else if ((str[state->i] && (state->flag == 1 && str[state->i] != '\''))
-			|| (str[state->i] && (state->flag == 2 && str[state->i] != '\"')))
+			|| (str[state->i] && (state->flag == 2
+					&& str[state->i] != '\"')))
 			join_char(str, state, env, var_flag);
 		else if (state->flag == 0 && str[state->i] == ' ')
 			break ;
@@ -90,7 +91,25 @@ int	is_word(char *str, t_lexer *state, t_environment *env, int var_flag)
 	else if (state->flag == 2)
 		ft_putstr_fd("The double quotes are not closed\n", 2);
 	//TODO: ERROR HANDLING
-	printf("str tmp = %s\n", (state->tmp));
+	if (state->tmp != NULL)
+	{
+		free(state->tmp);
+		state->tmp = NULL;
+	}
+	if (state->res != NULL)
+		state->res = NULL;
+	if (state->var != NULL)
+	{
+		free(state->var);
+		state->var = NULL;
+	}
+	if (state->path != NULL)
+		state->path = NULL;
+	if (state->des != NULL)
+	{
+		free(state->des);
+		state->des = NULL;
+	}
 	state->indx += state->i;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/01 16:09:33 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 17:57:05 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	checker(char *str, t_lexer *state, int var_flag)
 	return (0);
 }
 
-char	*var_finder(char *str, t_lexer *state, t_environment *env, int var_flag)
+char	*var_finder(char *str, t_lexer *state, t_env *env, int var_flag)
 {
 	int		indx;
 	char	*des;

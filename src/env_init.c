@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:59:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/31 16:17:08 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 17:56:09 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_environment(t_environment *env, char **environ)
+void	initialize_environment(t_env *env, char **environ)
 {
 	int	i;
 

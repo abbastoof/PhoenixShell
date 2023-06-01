@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/24 16:23:53 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 17:57:58 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_export(t_environment *env, char **args)
+void	ft_export(t_env *env, char **args)
 {
 	int	i;
 

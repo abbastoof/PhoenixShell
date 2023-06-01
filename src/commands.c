@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:56:57 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 17:12:16 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 17:56:38 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 // 	}
 // }
 
-void	handle_command(t_environment *env, t_token *tokens)
+void	handle_command(t_env *env, t_token *tokens)
 {
 	int		i;
 	t_token	*token;

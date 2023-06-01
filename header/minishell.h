@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 17:51:57 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 18:00:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ typedef struct s_lexer
 	char	*tmp;
 	char	*res;
 	char	*var;
-	char	*des;
 	char	*path;
+	char	*des;
 	t_token	*token;
 }			t_lexer;
 
@@ -79,7 +79,7 @@ typedef struct s_environment
 {
 	char	**env_var;
 	int		counter;
-}			t_environment;
+}			t_env;
 
 void		pwd(void);
 void		echo(char **args);
@@ -87,22 +87,22 @@ void		commands(char *cmd);
 int			ft_isquote(int c);
 int			ft_isspace(int c);
 void		sigint_handler(int signum);
-void		free_env(t_environment *env);
+void		free_env(t_env *env);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
-void		ft_cd(t_environment *env, char *args);
+void		ft_cd(t_env *env, char *args);
 // void		initialize_minishell(t_minishell *line);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);
-void		process_cmd(char *line, t_environment *env);
-void		handle_command(t_environment *env, t_token *tokens);
+void		process_cmd(char *line, t_env *env);
+void		handle_command(t_env *env, t_token *tokens);
 char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
-int			is_word(char *str, t_lexer *state, t_environment *env,
+int			is_word(char *str, t_lexer *state, t_env *env,
 				int var_flag);
-void		dollar_handler(char *str, t_lexer *state, t_environment *env,
+void		dollar_handler(char *str, t_lexer *state, t_env *env,
 				int var_flag);
-char		*var_finder(char *str, t_lexer *state, t_environment *env,
+char		*var_finder(char *str, t_lexer *state, t_env *env,
 				int var_flag);
-void		initialize_environment(t_environment *env, char **environ);
+void		initialize_environment(t_env *env, char **environ);
 
 #endif

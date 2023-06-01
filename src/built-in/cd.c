@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/25 14:33:31 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 18:00:34 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_strjoin_inplace(char *dest, const char *s1, const char *s2)
 // 	}
 // }
 
-void	ft_cd(t_environment *env, char *args)
+void	ft_cd(t_env *env, char *args)
 {
 	char	*path;
 	char	cwd[1024];

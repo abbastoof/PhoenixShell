@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/29 19:02:30 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 18:08:38 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int ac, char **av)
 {
 	char			*cmd;
-	t_environment	env;
+	t_env			env;
 
 	(void)ac;
 	(void)av;
