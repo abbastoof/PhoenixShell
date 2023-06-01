@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 16:11:48 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 17:51:57 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_lexer
 	char	*crnt_str;
 	char	*start;
 	int		flag;
-	char	*path;
 	int		i;
 	int		inquote;
 	int		indquote;
@@ -71,6 +70,8 @@ typedef struct s_lexer
 	char	*tmp;
 	char	*res;
 	char	*var;
+	char	*des;
+	char	*path;
 	t_token	*token;
 }			t_lexer;
 
