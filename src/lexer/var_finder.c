@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   var_finder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/01 14:55:21 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 15:46:35 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_isspace(int c)
-{
-	if (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\f'
-		|| c == '\r')
-		return (1);
-	return (0);
-}
 
 char	*var_finder(char *str, t_lexer *state, t_environment *env, int var_flag)
 {
@@ -43,8 +35,7 @@ char	*var_finder(char *str, t_lexer *state, t_environment *env, int var_flag)
 	des = ft_calloc(1, 1);
 	if (!des)
 		return (NULL);
-	while (str[indx] != ' ' && str[indx] != '\t' && str[indx] != '\0'
-		&& str[indx] != '\'' && str[indx] != '\"')
+	while (!ft_isspace(str[indx]) && str[indx] != '\0' && !ft_isquote(str[indx]))
 		indx++;
 	state->var = ft_strnjoin(des, (str + state->i), indx - state->i);
 	free(des);

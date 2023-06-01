@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 13:47:08 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/01 15:47:30 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ typedef struct s_environment
 void		pwd(void);
 void		echo(char **args);
 void		commands(char *cmd);
+int			ft_isquote(int c);
+int			ft_isspace(int c);
 void		sigint_handler(int signum);
 void		free_env(t_environment *env);
 char		*find_path(char **envp, char *str);
