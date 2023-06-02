@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 17:57:37 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/02 10:24:57 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,32 +84,10 @@ int	is_word(char *str, t_lexer *state, t_env *env, int var_flag)
 		else if (state->flag == 0 && str[state->i] == ' ')
 			break ;
 	}
-	//TODO: ERROR HANDLING
+	// if (validity(state) == -1)
+		// free_lexer;
 	printf("flag = %d\n", state->flag);
-	if (state->flag == 1)
-		ft_putstr_fd("The quote is not closed\n", 2);
-	else if (state->flag == 2)
-		ft_putstr_fd("The double quotes are not closed\n", 2);
-	//TODO: ERROR HANDLING
-	if (state->tmp != NULL)
-	{
-		free(state->tmp);
-		state->tmp = NULL;
-	}
-	if (state->res != NULL)
-		state->res = NULL;
-	if (state->var != NULL)
-	{
-		free(state->var);
-		state->var = NULL;
-	}
-	if (state->path != NULL)
-		state->path = NULL;
-	if (state->des != NULL)
-	{
-		free(state->des);
-		state->des = NULL;
-	}
+	printf("res = %s\n", state->res);
 	state->indx += state->i;
 	return (0);
 }
