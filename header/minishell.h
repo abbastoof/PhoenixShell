@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 18:00:14 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/02 10:20:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,13 @@ typedef struct s_environment
 }			t_env;
 
 void		pwd(void);
-void		echo(char **args);
-void		commands(char *cmd);
 int			ft_isquote(int c);
 int			ft_isspace(int c);
-void		sigint_handler(int signum);
+void		echo(char **args);
+void		commands(char *cmd);
 void		free_env(t_env *env);
+int			validity(t_lexer *state);
+void		sigint_handler(int signum);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
 void		ft_cd(t_env *env, char *args);
