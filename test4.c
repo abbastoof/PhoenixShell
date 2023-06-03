@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:28:01 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/03 22:31:47 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/04 00:16:26 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,14 +122,18 @@ int		words_count(const char *s)
 			quote = s[i];
 			start = i;
 			i++;
-			while (s[i] != '\0' && s[i] != quote)
+			while (s[i] != '\0')
+			{
+				if (s[i] == quote && s[i + 1] == ' ' || s[i + 1] == '\0')
+					break ;
 				i++;
+			}
 			word_count++;
 		}
 		else if (s[i] != ' ')
 		{
 			start = i;
-			while (s[i] != '\0' && s[i] != ' ' && s[i] != '\'' && s[i] != '"')
+			while (s[i] != '\0' && s[i] != ' ')
 				i++;
 			word_count++;
 		}
@@ -150,6 +154,7 @@ char	**ft_cmdsplit(char const *s)
 	start = 0;
 	result = NULL;
 	wd_count = words_count(s);
+	printf("wd count = %d\n", wd_count);
 	result = ft_calloc((wd_count + 1), sizeof(char *));
 	if (!result)
 		return (NULL);
@@ -161,8 +166,12 @@ char	**ft_cmdsplit(char const *s)
 			quote = s[i];
 			start = i;
 			i++;
-			while (s[i] != '\0' && s[i] != quote)
+			while (s[i] != '\0')
+			{
+				if (s[i] == quote && s[i + 1] == ' ' || s[i + 1] == '\0')
+					break ;
 				i++;
+			}
 			result[wd_count] = ft_substr(s, start, (i - start) + 1);
 			wd_count++;
 		}
