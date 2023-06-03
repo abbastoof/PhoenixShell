@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:28:01 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/02 16:26:43 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/03 22:31:47 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,6 @@ void	*ft_calloc(size_t count, size_t size)
 	ft_bzero(pointer, mult);
 	return (pointer);
 }
-
-// char	**ft_realloc(char *ptr, size_t size)
-// {
-// 	size_t		i;
-// 	char		**new;
-
-// 	i = 0;
-// 	while (ptr[i])
-// 		i++;
-// 	if (size <= i)
-// 		return (ptr);
-// 	new = ft_calloc(sizeof(char *), size + 1);
-// 	if (!new)
-// 		return (ptr);
-// 	new = ft_memcpy(new, ptr, i * sizeof(char *));
-// 	i = 0;
-// 	return (new);
-// }
 
 size_t	ft_strlen(const char *str)
 {
@@ -187,7 +169,7 @@ char	**ft_cmdsplit(char const *s)
 		else if (s[i] != ' ')
 		{
 			start = i;
-			while (s[i] != '\0' && s[i] != ' ' && s[i] != '\'' && s[i] != '"')
+			while (s[i] != '\0' && s[i] != ' ')
 				i++;
 			result[wd_count] = ft_substr(s, start, (i - start) + 1);
 			wd_count++;
@@ -216,12 +198,17 @@ int	main(void)
 	printf("Result:\n");
 	if (result)
 	{
-		for (int i = 0; result[i] != NULL; i++)
+		int i = -1;
+		while(result[++i])
 		{
 			printf("%s\n", result[i]);
+		}
+		while(i--)
+		{
 			free(result[i]);
 		}
 		free(result);
+		result = NULL;
 	}
 	else
 	{
