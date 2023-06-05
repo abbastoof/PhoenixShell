@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:28:01 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/05 19:00:48 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/05 22:00:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,34 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
+char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
+{
+	size_t	i;
+	size_t	j;
+	char	*sjoin;
+
+	if (s1 && s2)
+	{
+		if (n > ft_strlen(s2))
+			n = ft_strlen(s2);
+		sjoin = (char *)malloc(sizeof(char) * (ft_strlen(s1) + n + 1));
+		if (!sjoin)
+			return (NULL);
+		i = -1;
+		while (s1[++i])
+			sjoin[i] = s1[i];
+		j = -1;
+		while (++j < n)
+		{
+			sjoin[i] = s2[j];
+			i++;
+		}
+		sjoin[i] = '\0';
+		return (sjoin);
+	}
+	return (NULL);
+}
+
 static int	redirectors(char *str, int	i)
 {
 	// printf("str[i] = %c\n", str[i]);
@@ -210,14 +238,12 @@ int	words_count(char *s)
 			return_res = redirectors(s, i);
 			if (return_res == TOKEN_OUTPUT_APPEND || return_res == TOKEN_HEREDOC
 				|| return_res == TOKEN_EXIT_STATUS)
-				i += 2;
+				i++;
 			else if (return_res == TOKEN_VARIABLE)
 			{
 				while (s[i] != '\0' && !ft_isspace(s[i]))
 					i++;
 			}
-			else
-				i++;
 			word_count++;
 		}
 		i++;
@@ -245,7 +271,7 @@ char	**ft_cmdsplit(char *s)
 	wd_count = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] != '\0' && !ft_isspace(s[i]) && redirectors(s, i) == 0 && !ft_isquote(s[i]))
+		if (s[i] && !ft_isspace(s[i]) && (redirectors(s, i) == 0 && !ft_isquote(s[i])))
 		{
 			start = i;
 			while (s[i] != '\0' && !ft_isspace(s[i]) && redirectors(s, i) == 0)
@@ -253,37 +279,40 @@ char	**ft_cmdsplit(char *s)
 			result[wd_count] = ft_substr(s, start, (i - start));
 			wd_count++;
 		}
-		if (s[i] != '\0' && redirectors(s, i))
+		if (s[i] && redirectors(s, i))
 		{
 			start = i;
 			return_res = redirectors(s, i);
 			if (return_res == TOKEN_OUTPUT_APPEND || return_res == TOKEN_HEREDOC
 				|| return_res == TOKEN_EXIT_STATUS)
-				i += 1;
+			{
+				// printf("got here\n");
+				result[wd_count] = ft_substr(s, start, ((i + 2) - start));
+				i++;
+			}	
 			else if (return_res == TOKEN_VARIABLE)
 			{
 				while (s[i] != '\0' && !ft_isspace(s[i]))
 					i++;
+				result[wd_count] = ft_substr(s, start, (i - start));
 			}
 			else
-				i++;
-			result[wd_count] = ft_substr(s, start, (i - start));
+				result[wd_count] = ft_substr(s, start, ((i + 1) - start));
 			wd_count++;
 		}
-		if (s[i] == '\'' || s[i] == '"')
+		if (s[i] && s[i] == '\'' || s[i] == '"')
 		{
 			quote = s[i];
-			printf("s[i] = %c\n", s[i]);
 			start = i;
 			i++;
 			while (s[i] != '\0')
 			{
-				if (s[i] == quote && (s[i + 1] == ' ' || s[i + 1] == '\0'))
+				if (s[i] == quote && (s[i + 1] == ' ' || s[i + 1] == '\0' || redirectors(s, i + 1) != 0))
 					break ;
 				i++;
 			}
 			result[wd_count] = ft_substr(s, start, (i - start) + 1);
-			printf("result[wd_count] = %s", ft_substr(s, start, (i - start) + 1));
+			// printf("result[wd_count] = %s", ft_substr(s, start, (i - start) + 1));
 			wd_count++;
 		}
 		i++;
@@ -299,8 +328,8 @@ int	main(void)
 	int		i;
 
 	// Read input using readline
-	printf("Enter a string: ");
-	input = readline(NULL);
+	// printf("Enter a string: ");
+	input = readline("Enter a string: ");
 	if (!input)
 	{
 		printf("Error reading input.\n");
@@ -316,17 +345,18 @@ int	main(void)
 		{
 			printf("%s\n", result[i]);
 		}
-		while (i--)
-		{
-			free(result[i]);
-		}
-		free(result);
-		result = NULL;
 	}
-	else
-	{
-		printf("Splitting failed.\n");
-	}
+	// 	while (i--)
+	// 	{
+	// 		free(result[i]);
+	// 	}
+	// 	free(result);
+	// 	result = NULL;
+	// }
+	// else
+	// {
+	// 	printf("Splitting failed.\n");
+	// }
 	free(input);
 	return (0);
 }
