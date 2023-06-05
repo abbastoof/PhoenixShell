@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/02 10:20:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/05 10:58:22 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@
 
 extern char	**environ;
 
+typedef struct s_cmdsplit
+{
+	char	**result;
+	int		wd_count;
+	int		index;
+	int		start;
+	char	quote;
+}			t_cmdsplit;
+
 typedef struct s_lst
 {
 	pid_t	pid;
@@ -56,6 +65,7 @@ typedef struct s_token
 	char	*value;
 	t_lst	*lst;
 }			t_token;
+
 
 typedef struct s_lexer
 {
@@ -89,6 +99,7 @@ void		commands(char *cmd);
 void		free_env(t_env *env);
 int			validity(t_lexer *state);
 void		sigint_handler(int signum);
+char		**ft_cmdsplit(char const *str);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
 void		ft_cd(t_env *env, char *args);
