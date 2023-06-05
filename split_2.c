@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:28:01 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/05 22:00:11 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/05 12:21:19 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,18 +215,6 @@ int	words_count(char *s)
 
 	while (s[i] != '\0')
 	{
-		if (ft_isquote(s[i]))
-		{
-			quote = s[i];
-			i++;
-			while (s[i] != '\0')
-			{
-				if (s[i] == quote && (ft_isspace(s[i + 1]) || s[i + 1] == '\0'))
-					break ;
-				i++;
-			}
-			word_count++;
-		}
 		if (!ft_isspace(s[i]) && redirectors(s, i) == 0)
 		{
 			while (s[i] != '\0' && !ft_isspace(s[i]) && redirectors(s, i) == 0)
@@ -243,6 +231,18 @@ int	words_count(char *s)
 			{
 				while (s[i] != '\0' && !ft_isspace(s[i]))
 					i++;
+			}
+			word_count++;
+		}
+		if (ft_isquote(s[i]))
+		{
+			quote = s[i];
+			i++;
+			while (s[i] != '\0')
+			{
+				if (s[i] == quote && (ft_isspace(s[i + 1]) || s[i + 1] == '\0' || redirectors(s, i + 1)))
+					break ;
+				i++;
 			}
 			word_count++;
 		}
@@ -307,7 +307,7 @@ char	**ft_cmdsplit(char *s)
 			i++;
 			while (s[i] != '\0')
 			{
-				if (s[i] == quote && (s[i + 1] == ' ' || s[i + 1] == '\0' || redirectors(s, i + 1) != 0))
+				if (s[i] == quote && (s[i + 1] == ' ' || s[i + 1] == '\0' || redirectors(s, i + 1)))
 					break ;
 				i++;
 			}
