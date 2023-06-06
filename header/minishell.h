@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/05 10:58:22 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 11:55:22 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 
 extern char	**environ;
 
+//cmd_trim
 typedef struct s_cmdsplit
 {
 	char	**result;
@@ -44,6 +45,7 @@ typedef struct s_cmdsplit
 	int		index;
 	int		start;
 	char	quote;
+	int		res;
 }			t_cmdsplit;
 
 typedef struct s_lst
@@ -91,18 +93,24 @@ typedef struct s_environment
 	int		counter;
 }			t_env;
 
+//cmd_trim
+char		**ft_cmdtrim(char const *str);
+void		check_isquote(char *str, t_cmdsplit *cmd);
+void		check_redirectors(char *str, t_cmdsplit *cmd);
+
+//built_in
 void		pwd(void);
+void		echo(char **args);
+void		ft_cd(t_env *env, char *args);
+
 int			ft_isquote(int c);
 int			ft_isspace(int c);
-void		echo(char **args);
 void		commands(char *cmd);
 void		free_env(t_env *env);
 int			validity(t_lexer *state);
 void		sigint_handler(int signum);
-char		**ft_cmdsplit(char const *str);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
-void		ft_cd(t_env *env, char *args);
 // void		initialize_minishell(t_minishell *line);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);

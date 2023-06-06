@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:28:01 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/05 12:21:19 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 10:47:26 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,8 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 	return (NULL);
 }
 
-static int	redirectors(char *str, int	i)
+static int	redirectors(char *str, int i)
 {
-	// printf("str[i] = %c\n", str[i]);
 	if (ft_strncmp(str + i, "|", 1) == 0)
 		return (TOKEN_PIPE);
 	else if (ft_strncmp(str + i, ">>", 2) == 0)
@@ -193,13 +192,6 @@ static int	redirectors(char *str, int	i)
 		return (TOKEN_INPUT);
 	else if (ft_strncmp(str + i, ">", 1) == 0)
 		return (TOKEN_OUTPUT);
-	else if (str[i] == '$')
-	{
-		if (ft_strncmp(str + i, "$?", 2) == 0)
-			return (TOKEN_EXIT_STATUS);
-		else
-			return (TOKEN_VARIABLE);
-	}
 	else
 		return (0);
 }
@@ -209,10 +201,11 @@ int	words_count(char *s)
 	int		word_count;
 	int		i;
 	char	quote;
-	int		return_res = 0;
+	int		return_res;
+
+	return_res = 0;
 	word_count = 0;
 	i = 0;
-
 	while (s[i] != '\0')
 	{
 		if (!ft_isspace(s[i]) && redirectors(s, i) == 0)
@@ -240,7 +233,8 @@ int	words_count(char *s)
 			i++;
 			while (s[i] != '\0')
 			{
-				if (s[i] == quote && (ft_isspace(s[i + 1]) || s[i + 1] == '\0' || redirectors(s, i + 1)))
+				if (s[i] == quote && (ft_isspace(s[i + 1]) || s[i + 1] == '\0'
+						|| redirectors(s, i + 1)))
 					break ;
 				i++;
 			}
@@ -256,10 +250,11 @@ char	**ft_cmdsplit(char *s)
 	char	**result;
 	int		wd_count;
 	int		i;
-	int		return_res = 0;
+	int		return_res;
 	int		start;
 	char	quote;
 
+	return_res = 0;
 	i = 0;
 	start = 0;
 	result = NULL;
@@ -271,7 +266,8 @@ char	**ft_cmdsplit(char *s)
 	wd_count = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] && !ft_isspace(s[i]) && (redirectors(s, i) == 0 && !ft_isquote(s[i])))
+		if (s[i] && !ft_isspace(s[i]) && (redirectors(s, i) == 0
+				&& !ft_isquote(s[i])))
 		{
 			start = i;
 			while (s[i] != '\0' && !ft_isspace(s[i]) && redirectors(s, i) == 0)
@@ -289,7 +285,7 @@ char	**ft_cmdsplit(char *s)
 				// printf("got here\n");
 				result[wd_count] = ft_substr(s, start, ((i + 2) - start));
 				i++;
-			}	
+			}
 			else if (return_res == TOKEN_VARIABLE)
 			{
 				while (s[i] != '\0' && !ft_isspace(s[i]))
@@ -300,32 +296,33 @@ char	**ft_cmdsplit(char *s)
 				result[wd_count] = ft_substr(s, start, ((i + 1) - start));
 			wd_count++;
 		}
-		if (s[i] && s[i] == '\'' || s[i] == '"')
+		if (s[i] && (s[i] == '\'' || s[i] == '"'))
 		{
 			quote = s[i];
 			start = i;
 			i++;
 			while (s[i] != '\0')
 			{
-				if (s[i] == quote && (s[i + 1] == ' ' || s[i + 1] == '\0' || redirectors(s, i + 1)))
+				if (s[i] == quote && (s[i + 1] == ' ' || s[i + 1] == '\0'
+						|| redirectors(s, i + 1)))
 					break ;
 				i++;
 			}
 			result[wd_count] = ft_substr(s, start, (i - start) + 1);
-			// printf("result[wd_count] = %s", ft_substr(s, start, (i - start) + 1));
+			// printf("result[wd_count] = %s", ft_substr(s, start, (i - start)
+						// + 1));
 			wd_count++;
 		}
 		i++;
 	}
-
 	return (result);
 }
 
 int	main(void)
 {
-	char	*input;
-	char	**result;
-	int		i;
+	char *input;
+	char **result;
+	int i;
 
 	// Read input using readline
 	// printf("Enter a string: ");
