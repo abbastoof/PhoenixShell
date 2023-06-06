@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/02 10:24:57 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 22:08:51 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ void	handlequote(char *str, t_lexer *state)
 
 void	join_char(char *str, t_lexer *state, t_env *env, int var_flag)
 {
-	int	str_indx;
-
-	str_indx = state->i;
 	if (!state->tmp)
 	{
 		state->tmp = ft_calloc(sizeof(char), 2);

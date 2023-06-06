@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/24 13:40:20 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 22:08:26 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	echo(char **args)
 				flag = 1;
 			}
 		}
-		if (args[i + 1] != '\0')
+		if (args[i + 1] != (void *)0)
 			printf("%s ", args[i]);
-		else if ((args[i + 1] == '\0') && !(ft_strcmp(args[0], "-n")))
+		else if ((args[i + 1] == (void *)0) && !(ft_strcmp(args[0], "-n")))
 			printf("%s", args[i]);
-		else if ((args[i + 1] == '\0') && (ft_strcmp(args[0], "-n")) != 0)
+		else if ((args[i + 1] == (void *)0) && (ft_strcmp(args[0], "-n")) != 0)
 			printf("%s\n", args[i]);
 		i++;
 	}

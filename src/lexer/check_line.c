@@ -6,81 +6,79 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:28:00 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/06 15:24:25 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 22:25:49 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	init_info(t_lexer *state)
+static void	init_info(t_lexer *s)
 {
-	state->inquote = 0;
-	state->indquote = 0;
-	state->indx = 0;
-	state->flag = 0;
+	s->inquote = 0;
+	s->indquote = 0;
+	s->indx = 0;
+	s->flag = 0;
 }
 
-static void	handledquote(char *str, t_lexer *state, int c)
+static void	handledquote(char *str, t_lexer *s)
 {
-	if (str[c] == '\"' && !state->inquote)
+	if (str[s->i] == '\"' && !s->inquote)
 	{
-		if (str[c] == '\"' && state->flag == 0)
+		if (str[s->i] == '\"' && s->flag == 0)
 		{
-			state->flag = 2;
-			c++;
-			state->indquote = 1;
+			s->flag = 2;
+			s->i++;
+			s->indquote = 1;
 		}
-		if (str[c] == '\"' && state->flag == 2)
+		if (str[s->i] == '\"' && s->flag == 2)
 		{
-			state->flag = 0;
-			c++;
-			state->indquote = 0;
+			s->flag = 0;
+			s->indquote = 0;
 		}
+		printf("flag = %d\n", s->flag);
 	}
 }
 
-static void	handlequote(char *str, t_lexer *state, int c)
+static void	handlequote(char *str, t_lexer *s)
 {
-	if (str[c] == '\'' && !state->indquote)
+	if (str[s->i] == '\'' && !s->indquote)
 	{
-		if (str[c] == '\'' && state->flag == 0)
+		if (str[s->i] == '\'' && s->flag == 0)
 		{
-			state->flag = 1;
-			c++;
-			state->inquote = 1;
+			s->flag = 1;
+			s->i++;
+			s->inquote = 1;
 		}
-		if (str[c] == '\'' && state->flag == 1)
+		if (str[s->i] == '\'' && s->flag == 1)
 		{
-			state->flag = 0;
-			c++;
-			state->inquote = 0;
+			s->flag = 0;
+			s->inquote = 0;
 		}
 	}
-	handledquote(str, state, c);
+	handledquote(str, s);
 }
 
 int	check_line(char **line)
 {
-	t_lexer	state;
-	int		c;
+	t_lexer	s;
 
-	c = 0;
-	init_info(&state);
-	while (line[state.indx])
+	init_info(&s);
+	while (line[s.indx] != NULL)
 	{
-		while (line[state.indx][c])
+		s.i = 0;
+		while (line[s.indx][s.i])
 		{
-			handlequote(line[state.indx], &state, c);
-			c++;
+			handlequote(line[s.indx], &s);
+			s.i++;
 		}
-		state.indx++;
+		s.indx++;
 	}
-	if (state.flag == 1)
+	if (s.inquote == 1)
 	{
 		ft_putstr_fd("The quote is not closed\n", 2);
 		return (-1);
 	}
-	else if (state.flag == 2)
+	else if (s.indquote == 1)
 	{
 		ft_putstr_fd("The double quotes are not closed\n", 2);
 		return (-1);
