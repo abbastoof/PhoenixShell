@@ -3,101 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_trim.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/06 11:52:09 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 18:06:43 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	redirectors(char *str, int i)
+static void	handle_quote(char *str, t_cmdsplit *cmd)
 {
-	if (ft_strncmp(str + i, "|", 1) == 0)
-		return (TOKEN_PIPE);
-	else if (ft_strncmp(str + i, ">>", 2) == 0)
-		return (TOKEN_OUTPUT_APPEND);
-	else if (ft_strncmp(str + i, "<<", 2) == 0)
-		return (TOKEN_HEREDOC);
-	else if (ft_strncmp(str + i, "<", 1) == 0)
-		return (TOKEN_INPUT);
-	else if (ft_strncmp(str + i, ">", 1) == 0)
-		return (TOKEN_OUTPUT);
-	else
-		return (0);
+	cmd->quote = str[cmd->index];
+	cmd->start = cmd->index;
+	cmd->index++;
+	while (str[cmd->index] != '\0')
+	{
+		if (str[cmd->index] == cmd->quote && (ft_isspace(str[cmd->index + 1])
+				|| str[cmd->index + 1] == '\0' || redirectors(str, cmd->index
+					+ 1)))
+			break ;
+		cmd->index++;
+	}
+	cmd->result[cmd->wd_count] = ft_substr(str, cmd->start, (cmd->index
+				- cmd->start) + 1);
 }
 
-static int	words_count(const char *str, t_cmdsplit *cmd)
+static void	handle_redirector(char *str, t_cmdsplit *cmd)
+{
+	cmd->start = cmd->index;
+	cmd->res = redirectors(str, cmd->index);
+	if (cmd->res == TOKEN_OUTPUT_APPEND || cmd->res == TOKEN_HEREDOC
+		|| cmd->res == TOKEN_EXIT_STATUS)
+	{
+		cmd->result[cmd->wd_count] = ft_substr(str, cmd->start, ((cmd->index
+						+ 2) - cmd->start));
+		cmd->index++;
+	}
+	else
+		cmd->result[cmd->wd_count] = ft_substr(str, cmd->start, ((cmd->index
+						+ 1) - cmd->start));
+}
+
+static void	handle_word(char *str, t_cmdsplit *cmd)
+{
+	cmd->start = cmd->index;
+	while (str[cmd->index] != '\0' && !ft_isspace(str[cmd->index])
+		&& redirectors(str, cmd->index) == 0)
+		cmd->index++;
+	cmd->result[cmd->wd_count] = ft_substr(str, cmd->start, (cmd->index
+				- cmd->start));
+}
+
+static void	init_result(char *str, t_cmdsplit *cmd)
 {
 	while (str[cmd->index] != '\0')
 	{
-		if (!ft_isspace(str[cmd->index]) && redirectors(str, cmd->index) == 0)
+		if (str[cmd->index] && !ft_isspace(str[cmd->index]) && (redirectors(str,
+					cmd->index) == 0 && !ft_isquote(str[cmd->index])))
 		{
-			while (str[cmd->index] != '\0' && !ft_isspace(str[cmd->index])
-				&& redirectors(str, cmd->index) == 0)
-				cmd->index++;
+			handle_word(str, cmd);
 			cmd->wd_count++;
 		}
-		if (redirectors(str, cmd->index) != 0)
-			check_redirectors(str, cmd);
-		if (ft_isquote(str[cmd->index]))
-			check_isquote(str, cmd);
+		if (str[cmd->index] && redirectors(str, cmd->index))
+		{
+			handle_redirector(str, cmd);
+			cmd->wd_count++;
+		}
+		if (str[cmd->index] && (ft_isquote(str[cmd->index])))
+		{
+			handle_quote(str, cmd);
+			cmd->wd_count++;
+		}
 		cmd->index++;
 	}
-	return (cmd->wd_count);
 }
 
-static void	init_cmdsplit(t_cmdsplit *cmd)
+char	**ft_cmdtrim(char *str)
 {
-	cmd->index = 0;
-	cmd->index = 0;
-	cmd->quote = 0;
-	cmd->res;
-	cmd->result = NULL;
-	cmd->wd_count = 0;
-}
-
-static void	init_result(char const *str, t_cmdsplit *cmd)
-{
-	if (str[cmd->index] == '\'' || str[cmd->index] == '"')
-	{
-		cmd->quote = str[cmd->index];
-		cmd->start = cmd->index;
-		cmd->index++;
-		while (str[cmd->index] != '\0' && str[cmd->index] != cmd->quote)
-			cmd->index++;
-		cmd->result[cmd->wd_count] = ft_substr(str, cmd->start, (cmd->index
-					- cmd->start) + 1);
-		cmd->wd_count++;
-	}
-	else if (str[cmd->index] != ' ')
-	{
-		cmd->start = cmd->index;
-		while (str[cmd->index] != '\0' && str[cmd->index] != ' '
-			&& str[cmd->index] != '\'' && str[cmd->index] != '"')
-			cmd->index++;
-		cmd->result[cmd->wd_count] = ft_substr(str, cmd->start, (cmd->index
-					- cmd->start) + 1);
-		cmd->wd_count++;
-	}
-}
-
-char	**ft_cmdtrim(char const *str)
-{
+	int			indx;
+	int			wd_count;
 	t_cmdsplit	cmd;
 
 	init_cmdsplit(&cmd);
-	cmd.wd_count = words_count(str, &cmd);
-	cmd.result = ft_calloc((cmd.wd_count + 1), sizeof(char *));
+	cmd.result = NULL;
+	indx = 0;
+	wd_count = 0;
+	wd_count = words_count(str, &cmd, indx);
+	printf("word count is: %d\n", wd_count);
+	cmd.result = ft_calloc((wd_count + 1), sizeof(char *));
 	if (!cmd.result)
 		return (NULL);
-	cmd.wd_count = 0;
+	wd_count = 0;
 	cmd.index = 0;
-	while (str[cmd.index] != '\0')
-	{
-		init_result(str, &cmd);
-		cmd.index++;
-	}
+	init_result(str, &cmd);
+	printf("cmd->word count is: %d\n", cmd.wd_count);
 	return (cmd.result);
 }

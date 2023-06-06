@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/05 11:25:45 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 17:55:06 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ t_token	*lexer(char *line, t_env *env)
 			is_word(state.crnt_str + state.indx, &state, env, 0);
 		else if (state.crnt_str[state.indx] == '\"' && !state.inquote)
 			is_word(state.crnt_str + state.indx, &state, env, 1);
-		else if (((state.crnt_str[state.indx] == ' ') || (state.crnt_str[state.indx] == '\t'))
-			&& (!state.inquote) && (!state.indquote))
+		else if (((state.crnt_str[state.indx] == ' ')
+				|| (state.crnt_str[state.indx] == '\t')) && (!state.inquote)
+			&& (!state.indquote))
 		{
 			assign_token_type(state.start, state.token, &state);
 			state.start = &state.crnt_str[state.indx + 1];
@@ -100,8 +101,22 @@ t_token	*lexer(char *line, t_env *env)
 
 void	process_cmd(char *line, t_env *env)
 {
-	t_token	*tokens;
+	// t_cmdsplit	cmd;
+	char		**result = NULL;
+	int			i;
 
-	tokens = lexer(line, env);
+	// t_token	*tokens;
+	// tokens = lexer(line, env);
 	// handle_command(tokens);
+	(void)env;
+	result = ft_cmdtrim(line);
+	if (check_line(result) == -1)
+		printf("open quote\n");
+	i = -1;
+	while (result[++i])
+		printf("%s\n", result[i]);
+	while (result[i--])
+		free(result[i]);
+	free(result);
+	result = NULL;
 }

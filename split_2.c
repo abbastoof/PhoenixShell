@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:28:01 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/06 10:47:26 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 15:46:32 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
 #define TOKEN_CMD 1
 #define TOKEN_ARG 2
 #define TOKEN_PIPE 3
@@ -326,34 +327,28 @@ int	main(void)
 
 	// Read input using readline
 	// printf("Enter a string: ");
-	input = readline("Enter a string: ");
-	if (!input)
+	while (1)
 	{
-		printf("Error reading input.\n");
-		return (1);
-	}
-	result = ft_cmdsplit(input);
-	// Print the result
-	printf("Result:\n");
-	if (result)
-	{
-		i = -1;
-		while (result[++i])
+		input = readline("Enter a string: ");
+		add_history(input);
+		if (!input)
 		{
-			printf("%s\n", result[i]);
+			printf("Error reading input.\n");
+			return (1);
 		}
+		result = ft_cmdsplit(input);
+		// Print the result
+		printf("Result:\n");
+		if (result)
+		{
+			i = -1;
+			while (result[++i])
+			{
+				printf("%s\n", result[i]);
+			}
+		}
+		if (input != NULL)
+			free(input);
 	}
-	// 	while (i--)
-	// 	{
-	// 		free(result[i]);
-	// 	}
-	// 	free(result);
-	// 	result = NULL;
-	// }
-	// else
-	// {
-	// 	printf("Splitting failed.\n");
-	// }
-	free(input);
 	return (0);
 }

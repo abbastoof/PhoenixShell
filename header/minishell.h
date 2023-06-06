@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/06 11:55:22 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 17:51:09 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,16 @@ typedef struct s_environment
 }			t_env;
 
 //cmd_trim
-char		**ft_cmdtrim(char const *str);
-void		check_isquote(char *str, t_cmdsplit *cmd);
-void		check_redirectors(char *str, t_cmdsplit *cmd);
+char		**ft_cmdtrim(char *str);
+void		check_isquote(char *str, t_cmdsplit *cmd, int indx);
+void		check_redirectors(char *str, t_cmdsplit *cmd, int indx);
+void		init_cmdsplit(t_cmdsplit *cmd);
+int			redirectors(char *str, int i);
+int			words_count(char *str, t_cmdsplit *cmd, int indx);
+
+//lexer
+void		process_cmd(char *line, t_env *env);
+int			check_line(char **line);
 
 //built_in
 void		pwd(void);
@@ -114,7 +121,6 @@ char		**ft_realloc(char **ptr, size_t size);
 // void		initialize_minishell(t_minishell *line);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);
-void		process_cmd(char *line, t_env *env);
 void		handle_command(t_env *env, t_token *tokens);
 char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
 int			is_word(char *str, t_lexer *state, t_env *env,
