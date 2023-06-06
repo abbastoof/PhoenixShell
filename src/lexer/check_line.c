@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:28:00 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/06 22:25:49 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/06 22:30:31 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	handledquote(char *str, t_lexer *s)
 			s->flag = 0;
 			s->indquote = 0;
 		}
-		printf("flag = %d\n", s->flag);
 	}
 }
 
@@ -73,15 +72,7 @@ int	check_line(char **line)
 		}
 		s.indx++;
 	}
-	if (s.inquote == 1)
-	{
-		ft_putstr_fd("The quote is not closed\n", 2);
+	if (s.inquote == 1 || s.indquote == 1)
 		return (-1);
-	}
-	else if (s.indquote == 1)
-	{
-		ft_putstr_fd("The double quotes are not closed\n", 2);
-		return (-1);
-	}
 	return (0);
 }
