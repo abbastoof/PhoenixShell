@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/06 17:55:06 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/07 17:18:39 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,8 @@ void	assign_token_type(char *str, t_token *token, t_lexer *state)
 		token[state->token_indx].type = TOKEN_OUTPUT_APPEND;
 	else if (ft_strcmp(str, "<<") == 0)
 		token[state->token_indx].type = TOKEN_HEREDOC;
-	else if (str[0] == '$')
-	{
-		if (ft_strcmp(str, "$?") == 0)
-			token[state->token_indx].type = TOKEN_EXIT_STATUS;
-		else
-			token[state->token_indx].type = TOKEN_VARIABLE;
-	}
 	else
-	{
 		token[state->token_indx].type = TOKEN_CMD;
-	}
 	token[state->token_indx].value = ft_strdup(str);
 	state->token_indx++;
 }
@@ -111,7 +102,7 @@ void	process_cmd(char *line, t_env *env)
 	(void)env;
 	result = ft_cmdtrim(line);
 	if (check_line(result) == -1)
-		printf("open quote\n");
+		;
 	i = -1;
 	while (result[++i])
 		printf("%s\n", result[i]);

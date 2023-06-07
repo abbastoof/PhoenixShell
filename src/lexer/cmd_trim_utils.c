@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 11:46:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/06 16:29:24 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/07 17:28:20 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	words_count(char *str, t_cmdsplit *cmd, int indx)
 			check_isquote(str, cmd, indx);
 			wd_count++;
 		}
-		indx++;
+		if (str[indx] != '\0')
+			indx++;
 	}
 	return (wd_count);
 }

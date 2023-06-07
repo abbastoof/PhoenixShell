@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/06 18:06:43 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/07 17:28:33 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static void	init_result(char *str, t_cmdsplit *cmd)
 			handle_quote(str, cmd);
 			cmd->wd_count++;
 		}
-		cmd->index++;
+		if (str[cmd->index] != '\0')
+			cmd->index++;
 	}
 }
 
