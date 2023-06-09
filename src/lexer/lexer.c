@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 15:18:16 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 18:10:15 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	assign_token_type(char *str, t_token *token, t_lexer *state)
 	state->token_indx++;
 }
 
-static void	init_info(t_lexer *state, char *line)
+static void	init_info(t_lexer *state)
 {
 	state->inquote = 0;
 	state->indquote = 0;
@@ -41,40 +41,39 @@ static void	init_info(t_lexer *state, char *line)
 	state->res = NULL;
 	state->des = NULL;
 	state->token_indx = 0;
-	state->start = line;
-	state->crnt_str = line;
-	state->token = malloc(sizeof(t_token) * 1024);
 }
 
-t_token	*lexer(char *line, t_env *env)
-{
-	t_lexer	state;
+// t_token	*lexer(char *line, t_env *env)
+// {
+// 	t_lexer	state;
 
-	init_info(&state, line);
-	while (state.crnt_str[state.indx])
-	{
-		if (state.crnt_str[state.indx] == '\'' && !state.indquote)
-			is_word(state.crnt_str + state.indx, &state, env, 0);
-		else if (state.crnt_str[state.indx] == '\"' && !state.inquote)
-			is_word(state.crnt_str + state.indx, &state, env, 1);
-		else if (((state.crnt_str[state.indx] == ' ')
-				|| (state.crnt_str[state.indx] == '\t')) && (!state.inquote)
-			&& (!state.indquote))
-		{
-			assign_token_type(state.start, state.token, &state);
-			state.start = &state.crnt_str[state.indx + 1];
-		}
-		state.indx++;
-	}
-	assign_token_type(state.start, &(state.token[state.token_indx]), &state);
-	return (state.token);
-}
+// 	init_info(&state, line);
+// 	while (state.crnt_str[state.indx])
+// 	{
+// 		if (state.crnt_str[state.indx] == '\'' && !state.indquote)
+// 			is_word(state.crnt_str + state.indx, &state, env, 0);
+// 		else if (state.crnt_str[state.indx] == '\"' && !state.inquote)
+// 			is_word(state.crnt_str + state.indx, &state, env, 1);
+// 		else if (((state.crnt_str[state.indx] == ' ')
+// 				|| (state.crnt_str[state.indx] == '\t')) && (!state.inquote)
+// 			&& (!state.indquote))
+// 		{
+// 			assign_token_type(state.start, state.token, &state);
+// 			state.start = &state.crnt_str[state.indx + 1];
+// 		}
+// 		state.indx++;
+// 	}
+// 	assign_token_type(state.start, &(state.token[state.token_indx]), &state);
+// 	return (state.token);
+// }
 
 void	process_cmd(char *line, t_env *env)
 {
 	// t_cmdsplit	cmd;
 	t_token			*tokens;
+	t_lexer			state;
 
+	init_info(&state);
 	// t_token	*tokens;
 	// tokens = lexer(line, env);
 	// handle_command(tokens);
@@ -84,6 +83,7 @@ void	process_cmd(char *line, t_env *env)
 	tokens = NULL;
 	tokens = ft_cmdtrim(line, tokens);
 	check_incorrect_quotes(tokens);
-	if (tokens[0].value[0] != '\0')
+	// expand_quotes(tokens, env, &state);
+	if (tokens != NULL)
 		display_token(tokens);
 }

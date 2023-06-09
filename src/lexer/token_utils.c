@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:47:38 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/09 15:17:04 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 18:09:00 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	check_incorrect_quotes(t_token *tokens)
 	int	indx;
 
 	indx = 0;
+	if (tokens == NULL)
+		return ;
 	while (tokens[indx].value != NULL)
 	{
 		if (check_line(tokens[indx].value) == -1)
@@ -65,8 +67,10 @@ void	free_tokens(t_token *tokens)
 	while (tokens[indx].value != NULL)
 	{
 		free(tokens[indx].value);
+		tokens[indx].value = NULL;
 		indx++;
 	}
 	free(tokens);
+	tokens = NULL;
 	return ;
 }

@@ -6,7 +6,7 @@
 #    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/06/09 13:58:28 by mtoof            ###   ########.fr        #
+#    Updated: 2023/06/09 17:34:02 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c helper.c
 SRC = main.c commands.c  env_init.c signals.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c
 SRC_LEX = lexer.c lexer_helper.c var_finder.c dollar_sign.c validity.c cmd_trim.c \
-			check_line.c cmd_trim_utils.c token_utils.c
+			check_line.c cmd_trim_utils.c token_utils.c expand_quotes.c
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
 		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS))
 HEADER_DIR = header/
@@ -27,7 +27,7 @@ HEADER = minishell.h
 OBJ_DIR = obj/
 OBJS = $(SRCS:%.c=$(OBJ_DIR)%.o)
 LIBFT = ./libft/libft.a
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -fsanitize=address -static-libsan -g -fno-omit-frame-pointer -overflow
 ERROR_FLAGS =  -fsanitize=address -static-libsan -g -fno-omit-frame-pointer -overflow
 EXTRA_FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 11:46:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/09 14:33:07 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 18:04:29 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,51 +41,56 @@ void	init_cmdsplit(t_cmdsplit *cmd)
 	cmd->wd_count = 0;
 }
 
-void	check_redirectors(char *str, t_cmdsplit *cmd, int indx)
+void	check_redirectors(char *str, t_cmdsplit *cmd)
 {
-	cmd->res = redirectors(str, indx);
+	cmd->res = redirectors(str, cmd->index);
 	if (cmd->res == TOKEN_OUTPUT_APPEND || cmd->res == TOKEN_HEREDOC
 		|| cmd->res == TOKEN_EXIT_STATUS)
-		indx++;
+		cmd->index++;
 }
 
-void	check_isquote(char *str, t_cmdsplit *cmd, int indx)
+int	check_isquote(char *str, t_cmdsplit *cmd)
 {
-	cmd->quote = str[indx];
-	indx++;
-	while (str[indx] != '\0')
+	cmd->quote = str[cmd->index];
+	cmd->index++;
+	if (str[cmd->index] == '\0')
+		return (1);
+	while (str[cmd->index] != '\0')
 	{
-		if (str[indx] == cmd->quote && (ft_isspace(str[indx
-						+ 1]) || str[indx + 1] == '\0'
-				|| redirectors(str, indx + 1)))
+		if (str[cmd->index] == cmd->quote && (ft_isspace(str[cmd->index + 1])
+				|| str[cmd->index + 1] == '\0' || redirectors(str, cmd->index
+					+ 1)))
 			break ;
-		indx++;
+		cmd->index++;
 	}
+	return (0);
 }
 
-int	words_count(char *str, t_cmdsplit *cmd, int indx)
+int	words_count(char *str, t_cmdsplit *cmd)
 {
-	while (str[indx] != '\0')
+	while (str[cmd->index] != '\0')
 	{
-		if (!ft_isspace(str[indx]) && redirectors(str, indx) == 0)
+		if (!ft_isspace(str[cmd->index]) && redirectors(str, cmd->index) == 0
+			&& !ft_isquote(str[cmd->index]))
 		{
-			while (str[indx] != '\0' && !ft_isspace(str[indx])
-				&& redirectors(str, indx) == 0)
-				indx++;
+			while (str[cmd->index] != '\0' && !ft_isspace(str[cmd->index])
+				&& redirectors(str, cmd->index) == 0)
+				cmd->index++;
 			cmd->wd_count++;
 		}
-		if (redirectors(str, indx) != 0)
+		if (redirectors(str, cmd->index) != 0)
 		{
-			check_redirectors(str, cmd, indx);
+			check_redirectors(str, cmd);
 			cmd->wd_count++;
 		}
-		if (ft_isquote(str[indx]))
+		if (ft_isquote(str[cmd->index]))
 		{
-			check_isquote(str, cmd, indx);
-			cmd->wd_count++;
+			if (!check_isquote(str, cmd))
+				cmd->wd_count++;
 		}
-		if (str[indx] != '\0')
-			indx++;
+		if (str[cmd->index] != '\0')
+			cmd->index++;
+		printf("wd_count = %d\n", cmd->wd_count);
 	}
 	return (cmd->wd_count);
 }

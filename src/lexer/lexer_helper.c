@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/06 22:08:51 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 18:30:59 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ int	is_word(char *str, t_lexer *state, t_env *env, int var_flag)
 {
 	state->flag = 0;
 	state->i = 0;
-	while (str[state->i] == ' ' || str[state->i] == '\t')
-		state->i++;
 	while (str[state->i])
 	{
 		handlequote(str, state);

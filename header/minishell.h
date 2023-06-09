@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 15:14:30 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 18:03:27 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include <stdio.h>
+# include <errno.h>
+# include <signal.h>
+# include <termios.h>
+# include <sys/syslimits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <signal.h>
-# include <stdio.h>
-# include <sys/syslimits.h>
 
 # define TOKEN_CMD 1
 # define TOKEN_ARG 2
@@ -85,7 +87,6 @@ typedef struct s_lexer
 	char	*var;
 	char	*path;
 	char	*des;
-	t_token	*token;
 }			t_lexer;
 
 typedef struct s_environment
@@ -96,15 +97,16 @@ typedef struct s_environment
 
 //cmd_trim
 t_token		*ft_cmdtrim(char *str, t_token *tokens);
-void		check_isquote(char *str, t_cmdsplit *cmd, int indx);
-void		check_redirectors(char *str, t_cmdsplit *cmd, int indx);
+int			check_isquote(char *str, t_cmdsplit *cmd);
+void		check_redirectors(char *str, t_cmdsplit *cmd);
 void		init_cmdsplit(t_cmdsplit *cmd);
 int			redirectors(char *str, int i);
-int			words_count(char *str, t_cmdsplit *cmd, int indx);
+int			words_count(char *str, t_cmdsplit *cmd);
 
 //lexer
 int			check_line(char *line);
 void		free_tokens(t_token *tokens);
+// void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
 void		display_token(t_token *tokens);
 void		process_cmd(char *line, t_env *env);
 void		check_incorrect_quotes(t_token *tokens);
@@ -114,6 +116,7 @@ void		pwd(void);
 void		echo(char **args);
 void		ft_cd(t_env *env, char *args);
 
+//helper
 int			ft_isquote(int c);
 int			ft_isspace(int c);
 void		commands(char *cmd);

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:59:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 17:56:09 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 15:52:23 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	initialize_environment(t_env *env, char **environ)
 	while (environ[i])
 		i++;
 	env->counter = i;
-	env->env_var = malloc(sizeof(char *) * (i + 1));
+	env->env_var = ft_calloc(sizeof(char *), (i + 1));
 	if (env->env_var == NULL)
 	{
 		perror("minishell: malloc");
