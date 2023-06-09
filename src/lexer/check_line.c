@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:28:00 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/08 15:32:13 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 11:46:03 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,16 @@ static void	init_info(t_lexer *state)
 	state->flag = 0;
 }
 
-static void	handledquote(char *str, t_lexer *state, int c)
+static void	handledquote(char str, t_lexer *state)
 {
-	if (str[c] == '\"' && !state->inquote)
+	if (str == '\"' && !state->inquote)
 	{
-		if (str[c] == '\"' && state->flag == 0)
+		if (str == '\"' && state->flag == 0)
 		{
 			state->flag = 2;
-			c++;
 			state->indquote = 1;
 		}
-		else if (str[c] == '\"' && state->flag == 2)
+		else if (str == '\"' && state->flag == 2)
 		{
 			state->flag = 0;
 			state->indquote = 0;
@@ -38,41 +37,34 @@ static void	handledquote(char *str, t_lexer *state, int c)
 	}
 }
 
-static void	handlequote(char *str, t_lexer *state, int c)
+static void	handlequote(char str, t_lexer *state)
 {
-	if (str[c] == '\'' && !state->indquote)
+	if (str == '\'' && !state->indquote)
 	{
-		if (str[c] == '\'' && state->flag == 0)
+		if (str == '\'' && state->flag == 0)
 		{
 			state->flag = 1;
-			c++;
 			state->inquote = 1;
 		}
-		else if (str[c] == '\'' && state->flag == 1)
+		else if (str == '\'' && state->flag == 1)
 		{
 			state->flag = 0;
 			state->inquote = 0;
 		}
 	}
-	handledquote(str, state, c);
+	handledquote(str, state);
 }
 
-int	check_line(char **line)
+int	check_line(char *line)
 {
 	t_lexer	state;
-	int		c;
 
 	if (line == NULL)
 		return (1);
 	init_info(&state);
-	while (line[state.indx])
+	while (line[state.indx] != '\0')
 	{
-		c = 0;
-		while (line[state.indx][c])
-		{
-			handlequote(line[state.indx], &state, c);
-			c++;
-		}
+		handlequote(line[state.indx], &state);
 		state.indx++;
 	}
 	if (state.inquote == 1 || state.indquote == 1)

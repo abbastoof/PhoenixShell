@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/08 18:55:25 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 12:45:14 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,23 @@ void	process_cmd(char *line, t_env *env)
 	(void)env;
 	if (line[0] == '\0')
 		return ;
-	tokens = ft_cmdtrim(line);
-	//error handling
-	// if (check_line(result) == -1)
-		// ft_putstr_fd("Quotes are open\n", 2);
-	//free the prompt if there is an open quote
-	
+	tokens = NULL;
+	tokens = ft_cmdtrim(line, tokens);
 	// test display tokens of words
-	i = -1;
-	while (tokens[++i].value)
+	i = 0;
+	while (tokens[i].value)
 	{
-		printf("%s\n", tokens[i].value);
+		printf("value = %s\n", tokens[i].value);
+		printf("type  = %d\n", tokens[i].type);
+		if (check_line(tokens[i].value) == -1)
+		{
+			ft_putstr_fd("open quotes\n", 2);
+			{
+				free(tokens);
+				return ;
+			}
+		}
+		i++;
 	}
 	// test free tokens of words
 	// while (result[i--])

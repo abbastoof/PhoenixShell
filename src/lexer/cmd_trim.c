@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_trim.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/08 18:53:39 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 12:07:03 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,18 @@ static void	init_result(char *str, t_cmdsplit *cmd, t_token *tokens)
 	}
 }
 
-t_token	*ft_cmdtrim(char *str)
+t_token	*ft_cmdtrim(char *str, t_token *tokens)
 {
 	int			indx;
 	int			wd_count;
-	t_token		*tokens;
 	t_cmdsplit	cmd;
 
 	init_cmdsplit(&cmd);
 	indx = 0;
 	wd_count = 0;
 	wd_count = words_count(str, &cmd, indx);
-	tokens = ft_calloc((wd_count), sizeof(t_token));
+	printf("wd_count = %d\n", wd_count);
+	tokens = ft_calloc((wd_count + 1), sizeof(t_token));
 	if (!tokens)
 	{
 		ft_putstr_fd("Malloc\n", 2);
