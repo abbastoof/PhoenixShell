@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/06 22:16:54 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/08 18:48:16 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ typedef struct s_token
 {
 	int		type;
 	char	*value;
-	t_lst	*lst;
 }			t_token;
-
 
 typedef struct s_lexer
 {
@@ -94,12 +92,13 @@ typedef struct s_environment
 }			t_env;
 
 //cmd_trim
-char		**ft_cmdtrim(char *str);
+t_token		*ft_cmdtrim(char *str);
+int			redirectors(char *str, int i);
+void		init_cmdsplit(t_cmdsplit *cmd);
+void		init_tokens(t_token *tokens, int wd_count);
+int			words_count(char *str, t_cmdsplit *cmd, int indx);
 void		check_isquote(char *str, t_cmdsplit *cmd, int indx);
 void		check_redirectors(char *str, t_cmdsplit *cmd, int indx);
-void		init_cmdsplit(t_cmdsplit *cmd);
-int			redirectors(char *str, int i);
-int			words_count(char *str, t_cmdsplit *cmd, int indx);
 
 //lexer
 void		process_cmd(char *line, t_env *env);
@@ -123,12 +122,9 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);
 void		handle_command(t_env *env, t_token *tokens);
 char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
-int			is_word(char *str, t_lexer *state, t_env *env,
-				int var_flag);
-void		dollar_handler(char *str, t_lexer *state, t_env *env,
-				int var_flag);
-char		*var_finder(char *str, t_lexer *state, t_env *env,
-				int var_flag);
+int			is_word(char *str, t_lexer *state, t_env *env, int var_flag);
+void		dollar_handler(char *str, t_lexer *state, t_env *env, int var_flag);
+char		*var_finder(char *str, t_lexer *state, t_env *env, int var_flag);
 void		initialize_environment(t_env *env, char **environ);
 
 #endif
