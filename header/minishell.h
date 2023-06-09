@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 12:00:26 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 15:14:30 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ extern char	**environ;
 //cmd_trim
 typedef struct s_cmdsplit
 {
-	char	**result;
 	int		wd_count;
 	int		index;
 	int		start;
@@ -104,8 +103,11 @@ int			redirectors(char *str, int i);
 int			words_count(char *str, t_cmdsplit *cmd, int indx);
 
 //lexer
-void		process_cmd(char *line, t_env *env);
 int			check_line(char *line);
+void		free_tokens(t_token *tokens);
+void		display_token(t_token *tokens);
+void		process_cmd(char *line, t_env *env);
+void		check_incorrect_quotes(t_token *tokens);
 
 //built_in
 void		pwd(void);

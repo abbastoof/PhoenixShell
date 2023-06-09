@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 12:45:14 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/09 15:18:16 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ t_token	*lexer(char *line, t_env *env)
 void	process_cmd(char *line, t_env *env)
 {
 	// t_cmdsplit	cmd;
-	t_token	*tokens;
-	int			i;
+	t_token			*tokens;
 
 	// t_token	*tokens;
 	// tokens = lexer(line, env);
@@ -84,25 +83,7 @@ void	process_cmd(char *line, t_env *env)
 		return ;
 	tokens = NULL;
 	tokens = ft_cmdtrim(line, tokens);
-	// test display tokens of words
-	i = 0;
-	while (tokens[i].value)
-	{
-		printf("value = %s\n", tokens[i].value);
-		printf("type  = %d\n", tokens[i].type);
-		if (check_line(tokens[i].value) == -1)
-		{
-			ft_putstr_fd("open quotes\n", 2);
-			{
-				free(tokens);
-				return ;
-			}
-		}
-		i++;
-	}
-	// test free tokens of words
-	// while (result[i--])
-		// free(result[i]);
-	// free(result);
-	// result = NULL;
+	check_incorrect_quotes(tokens);
+	if (tokens[0].value[0] != '\0')
+		display_token(tokens);
 }
