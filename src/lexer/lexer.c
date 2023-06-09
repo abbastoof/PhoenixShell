@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/07 17:18:39 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/08 18:55:25 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,6 @@ void	assign_token_type(char *str, t_token *token, t_lexer *state)
 	token[state->token_indx].value = ft_strdup(str);
 	state->token_indx++;
 }
-
-// static void	handlequote(t_lexer *state, int type)
-// {
-// 	int	*flag;
-
-// 	if (type == TOKEN_QUOTE)
-// 		flag = &(state->inquote);
-// 	else
-// 		flag = &(state->indquote);
-// 	if (flag == 0)
-// 	{
-// 		*flag = 1;
-// 		state->start = &state->crnt_str[state->indx];
-// 	}
-// 	else
-// 	{
-// 		*flag = 0;
-// 		assign_new_token();
-// 	}
-// }
 
 static void	init_info(t_lexer *state, char *line)
 {
@@ -93,21 +73,30 @@ t_token	*lexer(char *line, t_env *env)
 void	process_cmd(char *line, t_env *env)
 {
 	// t_cmdsplit	cmd;
-	char		**result = NULL;
+	t_token	*tokens;
 	int			i;
 
 	// t_token	*tokens;
 	// tokens = lexer(line, env);
 	// handle_command(tokens);
 	(void)env;
-	result = ft_cmdtrim(line);
-	if (check_line(result) == -1)
-		;
+	if (line[0] == '\0')
+		return ;
+	tokens = ft_cmdtrim(line);
+	//error handling
+	// if (check_line(result) == -1)
+		// ft_putstr_fd("Quotes are open\n", 2);
+	//free the prompt if there is an open quote
+	
+	// test display tokens of words
 	i = -1;
-	while (result[++i])
-		printf("%s\n", result[i]);
-	while (result[i--])
-		free(result[i]);
-	free(result);
-	result = NULL;
+	while (tokens[++i].value)
+	{
+		printf("%s\n", tokens[i].value);
+	}
+	// test free tokens of words
+	// while (result[i--])
+		// free(result[i]);
+	// free(result);
+	// result = NULL;
 }

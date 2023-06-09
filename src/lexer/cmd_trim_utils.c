@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_trim_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 11:46:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/07 17:28:20 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/08 12:17:24 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	words_count(char *str, t_cmdsplit *cmd, int indx)
 {
-	int	wd_count;
-
-	wd_count = 0;
 	while (str[indx] != '\0')
 	{
 		if (!ft_isspace(str[indx]) && redirectors(str, indx) == 0)
@@ -24,22 +21,22 @@ int	words_count(char *str, t_cmdsplit *cmd, int indx)
 			while (str[indx] != '\0' && !ft_isspace(str[indx])
 				&& redirectors(str, indx) == 0)
 				indx++;
-			wd_count++;
+			cmd->wd_count++;
 		}
 		if (redirectors(str, indx) != 0)
 		{
 			check_redirectors(str, cmd, indx);
-			wd_count++;
+			cmd->wd_count++;
 		}
 		if (ft_isquote(str[indx]))
 		{
 			check_isquote(str, cmd, indx);
-			wd_count++;
+			cmd->wd_count++;
 		}
 		if (str[indx] != '\0')
 			indx++;
 	}
-	return (wd_count);
+	return (cmd->wd_count);
 }
 
 int	redirectors(char *str, int i)
@@ -63,7 +60,9 @@ void	init_cmdsplit(t_cmdsplit *cmd)
 	cmd->index = 0;
 	cmd->index = 0;
 	cmd->quote = 0;
+	cmd->res = 0;
 	cmd->wd_count = 0;
+	cmd->result = NULL;
 }
 
 void	check_redirectors(char *str, t_cmdsplit *cmd, int indx)

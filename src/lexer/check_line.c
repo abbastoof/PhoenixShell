@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:28:00 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/07 14:14:44 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/08 15:32:13 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ int	check_line(char **line)
 	t_lexer	state;
 	int		c;
 
-	c = 0;
+	if (line == NULL)
+		return (1);
 	init_info(&state);
 	while (line[state.indx])
 	{
+		c = 0;
 		while (line[state.indx][c])
 		{
 			handlequote(line[state.indx], &state, c);
@@ -73,15 +75,7 @@ int	check_line(char **line)
 		}
 		state.indx++;
 	}
-	if (state.inquote == 1)
-	{
-		ft_putstr_fd("The quote is not closed\n", 2);
+	if (state.inquote == 1 || state.indquote == 1)
 		return (-1);
-	}
-	else if (state.indquote == 1)
-	{
-		ft_putstr_fd("The double quotes are not closed\n", 2);
-		return (-1);
-	}
 	return (0);
 }
