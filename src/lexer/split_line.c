@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/09 18:07:55 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 16:44:21 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ t_token	*ft_cmdtrim(char *str, t_token *tokens)
 	indx = 0;
 	wd_count = 0;
 	wd_count = words_count(str, &cmd);
-	// printf("wd_count = %d\n", wd_count);
 	if (!wd_count)
 		return (NULL);
 	tokens = ft_calloc((wd_count + 1), sizeof(t_token));

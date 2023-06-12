@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:49:03 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/12 16:12:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 17:01:57 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,26 @@
 
 void	expand_quotes(t_token *tokens, t_env *env, t_lexer *state)
 {
-	int	token_indx;
 	int	value_indx;
 
-	token_indx = 0;
-	while (tokens[token_indx].value)
+	while (tokens[state->token_indx].value)
 	{
 		value_indx = 0;
-		while (tokens[token_indx].value[value_indx])
+		while (tokens[state->token_indx].value[value_indx])
 		{
-			if (tokens[token_indx].value[value_indx] == '\'')
+			if (tokens[state->token_indx].value[value_indx] == '\'')
 			{
-				is_word(tokens[token_indx].value, &state, env, 0);
+				expand_var(&tokens[state->token_indx], state, env, 0);
 				break ;
 			}
-			else if ((tokens[token_indx].value[value_indx] == '\"')
-				|| (tokens[token_indx].value[value_indx] == '$'))
+			else if ((tokens[state->token_indx].value[value_indx] == '\"')
+				|| (tokens[state->token_indx].value[value_indx] == '$'))
 			{
-				is_word(tokens[token_indx].value, &state, env, 1);
+				expand_var(&tokens[state->token_indx], state, env, 1);
 				break ;
 			}
 			value_indx++;
 		}
-		token_indx++;
+		state->token_indx++;
 	}
 }

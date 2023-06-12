@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/12 15:51:24 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 16:59:04 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,8 @@ typedef struct s_token
 
 typedef struct s_lexer
 {
-	int		indx;
-	char	*crnt_str;
 	char	*start;
+	int		indx;
 	int		flag;
 	int		i;
 	int		inquote;
@@ -106,10 +105,16 @@ int			words_count(char *str, t_cmdsplit *cmd);
 //lexer
 int			check_line(char *line);
 void		free_tokens(t_token *tokens);
-// void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
+void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
 void		display_token(t_token *tokens);
 void		process_cmd(char *line, t_env *env);
 int			check_incorrect_quotes(t_token *tokens);
+int			expand_var(t_token *token, t_lexer *state, t_env *env,
+				int var_flag);
+void		dollar_handler(char *str, t_lexer *state, t_env *env,
+				int var_flag);
+char		*var_finder(char *str, t_lexer *state, t_env *env,
+				int var_flag);
 
 //built_in
 void		pwd(void);
@@ -131,12 +136,6 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);
 void		handle_command(t_env *env, t_token *tokens);
 char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
-int			is_word(char *str, t_lexer *state, t_env *env,
-				int var_flag);
-void		dollar_handler(char *str, t_lexer *state, t_env *env,
-				int var_flag);
-char		*var_finder(char *str, t_lexer *state, t_env *env,
-				int var_flag);
 void		initialize_environment(t_env *env, char **environ);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 11:46:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/09 18:04:29 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 16:44:41 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	words_count(char *str, t_cmdsplit *cmd)
 		}
 		if (str[cmd->index] != '\0')
 			cmd->index++;
-		printf("wd_count = %d\n", cmd->wd_count);
 	}
 	return (cmd->wd_count);
 }

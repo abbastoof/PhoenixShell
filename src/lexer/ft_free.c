@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:44:57 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/02 10:23:38 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 16:47:01 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,4 @@ void	free_state(t_lexer *state)
 		free(state->des);
 		state->des = NULL;
 	}
-}
-
-int	validity(t_lexer *state)
-{
-	if (state->flag == 1)
-	{
-		ft_putstr_fd("The quote is not closed\n", 2);
-		free_state(state);
-		return (-1);
-	}
-	else if (state->flag == 2)
-	{
-		ft_putstr_fd("The double quotes are not closed\n", 2);
-		free_state(state);
-		return (-1);
-	}
-	return (0);
 }
