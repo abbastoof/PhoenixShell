@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 18:10:15 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 12:44:26 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,26 @@ void	process_cmd(char *line, t_env *env)
 	tokens = NULL;
 	tokens = ft_cmdtrim(line, tokens);
 	check_incorrect_quotes(tokens);
+	int i = 0;
+	while (tokens[i].value)
+	{
+		int j = 0;
+		while (tokens[i].value[j])
+		{
+			if (tokens[i].value[j] == '\'')
+			{
+				is_word(tokens[i].value, &state, env, 0);
+				break;
+			}
+			else if ((tokens[i].value[j] == '\"') || (tokens[i].value[j] == '$'))
+			{
+				is_word(tokens[i].value, &state, env, 1);
+				break;
+			}
+			j++;
+		}
+		i++;
+	}
 	// expand_quotes(tokens, env, &state);
 	if (tokens != NULL)
 		display_token(tokens);
