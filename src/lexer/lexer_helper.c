@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 18:30:59 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 15:40:36 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int	is_word(char *str, t_lexer *state, t_env *env, int var_flag)
 		handlequote(str, state);
 		if ((str[state->i] && state->flag == 0 && str[state->i] != ' ')
 			&& (str[state->i] != '\'') && (str[state->i] != '\"'))
+		{
 			join_char(str, state, env, var_flag);
+		}
 		else if ((str[state->i] && (state->flag == 1 && str[state->i] != '\''))
 			|| (str[state->i] && (state->flag == 2
 					&& str[state->i] != '\"')))

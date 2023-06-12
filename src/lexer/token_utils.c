@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:47:38 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/09 18:09:00 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 16:02:45 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	display_token(t_token *tokens)
 	int	i;
 
 	i = 0;
+	if (tokens == NULL)
+		return ;
 	while (tokens[i].value != NULL)
 	{
 		printf("value = %s\n", tokens[i].value);
@@ -25,13 +27,13 @@ void	display_token(t_token *tokens)
 	}
 }
 
-void	check_incorrect_quotes(t_token *tokens)
+int	check_incorrect_quotes(t_token *tokens)
 {
 	int	indx;
 
 	indx = 0;
 	if (tokens == NULL)
-		return ;
+		return (1);
 	while (tokens[indx].value != NULL)
 	{
 		if (check_line(tokens[indx].value) == -1)
@@ -39,11 +41,12 @@ void	check_incorrect_quotes(t_token *tokens)
 			ft_putstr_fd("open quotes\n", 2);
 			{
 				free_tokens(tokens);
-				return ;
+				return (1);
 			}
 		}
 		indx++;
 	}
+	return (0);
 }
 
 void	init_tokens(t_token *tokens, int wd_count)

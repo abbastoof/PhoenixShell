@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/06 13:02:12 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 15:31:09 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,17 @@ void	dollar_handler(char *str, t_lexer *state, t_env *env, int var_flag)
 	else if (str[state->i] == '$' && (str[state->i + 1]
 			== '\\' || (str[state->i
 					+ 1] == '%')))
+	{
+		if (str[state->i + 1] == '\\')
+		{
+			state->res = ft_strnjoin(state->tmp, str + state->i, 1);
+			if (state->tmp)
+				free(state->tmp);
+			state->tmp = state->res;
+			state->i += 2;
+		}
 		result_join(state, str);
+	}
 	else if (str[state->i] == '$' && (str[state->i + 1] == '!'))
 		state->i++;
 	else

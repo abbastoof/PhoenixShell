@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 18:03:27 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/12 15:51:24 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void		free_tokens(t_token *tokens);
 // void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
 void		display_token(t_token *tokens);
 void		process_cmd(char *line, t_env *env);
-void		check_incorrect_quotes(t_token *tokens);
+int			check_incorrect_quotes(t_token *tokens);
 
 //built_in
 void		pwd(void);
