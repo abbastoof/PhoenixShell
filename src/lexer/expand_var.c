@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_helper.c                                     :+:      :+:    :+:   */
+/*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/12 16:58:23 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 12:05:50 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handledquote(char *str, t_lexer *state)
+static void	handledquote(char *str, t_lexer *state)
 {
 	if (str[state->i] == '\"' && !state->inquote)
 	{
@@ -31,7 +31,7 @@ void	handledquote(char *str, t_lexer *state)
 	}
 }
 
-void	handlequote(char *str, t_lexer *state)
+static void	handlequote(char *str, t_lexer *state)
 {
 	if (str[state->i] == '\'' && !state->indquote)
 	{
@@ -62,6 +62,19 @@ void	join_char(char *str, t_lexer *state, t_env *env, int var_flag)
 	dollar_handler(str, state, env, var_flag);
 }
 
+static void	replace_value(t_token *token, t_lexer *state)
+{
+	if (token->value)
+	{
+		free(token->value);
+		token->value = NULL;
+	}
+	if (state->res)
+		token->value = ft_strdup(state->res);
+	else
+		token->value = NULL;
+}
+
 int	expand_var(t_token *token, t_lexer *state, t_env *env, int var_flag)
 {
 	state->flag = 0;
@@ -82,11 +95,7 @@ int	expand_var(t_token *token, t_lexer *state, t_env *env, int var_flag)
 		else if (state->flag == 0 && token->value[state->i] == ' ')
 			break ;
 	}
-	if (token->value)
-	{
-		free(token->value);
-		token->value = NULL;
-	}
-	token->value = ft_strdup(state->res);
+	replace_value(token, state);
+	free_state(state);
 	return (0);
 }

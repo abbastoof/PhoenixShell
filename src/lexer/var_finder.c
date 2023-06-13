@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/12 16:06:08 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 11:49:29 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,15 @@ int	checker(char *str, t_lexer *state, int var_flag)
 {
 	if (var_flag == 1 && !ft_isspace(str[state->i + 1]) && str[state->i
 			+ 1] != '\0')
+	{
 		state->i++;
+		if ((ft_isdigit(str[state->i]) && var_flag == 1)
+			|| (ft_isquote(str[state->i]) && var_flag))
+		{
+			state->i++;
+			return (1);
+		}
+	}
 	else if (var_flag == 1 && (!ft_isspace(str[state->i + 1]) || str[state->i
 				+ 1] == '\0' || ft_isquote(str[state->i + 1])))
 	{
@@ -30,16 +38,15 @@ char	*var_finder(char *str, t_lexer *state, t_env *env, int var_flag)
 {
 	int		indx;
 	char	*des;
+	int		checker_result;
 
-	if (checker(str, state, var_flag) == 2)
+	checker_result = 0;
+	checker_result = checker(str, state, var_flag);
+	if (checker_result == 1)
+		return (NULL);
+	else if (checker_result == 2)
 		return ("$");
 	indx = state->i;
-	if ((ft_isdigit(str[indx]) && var_flag == 1) || (ft_isquote(str[indx])
-			&& var_flag))
-	{
-		state->i++;
-		return (NULL);
-	}
 	des = ft_calloc(1, 1);
 	if (!des)
 		return (NULL);

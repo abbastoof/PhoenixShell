@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_line.c                                       :+:      :+:    :+:   */
+/*   quotes_validity.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:28:00 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 11:46:03 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 11:59:07 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	handlequote(char str, t_lexer *state)
 	handledquote(str, state);
 }
 
-int	check_line(char *line)
+int	quotes_validity(char *line)
 {
 	t_lexer	state;
 

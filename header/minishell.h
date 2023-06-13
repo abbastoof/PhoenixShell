@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/12 16:59:04 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 12:06:35 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ int			redirectors(char *str, int i);
 int			words_count(char *str, t_cmdsplit *cmd);
 
 //lexer
-int			check_line(char *line);
+void		free_state(t_lexer *state);
+int			quotes_validity(char *line);
 void		free_tokens(t_token *tokens);
-void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
 void		display_token(t_token *tokens);
 void		process_cmd(char *line, t_env *env);
 int			check_incorrect_quotes(t_token *tokens);
@@ -115,6 +115,7 @@ void		dollar_handler(char *str, t_lexer *state, t_env *env,
 				int var_flag);
 char		*var_finder(char *str, t_lexer *state, t_env *env,
 				int var_flag);
+void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
 
 //built_in
 void		pwd(void);
@@ -126,7 +127,6 @@ int			ft_isquote(int c);
 int			ft_isspace(int c);
 void		commands(char *cmd);
 void		free_env(t_env *env);
-int			validity(t_lexer *state);
 void		sigint_handler(int signum);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
