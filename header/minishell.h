@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/13 12:06:35 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 18:45:39 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void		dollar_handler(char *str, t_lexer *state, t_env *env,
 char		*var_finder(char *str, t_lexer *state, t_env *env,
 				int var_flag);
 void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
+void		get_command_arguments(t_lst *lst, t_token *cmd);
 
 //built_in
 void		pwd(void);
@@ -137,5 +138,9 @@ char		*ft_chrjoin(char const *s1, char const s2);
 void		handle_command(t_env *env, t_token *tokens);
 char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
 void		initialize_environment(t_env *env, char **environ);
+
+//pipe
+
+void		get_command_paths(t_lst	*lst, t_env *env);
 
 #endif

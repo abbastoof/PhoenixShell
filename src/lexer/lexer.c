@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/12 16:43:48 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 19:28:09 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,30 @@ static void	init_info(t_lexer *state)
 // 	return (state.token);
 // }
 
+void	print_paths(t_lst *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst->cmd_paths[i] != NULL)
+	{
+		printf("%s\n", lst->cmd_paths[i]);
+		i++;
+	}
+}
+
 void	process_cmd(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_lexer	state;
+	t_lst	lst;
 
+	lst.paths = NULL;
+	lst.cmd_paths = NULL;
 	// t_cmdsplit	cmd;
 	init_info(&state);
 	// t_token	*tokens;
 	// tokens = lexer(line, env);
-	// handle_command(tokens);
 	(void)env;
 	if (line[0] == '\0')
 		return ;
@@ -86,6 +100,30 @@ void	process_cmd(char *line, t_env *env)
 	if (!check_incorrect_quotes(tokens))
 	{
 		expand_quotes(tokens, env, &state);
+		get_command_paths(&lst, env);
+		int	i = 0;
+		while (tokens[i].value)
+		{
+			if (tokens[i].type == 0)
+			{
+				get_command_arguments(&lst, &tokens[i]);
+				if (tokens[i].type == 1)
+				{
+					if (tokens[i + 1].value == NULL)
+						break ;
+					i++;
+					while (tokens[i].value && (redirectors(tokens[i].value, 0) == 0))
+					{
+						tokens[i].type = TOKEN_ARG;
+						i++;
+					}
+					if (tokens[i].value == NULL)
+						break ;
+				}
+			}
+			i++;
+		}
 		display_token(tokens);
 	}
+	// handle_command(env, tokens);
 }

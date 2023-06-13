@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/06 14:47:34 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 14:39:08 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 int	main(int ac, char **av)
 {
-	char			*cmd;
-	t_env			env;
+	char	*cmd;
+	t_env	env;
 
 	(void)ac;
 	(void)av;
+	signal(SIGINT, sigint_handler);
 	initialize_environment(&env, environ);
 	while (1)
 	{

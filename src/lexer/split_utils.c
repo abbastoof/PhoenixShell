@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_trim_utils.c                                   :+:      :+:    :+:   */
+/*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 11:46:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/12 16:44:41 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 15:43:17 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	redirectors(char *str, int i)
 		return (TOKEN_OUTPUT);
 	else if (str[i] == '$')
 	{
-		if (ft_strncmp(str + i, "$?", 2) == 0)
+		if (ft_strncmp(str + i + 1, "?", 1) == 0)
 			return (TOKEN_EXIT_STATUS);
 	}
 	return (0);

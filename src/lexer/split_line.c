@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_trim.c                                         :+:      :+:    :+:   */
+/*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/12 16:44:21 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 12:57:27 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,10 @@ static void	init_result(char *str, t_cmdsplit *cmd, t_token *tokens)
 
 t_token	*ft_cmdtrim(char *str, t_token *tokens)
 {
-	int			indx;
 	int			wd_count;
 	t_cmdsplit	cmd;
 
 	init_cmdsplit(&cmd);
-	indx = 0;
 	wd_count = 0;
 	wd_count = words_count(str, &cmd);
 	if (!wd_count)

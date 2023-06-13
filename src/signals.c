@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/25 12:56:06 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 14:55:21 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	sigint_handler(int signum)
 {
-	if (signum == SIGHUP)
-		write(STDOUT_FILENO, "\n", 1);
+	(void)signum;
+
+	printf("\n");
+	rl_on_new_line();
+	rl_redisplay();
 }

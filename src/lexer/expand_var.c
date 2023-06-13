@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/13 12:05:50 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/13 16:09:31 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	handlequote(char *str, t_lexer *state)
 	handledquote(str, state);
 }
 
-void	join_char(char *str, t_lexer *state, t_env *env, int var_flag)
+static void	join_char(char *str, t_lexer *state, t_env *env, int var_flag)
 {
 	if (!state->tmp)
 	{
