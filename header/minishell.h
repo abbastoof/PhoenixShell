@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/13 18:45:39 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/14 15:31:51 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ char		*var_finder(char *str, t_lexer *state, t_env *env,
 				int var_flag);
 void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
 void		get_command_arguments(t_lst *lst, t_token *cmd);
+int			syntax(t_token *tokens);
 
 //built_in
 void		pwd(void);

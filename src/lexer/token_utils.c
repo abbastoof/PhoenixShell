@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:47:38 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/13 12:10:36 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/14 14:37:32 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,6 @@ void	display_token(t_token *tokens)
 		printf("type  = %d\n", tokens[i].type);
 		i++;
 	}
-}
-
-int	check_incorrect_quotes(t_token *tokens)
-{
-	int	indx;
-
-	indx = 0;
-	if (tokens == NULL)
-		return (1);
-	while (tokens[indx].value != NULL)
-	{
-		if (quotes_validity(tokens[indx].value) == -1)
-		{
-			ft_putstr_fd("open quotes\n", 2);
-			{
-				free_tokens(tokens);
-				return (1);
-			}
-		}
-		indx++;
-	}
-	return (0);
 }
 
 void	init_tokens(t_token *tokens, int wd_count)
