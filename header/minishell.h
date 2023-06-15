@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/14 15:31:51 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/15 15:44:28 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_cmdsplit
 	int		res;
 }			t_cmdsplit;
 
-typedef struct s_lst
+typedef struct s_cmd
 {
 	pid_t	pid;
 	int		end[2];
@@ -60,15 +60,22 @@ typedef struct s_lst
 	char	**cmd_arguments;
 	char	*cmd;
 	char	**args;
-}			t_lst;
+}			t_cmd;
+
+typedef struct 		s_tree
+{
+	int				type;
+	char			*value;
+	char			*cmd;
+	char			**args;
+	struct s_tree 	*left;
+	struct s_tree 	*right;
+}					t_tree;
 
 typedef struct s_token
 {
 	int				type;
 	char			*value;
-	struct s_token	*left;
-	struct s_token	*right;
-	t_lst			*lst;
 }				t_token;
 
 
@@ -116,7 +123,7 @@ void		dollar_handler(char *str, t_lexer *state, t_env *env,
 char		*var_finder(char *str, t_lexer *state, t_env *env,
 				int var_flag);
 void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
-void		get_command_arguments(t_lst *lst, t_token *cmd);
+void		get_command_arguments(t_cmd *lst, t_token *cmd);
 int			syntax(t_token *tokens);
 
 //built_in
@@ -142,6 +149,6 @@ void		initialize_environment(t_env *env, char **environ);
 
 //pipe
 
-void		get_command_paths(t_lst	*lst, t_env *env);
+void		get_command_paths(t_cmd	*lst, t_env *env);
 
 #endif

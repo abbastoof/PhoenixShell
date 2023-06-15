@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/14 14:34:38 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/15 17:44:04 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	process_cmd(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_lexer	state;
-	t_lst	lst;
+	t_cmd	lst;
 	int		i;
 
 	lst.paths = NULL;
@@ -109,8 +109,7 @@ void	process_cmd(char *line, t_env *env)
 					if (tokens[i + 1].value == NULL)
 						break ;
 					i++;
-					while (tokens[i].value && (redirectors(tokens[i].value,
-								0) == 0))
+					while (tokens[i].value && tokens[i].type == 0)
 					{
 						tokens[i].type = TOKEN_ARG;
 						i++;

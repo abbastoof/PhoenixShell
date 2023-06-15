@@ -53,7 +53,7 @@ char	*find_path(char **envp, char *str)
 	return (NULL);
 }
 
-void	initialize_minishell(t_lst *line)
+void	initialize_minishell(t_cmd *line)
 {
 	line->pid = 0;
 	line->end[0] = 0;

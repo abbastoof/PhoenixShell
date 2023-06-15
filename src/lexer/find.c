@@ -20,7 +20,7 @@ int	is_absolute_path(char *path)
 		return (FALSE);
 }
 
-void	get_command_paths(t_lst *lst, t_env *env)
+void	get_command_paths(t_cmd *lst, t_env *env)
 {
 	lst->paths = find_path(env->env_var, "PATH=");
 	lst->cmd_paths = NULL;
@@ -46,7 +46,7 @@ char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
-void	get_command_arguments(t_lst *lst, t_token *cmd)
+void	get_command_arguments(t_cmd *lst, t_token *cmd)
 {
 	if (is_absolute_path(cmd->value))
 		lst->cmd = ft_strdup(cmd->value);

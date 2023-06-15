@@ -14,14 +14,17 @@ NAME = minishell
 SRC_DIR = src/
 BUILT_IN_DIR = src/built-in/
 LEXER_D = src/lexer/
+TREE_D = src/tree/
 UTILS_D = src/utils/
 SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c helper.c
 SRC = main.c commands.c  env_init.c signals.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \
 			quotes_validity.c split_utils.c token_utils.c expand_quotes.c find.c syntax.c
+SRC_TREE = create_tree.c
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
-		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS))
+		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS)) \
+		$(addprefix $(TREE_D), $(SRC_TREE))
 HEADER_DIR = header/
 HEADER = minishell.h
 OBJ_DIR = obj/
