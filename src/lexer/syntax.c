@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:11:17 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/14 15:31:35 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/15 11:36:38 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,13 @@ int	syntax(t_token *tokens)
 		return (1);
 	}
 	while (tokens[i].value && tokens[i + 1].value != NULL)
-	{	
-		if ((redirectors(tokens[i].value, 0) != 0)
+	{
+		if (redirectors(tokens[i].value, 0) == TOKEN_PIPE && i == 0)
+		{
+			error_msg(0, tokens[i].value);
+			return (1);
+		}
+		else if ((redirectors(tokens[i].value, 0) != 0)
 			&& (redirectors(tokens[i + 1].value, 0) != 0))
 		{
 			error_msg(0, tokens[i + 1].value);
