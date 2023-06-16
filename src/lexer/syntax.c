@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 12:11:17 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/15 11:36:38 by mtoof            ###   ########.fr       */
+/*   Created: 2023/06/16 16:52:57 by mtoof             #+#    #+#             */
+/*   Updated: 2023/06/16 17:44:37 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ void	error_msg(int res, char *msg)
 	}
 }
 
+static int	empty_pipe(char *value)
+{
+	error_msg(0, value);
+	return (1);
+}
+
+static int	handle_first_node(int res)
+{
+	if (!res || res == TOKEN_EXIT_STATUS)
+		return (0);
+	else
+	{
+		error_msg(res, NULL);
+		return (1);
+	}
+}
+
 int	syntax(t_token *tokens)
 {
 	int	i;
@@ -34,55 +51,24 @@ int	syntax(t_token *tokens)
 
 	res = 0;
 	i = 0;
-	if (tokens[i].value && (tokens[i + 1].value == NULL))
+	while (tokens[i].value != NULL)
 	{
 		res = redirectors(tokens[i].value, 0);
-		if (!res || res == TOKEN_EXIT_STATUS)
-			return (0);
-		error_msg(res, NULL);
-		return (1);
-	}
-	while (tokens[i].value && tokens[i + 1].value != NULL)
-	{
-		if (redirectors(tokens[i].value, 0) == TOKEN_PIPE && i == 0)
-		{
-			error_msg(0, tokens[i].value);
-			return (1);
-		}
-		else if ((redirectors(tokens[i].value, 0) != 0)
-			&& (redirectors(tokens[i + 1].value, 0) != 0))
+		if (tokens[i].value && (tokens[i + 1].value == NULL))
+			return (handle_first_node(res));
+		else if (res == TOKEN_PIPE && i == 0)
+			return (empty_pipe(tokens[i].value));
+		else if (res == TOKEN_PIPE && (redirectors(tokens[i
+						+ 1].value, 0) >= 4 && redirectors(tokens[i
+						+ 1].value, 0) <= 7) && tokens[i + 2].value != NULL)
+			i++;
+		else if (res != 0 && redirectors(tokens[i
+					+ 1].value, 0) != 0 && tokens[i + 2].value == NULL)
 		{
 			error_msg(0, tokens[i + 1].value);
 			return (1);
 		}
 		i++;
-	}
-	return (0);
-}
-
-int	check_incorrect_quotes(t_token *tokens)
-{
-	int	indx;
-
-	indx = 0;
-	if (tokens == NULL)
-		return (1);
-	while (tokens[indx].value != NULL)
-	{
-		if (quotes_validity(tokens[indx].value) == -1)
-		{
-			ft_putstr_fd("open quotes\n", 2);
-			{
-				free_tokens(tokens);
-				return (1);
-			}
-		}
-		indx++;
-	}
-	if (syntax(tokens) == 1)
-	{
-		free_tokens(tokens);
-		return (1);
 	}
 	return (0);
 }

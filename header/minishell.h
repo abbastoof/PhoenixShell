@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/15 15:44:28 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/16 17:09:25 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ typedef struct s_cmd
 	char	**args;
 }			t_cmd;
 
-typedef struct 		s_tree
+typedef struct s_tree
 {
 	int				type;
 	char			*value;
 	char			*cmd;
 	char			**args;
-	struct s_tree 	*left;
-	struct s_tree 	*right;
+	struct s_tree	*left;
+	struct s_tree	*right;
 }					t_tree;
 
 typedef struct s_token
@@ -111,7 +111,6 @@ int			words_count(char *str, t_cmdsplit *cmd);
 
 //lexer
 void		free_state(t_lexer *state);
-int			quotes_validity(char *line);
 void		free_tokens(t_token *tokens);
 void		display_token(t_token *tokens);
 void		process_cmd(char *line, t_env *env);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
+#    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/06/14 12:15:58 by atoof            ###   ########.fr        #
+#    Updated: 2023/06/16 17:10:37 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c helper.c
 SRC = main.c commands.c  env_init.c signals.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \
-			quotes_validity.c split_utils.c token_utils.c expand_quotes.c find.c syntax.c
+			split_utils.c token_utils.c expand_quotes.c find.c syntax.c check_quotes.c
 SRC_TREE = create_tree.c
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
 		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS)) \

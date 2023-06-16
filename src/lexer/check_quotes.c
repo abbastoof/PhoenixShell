@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes_validity.c                                  :+:      :+:    :+:   */
+/*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/06 13:28:00 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/13 11:59:07 by mtoof            ###   ########.fr       */
+/*   Created: 2023/06/14 12:11:17 by atoof             #+#    #+#             */
+/*   Updated: 2023/06/16 17:08:53 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	handlequote(char str, t_lexer *state)
 	handledquote(str, state);
 }
 
-int	quotes_validity(char *line)
+static int	quotes_validity(char *line)
 {
 	t_lexer	state;
 
@@ -69,5 +69,32 @@ int	quotes_validity(char *line)
 	}
 	if (state.inquote == 1 || state.indquote == 1)
 		return (-1);
+	return (0);
+}
+
+int	check_incorrect_quotes(t_token *tokens)
+{
+	int	indx;
+
+	indx = 0;
+	if (tokens == NULL)
+		return (1);
+	while (tokens[indx].value != NULL)
+	{
+		if (quotes_validity(tokens[indx].value) == -1)
+		{
+			ft_putstr_fd("open quotes\n", 2);
+			{
+				free_tokens(tokens);
+				return (1);
+			}
+		}
+		indx++;
+	}
+	if (syntax(tokens) == 1)
+	{
+		free_tokens(tokens);
+		return (1);
+	}
 	return (0);
 }
