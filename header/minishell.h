@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 17:35:54 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 21:55:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdio.h>
 # include <errno.h>
 # include <signal.h>
 # include <termios.h>
 # include <sys/syslimits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 
 # define TOKEN_CMD 1
 # define TOKEN_ARG 2
@@ -78,6 +78,11 @@ typedef struct s_token
 	char			*value;
 }				t_token;
 
+typedef struct s_result
+{
+	int			token_1;
+	int			token_2;
+}			t_result;
 
 typedef struct s_lexer
 {
@@ -117,7 +122,7 @@ void		process_cmd(char *line, t_env *env);
 int			check_incorrect_quotes(t_token *tokens);
 int			expand_var(t_token *token, t_lexer *state, t_env *env,
 				int var_flag);
-void		dollar_handler(char *str, t_lexer *state, t_env *env,
+void		check_dollar_sign(char *str, t_lexer *state, t_env *env,
 				int var_flag);
 char		*var_finder(char *str, t_lexer *state, t_env *env,
 				int var_flag);
@@ -131,8 +136,11 @@ void		echo(char **args);
 void		ft_cd(t_env *env, char *args);
 
 // list
-t_lst		*create_list(t_token *tokens);
-void		add_args(t_lst **list, t_token *tokens, t_lst *new_node);
+void		create_list(t_token *tokens, t_lst **lst);
+void		add_back(t_lst **lst, t_lst *new);
+int			add_args(t_token *tokens, t_lst *new_node);
+void		display_list(t_lst *lst);
+//TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
 
 //helper

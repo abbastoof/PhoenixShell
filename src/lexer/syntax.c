@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:52:57 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/16 20:39:43 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 18:00:10 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,38 @@ static int	handle_first_node(int res)
 	}
 }
 
+static void	init_res(t_result *res, t_token *tokens, int i)
+{
+	res->token_1 = 0;
+	res->token_2 = 0;
+	res->token_1 = redirectors(tokens[i].value, 0);
+	if (tokens[i + 1].value != NULL)
+		res->token_2 = redirectors(tokens[i + 1].value, 0);
+}
+
 int	syntax(t_token *tokens)
 {
-	int	i;
-	int	res_tok_1;
-	int	res_tok_2;
+	int			i;
+	t_result	res;
 
-	res_tok_1 = 0;
-	res_tok_2 = 0;
 	i = 0;
 	while (tokens[i].value != NULL)
 	{
-		res_tok_1 = redirectors(tokens[i].value, 0);
-		res_tok_2 = redirectors(tokens[i + 1].value, 0);
-		if (res_tok_1 == TOKEN_EXIT_STATUS && tokens[i + 1].value)
+		init_res(&res, tokens, i);
+		if (res.token_1 == TOKEN_EXIT_STATUS && tokens[i + 1].value)
 			i++;
 		if ((redirectors(tokens[i].value, 0) != 0)
 			&& (tokens[i + 1].value == NULL))
 			return (handle_first_node(redirectors(tokens[i].value, 0)));
-		else if (res_tok_1 == TOKEN_PIPE && i == 0)
-			return (empty_pipe_redirect(res_tok_1, NULL));
-		else if (res_tok_1 == TOKEN_PIPE && (res_tok_2 >= 4 && res_tok_2 <= 7
-				&& tokens[i + 2].value != NULL))
+		else if (res.token_1 == TOKEN_PIPE && i == 0)
+			return (empty_pipe_redirect(res.token_1, NULL));
+		else if (res.token_1 == TOKEN_PIPE && (res.token_2 >= 4
+				&& res.token_2 <= 7 && tokens[i + 2].value != NULL))
 			i++;
-		else if (res_tok_1 != 0 && res_tok_2 != 0
-			&& res_tok_2 != TOKEN_EXIT_STATUS && tokens[i + 2].value == NULL)
-			return (empty_pipe_redirect(res_tok_1, tokens[i + 1].value));
+		else if (res.token_1 != 0 && res.token_2 != 0
+			&& res.token_2 != TOKEN_EXIT_STATUS && tokens[i
+				+ 2].value == NULL)
+			return (empty_pipe_redirect(res.token_1, tokens[i + 1].value));
 		i++;
 	}
 	return (0);

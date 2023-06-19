@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/13 16:31:03 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 18:21:49 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	dollar_handler_util(t_lexer *state, int var_flag)
 {
 	if (state->path != NULL)
 	{
-		printf("strlen path = %d\n", (int)ft_strlen(state->path));
-		printf("strlen tmp = %d\n", (int)ft_strlen(state->tmp));
-		printf("res = %s\n", ft_strjoin(state->tmp, state->path));
+		// printf("strlen path = %d\n", (int)ft_strlen(state->path));
+		// printf("strlen tmp = %d\n", (int)ft_strlen(state->tmp));
+		// printf("res = %s\n", ft_strjoin(state->tmp, state->path));
 		if (state->path[0] == '=')
 			state->path++;
 		state->res = ft_strjoin(state->tmp, state->path);
@@ -39,14 +39,14 @@ static void	dollar_handler_util(t_lexer *state, int var_flag)
 	}
 }
 
-void	dollar_handler(char *str, t_lexer *state, t_env *env, int var_flag)
+void	check_dollar_sign(char *str, t_lexer *state, t_env *env, int var_flag)
 {
 	if (str[state->i] == '$' && (str[state->i + 1] != '\\' && (str[state->i
 					+ 1] != '%' && str[state->i + 1] != '!' && str[state->i
 					+ 1] != '?')))
 	{
 		state->path = var_finder(str, state, env, var_flag);
-		printf("path = %s\n", (state->path));
+		// printf("path = %s\n", (state->path));
 		dollar_handler_util(state, var_flag);
 	}
 	else if (str[state->i] == '$' && (str[state->i + 1] == '\\'

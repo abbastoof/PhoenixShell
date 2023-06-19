@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/13 16:09:31 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 18:22:05 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	join_char(char *str, t_lexer *state, t_env *env, int var_flag)
 		if (!state->tmp)
 			return ;
 	}
-	dollar_handler(str, state, env, var_flag);
+	check_dollar_sign(str, state, env, var_flag);
 }
 
 static void	replace_value(t_token *token, t_lexer *state)

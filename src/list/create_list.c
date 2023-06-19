@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:19:04 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 17:38:52 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 22:15:01 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,67 +26,63 @@ static t_lst	*new_node(void)
 	return (node);
 }
 
-static void	parse_pipe(t_lst **lst, t_token *tokens)
+static t_token	*parse_pipe(t_lst **lst, t_token *tokens)
 {
 	t_lst	*node;
 
 	node = new_node();
 	node->type = tokens->type;
 	node->value = ft_strdup(tokens->value);
-	ft_lstadd_back(lst, node);
+	add_back(lst, node);
+	if ((tokens + 1)->value)
+		tokens++;
+	return (tokens);
 }
 
-static void	parse_redirect(t_lst **lst, t_token *tokens)
-{
-	t_lst	*node;
-	int		type;
-
-	type = 0;
-	type = tokens->type;
-	node = new_node();
-	node->type = tokens->type;
-	node->value = ft_strdup(tokens->value);
-	if (tokens->value)
-		tokens++;
-	node->file_name = ft_strdup(tokens->value);
-	ft_lstadd_back(lst, node);
-	if (tokens->value)
-		tokens++;
-}
-
-static void	parse_cmd(t_lst **lst, t_token *tokens)
+static t_token	*parse_redirect(t_lst **lst, t_token *tokens)
 {
 	t_lst	*node;
 
 	node = new_node();
 	node->type = tokens->type;
 	node->value = ft_strdup(tokens->value);
-	ft_lstadd_back(lst, node);
-	while (tokens->value)
+	//add file name to the node which is next node value
+	if ((tokens + 1)->value)
 	{
 		tokens++;
-		if (tokens->value && (tokens->type == TOKEN_ARG
-				|| tokens->type == TOKEN_VARIABLE
-				|| tokens->type == TOKEN_EXIT_STATUS))
-			add_args(lst, tokens, new_node);
+		node->file_name = ft_strdup(tokens->value);
 	}
+	add_back(lst, node);
+	tokens++;
+	return (tokens);
 }
 
-t_lst	*create_list(t_token *tokens)
+static t_token	*parse_cmd(t_lst **lst, t_token *tokens)
 {
-	t_lst	*lst;
+	t_lst	*node;
 
-	if (!lst)
-		lst = malloc(sizeof(t_lst));
-	while (tokens->value)
+	node = new_node();
+	if (tokens->type == 0)
+		tokens->type = TOKEN_CMD;
+	node->type = tokens->type;
+	node->value = ft_strdup(tokens->value);
+	while ((add_args(tokens, node)) == 1)
+		tokens++;
+	add_back(lst, node);
+	return (tokens);
+}
+
+void	create_list(t_token *tokens, t_lst **lst)
+{
+	while (tokens->value != NULL)
 	{
 		if (tokens->type == TOKEN_PIPE)
-			parse_pipe(&lst, tokens);
+			tokens = parse_pipe(lst, tokens);
 		else if (tokens->type == TOKEN_INPUT || tokens->type == TOKEN_OUTPUT
 			|| tokens->type == TOKEN_HEREDOC
 			|| tokens->type == TOKEN_OUTPUT_APPEND)
-			parse_redirect(&lst, tokens);
+			tokens = parse_redirect(lst, tokens);
 		else
-			parse_cmd(&lst, tokens);
+			tokens = parse_cmd(lst, tokens);
 	}
 }

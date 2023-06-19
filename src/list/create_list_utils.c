@@ -6,14 +6,13 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/19 17:39:10 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 22:10:10 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_next_args(t_lst **list, t_token *tokens, t_lst *new_node,
-		int size)
+static int	add_next_args(t_token *tokens, t_lst *new_node, int size)
 {
 	char	**new_args;
 
@@ -21,24 +20,26 @@ static void	add_next_args(t_lst **list, t_token *tokens, t_lst *new_node,
 	if (new_node->args)
 	{
 		new_args = ft_realloc(new_node->args, size + 1);
-		free(new_node->args);
-		new_node->args = new_args;
-		if (!new_node->args)
+		if (!new_args)
 		{
 			ft_putstr_fd("malloc\n", 2);
 			//GO FOR FREE LINKLIST;
 		}
-		new_node->args[size] = ft_strdup(tokens->value);
+		free(new_node->args);
+		new_node->args = NULL;
+		new_node->args = new_args;
+		new_node->args[size - 1] = ft_strdup(tokens->value);
 		size++;
 	}
+	return (size);
 }
 
-void	add_args(t_lst **list, t_token *tokens, t_lst *new_node)
+int	add_args(t_token *tokens, t_lst *new_node)
 {
 	static int	size;
 
 	if (tokens->type == TOKEN_ARG || tokens->type == TOKEN_VARIABLE
-		|| tokens->type == TOKEN_EXIT_STATUS)
+		|| tokens->type == TOKEN_EXIT_STATUS || tokens->type == TOKEN_CMD)
 	{
 		if (!new_node->args)
 		{
@@ -49,9 +50,11 @@ void	add_args(t_lst **list, t_token *tokens, t_lst *new_node)
 				ft_putstr_fd("malloc\n", 2);
 				//GO FOR FREE LINKLIST;
 			}
-			new_node->args = ft_strdup(tokens->value);
+			new_node->args[0] = ft_strdup(tokens->value);
 		}
 		else
-			add_next_args(list, tokens, new_node, size);
+			size = add_next_args(tokens, new_node, size);
+		return (1);
 	}
+	return (0);
 }

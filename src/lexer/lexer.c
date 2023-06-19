@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/15 17:44:04 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 21:57:50 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,51 +43,45 @@ static void	init_info(t_lexer *state)
 	state->token_indx = 0;
 }
 
-// t_token	*lexer(char *line, t_env *env)
-// {
-// 	t_lexer	state;
+static void	set_cmd_args_type(t_cmd *cmd, t_env *env, t_token *tokens)
+{
+	int		i;
 
-// 	init_info(&state, line);
-// 	while (state.crnt_str[state.indx])
-// 	{
-// 		if (state.crnt_str[state.indx] == '\'' && !state.indquote)
-// 			is_word(state.crnt_str + state.indx, &state, env, 0);
-// 		else if (state.crnt_str[state.indx] == '\"' && !state.inquote)
-// 			is_word(state.crnt_str + state.indx, &state, env, 1);
-// 		else if (((state.crnt_str[state.indx] == ' ')
-// 				|| (state.crnt_str[state.indx] == '\t')) && (!state.inquote)
-// 			&& (!state.indquote))
-// 		{
-// 			assign_token_type(state.start, state.token, &state);
-// 			state.start = &state.crnt_str[state.indx + 1];
-// 		}
-// 		state.indx++;
-// 	}
-// 	assign_token_type(state.start, &(state.token[state.token_indx]), &state);
-// 	return (state.token);
-// }
-
-// void	print_paths(t_lst *lst)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (lst->cmd_paths[i] != NULL)
-// 	{
-// 		printf("%s\n", lst->cmd_paths[i]);
-// 		i++;
-// 	}
-// }
+	get_command_paths(cmd, env);
+	i = 0;
+	while (tokens[i].value)
+	{
+		if (tokens[i].type == 0)
+		{
+			get_command_arguments(cmd, &tokens[i]);
+			if (tokens[i].type == 1)
+			{
+				if (tokens[i + 1].value == NULL)
+					break ;
+				i++;
+				while (tokens[i].value && tokens[i].type == 0)
+				{
+					tokens[i].type = TOKEN_ARG;
+					i++;
+				}
+				if (tokens[i].value == NULL)
+					break ;
+			}
+		}
+		i++;
+	}
+}
 
 void	process_cmd(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_lexer	state;
-	t_cmd	lst;
-	int		i;
+	t_cmd	cmd;
+	t_lst	*lst;
 
-	lst.paths = NULL;
-	lst.cmd_paths = NULL;
+	lst = NULL;
+	cmd.paths = NULL;
+	cmd.cmd_paths = NULL;
 	init_info(&state);
 	(void)env;
 	if (line[0] == '\0')
@@ -97,29 +91,11 @@ void	process_cmd(char *line, t_env *env)
 	if (!check_incorrect_quotes(tokens))
 	{
 		expand_quotes(tokens, env, &state);
-		get_command_paths(&lst, env);
-		i = 0;
-		while (tokens[i].value)
-		{
-			if (tokens[i].type == 0)
-			{
-				get_command_arguments(&lst, &tokens[i]);
-				if (tokens[i].type == 1)
-				{
-					if (tokens[i + 1].value == NULL)
-						break ;
-					i++;
-					while (tokens[i].value && tokens[i].type == 0)
-					{
-						tokens[i].type = TOKEN_ARG;
-						i++;
-					}
-					if (tokens[i].value == NULL)
-						break ;
-				}
-			}
-			i++;
-		}
-		display_token(tokens);
+		set_cmd_args_type(&cmd, env, tokens);
+		// display_token(tokens);
+		create_list(tokens, &lst);
+		// TODO FREE_TOKENS
+		// rl_replace_line must work ask from other students and complete signals
 	}
+	display_list(lst);
 }

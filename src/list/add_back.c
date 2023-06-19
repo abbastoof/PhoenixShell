@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   add_back.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 21:41:26 by mtoof            ###   ########.fr       */
+/*   Created: 2023/06/19 19:14:41 by mtoof             #+#    #+#             */
+/*   Updated: 2023/06/19 19:15:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	disable_enable_echoctl(int enable)
+void	add_back(t_lst **lst, t_lst *new)
 {
-	struct termios	term;
+	t_lst	*last;
 
-	tcgetattr(STDIN_FILENO, &term);
-	if (enable == 0)
-		term.c_lflag &= ~(ECHOCTL);
-	else
-		term.c_lflag |= ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
-
-void	sigint_handler(int signum)
-{
-	(void)signum;
-	write(STDERR_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
+	last = *lst;
+	if (!lst || !new)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new;
+	return ;
 }

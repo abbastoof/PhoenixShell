@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:39:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/13 18:42:04 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 18:19:26 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
-void	get_command_arguments(t_cmd *lst, t_token *cmd)
+void	get_command_arguments(t_cmd *s_cmd, t_token *token)
 {
-	if (is_absolute_path(cmd->value))
-		lst->cmd = ft_strdup(cmd->value);
+	if (is_absolute_path(token->value))
+		s_cmd->cmd = ft_strdup(token->value);
 	else
-		lst->cmd = get_cmd(lst->cmd_paths, cmd->value);
-	if (lst->cmd != NULL)
-		cmd->type = TOKEN_CMD;
+		s_cmd->cmd = get_cmd(s_cmd->cmd_paths, token->value);
+	if (s_cmd->cmd != NULL)
+		token->type = TOKEN_CMD;
 }
