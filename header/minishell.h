@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/16 17:09:25 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 13:23:10 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int			ft_isspace(int c);
 void		commands(char *cmd);
 void		free_env(t_env *env);
 void		sigint_handler(int signum);
+void		disable_enable_echoctl(int enable);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
 void		init_tokens(t_token *tokens, int wd_count);
