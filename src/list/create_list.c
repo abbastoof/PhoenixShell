@@ -6,13 +6,13 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:19:04 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 17:01:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 17:20:10 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "minishell.h"
 
-// t_lst	*new_node(void)
+// static t_lst	*new_node(void)
 // {
 // 	t_lst	*node;
 

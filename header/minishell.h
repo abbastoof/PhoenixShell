@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 13:23:10 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 17:24:48 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ typedef struct s_cmd
 	char	**args;
 }			t_cmd;
 
-typedef struct s_tree
+typedef struct s_lst
 {
 	int				type;
 	char			*value;
+	char			*f_name;
 	char			*cmd;
 	char			**args;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}					t_tree;
+	struct s_lst	*next;
+}					t_lst;
 
 typedef struct s_token
 {
@@ -129,6 +129,11 @@ int			syntax(t_token *tokens);
 void		pwd(void);
 void		echo(char **args);
 void		ft_cd(t_env *env, char *args);
+
+// list
+t_lst		*create_list(t_token *tokens);
+void		add_args(t_lst **list, t_token *tokens, t_lst *new_node);
+
 
 //helper
 int			ft_isquote(int c);
