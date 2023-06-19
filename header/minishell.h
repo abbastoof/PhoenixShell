@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 17:24:48 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/19 17:35:54 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_lst
 {
 	int				type;
 	char			*value;
-	char			*f_name;
+	char			*file_name;
 	char			*cmd;
 	char			**args;
 	struct s_lst	*next;
