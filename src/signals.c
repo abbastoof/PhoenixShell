@@ -6,21 +6,24 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/20 15:16:47 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 15:25:34 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* the effects of the functions on the terminal do not
-become effective, nor are all errors detected, until the
-tcsetattr() function is called.
-If optional_actions is TCSANOW, the change shall occur immediately. */
+/* Function: tcsetattr
+ 	 the effects of the functions on the terminal do not
+ 	 become effective, nor are all errors detected, until the
+ 	 tcsetattr() function is called.
+ 	 If optional_actions is TCSANOW, the change shall occur immediately.
+*/
 
 /* Macro: int SA_RESTART
-This flag controls what happens when a signal is delivered
-during certain primitives (such as open, read or write),
-and the signal handler returns normally. */
+	 This flag controls what happens when a signal is delivered
+	 during certain primitives (such as open, read or write),
+	 and the signal handler returns normally. 
+*/
 
 /* If a signal is caught during the system calls listed below, the call may
      be forced to terminate with the error EINTR, the call may return with a
@@ -33,6 +36,13 @@ and the signal handler returns normally. */
      are not restarted, but instead return a partial success (for example, a
      short read count).
  */
+
+/* Function: rl_replace_line
+	 void rl_replace_line (const char *text, int clear_undo)
+	 Replace the contents of rl_line_buffer with text. The point and mark
+	 are preserved, if possible. If clear_undo is non-zero, the undo list
+	 associated with the current line is cleared.
+*/
 
 void	disable_enable_ctl(int enable)
 {
