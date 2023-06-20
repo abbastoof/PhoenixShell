@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/20 15:13:29 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 15:16:47 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	init_signals(void)
 
 void	ctrl_d_handler(void)
 {
-	disable_enable_echoctl(1);
+	disable_enable_ctl(1);
 	write(1, "exit\n", 6);
 	exit(1);
 }
