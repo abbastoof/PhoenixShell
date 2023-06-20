@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 21:55:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 15:06:40 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_lst
 	char			*cmd;
 	char			**args;
 	struct s_lst	*next;
+	t_cmd			*cmd_info;
 }					t_lst;
 
 typedef struct s_token
@@ -142,14 +143,15 @@ int			add_args(t_token *tokens, t_lst *new_node);
 void		display_list(t_lst *lst);
 //TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
-
 //helper
 int			ft_isquote(int c);
 int			ft_isspace(int c);
 void		commands(char *cmd);
 void		free_env(t_env *env);
+void		init_signals(void);
 void		sigint_handler(int signum);
-void		disable_enable_echoctl(int enable);
+void		ctrl_d_handler(void);
+void		disable_enable_ctl(int enable);
 char		*find_path(char **envp, char *str);
 char		**ft_realloc(char **ptr, size_t size);
 void		init_tokens(t_token *tokens, int wd_count);
@@ -157,6 +159,7 @@ void		init_tokens(t_token *tokens, int wd_count);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_chrjoin(char const *s1, char const s2);
 void		handle_command(t_env *env, t_token *tokens);
+void		rl_replace_line(const char *text, int clear_undo);
 char		*ft_strnjoin(char const *s1, char const *s2, size_t n);
 void		initialize_environment(t_env *env, char **environ);
 
