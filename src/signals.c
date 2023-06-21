@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/20 15:25:34 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 19:48:39 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	init_signals(void)
 	struct sigaction	sa;
 
 	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = handle_signal;
 	signal(SIGQUIT, SIG_IGN);
 	sigaction(SIGINT, &sa, NULL);

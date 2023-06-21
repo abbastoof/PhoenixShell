@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:53:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/19 22:13:29 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 18:10:57 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,38 @@ void	display_list(t_lst *lst)
 			{
 				printf("redirector = %s\n", lst->value);
 				printf("file_name = %s\n", lst->file_name);
+			}
+			if (lst->next == NULL)
+				break ;
+			lst = lst->next;
+		}
+	}
+}
+
+void	free_list(t_lst *lst)
+{
+	int	indx;
+
+	indx = 0;
+	if (lst != NULL)
+	{
+		while (lst->value != NULL)
+		{
+			if (lst->type == TOKEN_CMD || lst->type == TOKEN_EXIT_STATUS)
+			{
+				free(lst->value);
+				while (lst->args[indx])
+				{
+					free(lst->args[indx]);
+					indx++;
+				}
+			}
+			else if (lst->type == TOKEN_PIPE)
+				free(lst->value);
+			else
+			{
+				free(lst->value);
+				free(lst->file_name);
 			}
 			if (lst->next == NULL)
 				break ;

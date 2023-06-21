@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:39:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 18:19:26 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 20:06:04 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,9 @@ void	get_command_arguments(t_cmd *s_cmd, t_token *token)
 	else
 		s_cmd->cmd = get_cmd(s_cmd->cmd_paths, token->value);
 	if (s_cmd->cmd != NULL)
+	{
+		free(s_cmd->cmd);
+		s_cmd->cmd = NULL;
 		token->type = TOKEN_CMD;
+	}
 }

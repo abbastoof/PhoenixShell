@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:47:38 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/14 14:37:32 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 18:37:05 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,3 @@ void	init_tokens(t_token *tokens, int wd_count)
 	}
 }
 
-void	free_tokens(t_token *tokens)
-{
-	int	indx;
-
-	indx = 0;
-	while (tokens[indx].value != NULL)
-	{
-		free(tokens[indx].value);
-		tokens[indx].value = NULL;
-		indx++;
-	}
-	free(tokens);
-	tokens = NULL;
-	return ;
-}

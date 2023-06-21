@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validity.c                                         :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:44:57 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/12 16:47:01 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 20:06:16 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,49 @@ void	free_state(t_lexer *state)
 		free(state->des);
 		state->des = NULL;
 	}
+}
+
+void	free_tokens(t_token *tokens)
+{
+	int	indx;
+
+	indx = 0;
+	if (tokens[indx].value)
+	{
+		while (tokens[indx].value != NULL)
+		{
+			free(tokens[indx].value);
+			tokens[indx].value = NULL;
+			indx++;
+		}
+		free(tokens);
+		tokens = NULL;
+	}
+	return ;
+}
+
+void	free_cmd_struct(t_cmd *cmd)
+{
+	int	indx;
+
+	indx = 0;
+	if (cmd->paths)
+		cmd->paths = NULL;
+	if (cmd->cmd_paths)
+	{
+		while (cmd->cmd_paths[indx])
+		{
+			free(cmd->cmd_paths[indx]);
+			cmd->cmd_paths[indx] = NULL;
+			indx++;
+		}
+		free(cmd->cmd_paths);
+		cmd->cmd_paths = NULL;
+	}
+	if (cmd->cmd)
+		cmd->cmd = NULL;
+	cmd->args = NULL;
+	cmd->cmd_arguments = NULL;
+	cmd->cmd_paths = NULL;
+	cmd->paths = NULL;
 }

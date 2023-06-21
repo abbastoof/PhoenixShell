@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/20 15:06:40 by atoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 18:40:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
 # include <errno.h>
 # include <signal.h>
+# include <stdio.h>
 # include <termios.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <sys/syslimits.h>
+# include <sys/ioctl.h>
 
 # define TOKEN_CMD 1
 # define TOKEN_ARG 2
@@ -130,6 +131,7 @@ char		*var_finder(char *str, t_lexer *state, t_env *env,
 void		expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
 void		get_command_arguments(t_cmd *lst, t_token *cmd);
 int			syntax(t_token *tokens);
+void		free_cmd_struct(t_cmd *cmd);
 
 //built_in
 void		pwd(void);
@@ -141,6 +143,7 @@ void		create_list(t_token *tokens, t_lst **lst);
 void		add_back(t_lst **lst, t_lst *new);
 int			add_args(t_token *tokens, t_lst *new_node);
 void		display_list(t_lst *lst);
+void		free_list(t_lst *lst);
 //TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
 //helper

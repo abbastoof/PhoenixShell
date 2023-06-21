@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 21:57:50 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/20 20:07:16 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,12 @@ void	process_cmd(char *line, t_env *env)
 	{
 		expand_quotes(tokens, env, &state);
 		set_cmd_args_type(&cmd, env, tokens);
-		// display_token(tokens);
-		create_list(tokens, &lst);
+		free_cmd_struct(&cmd);
+		display_token(tokens);
+		free_tokens(tokens);
+		// create_list(tokens, &lst);
 		// TODO FREE_TOKENS
-		// rl_replace_line must work ask from other students and complete signals
 	}
-	display_list(lst);
+	// display_list(lst);
+	// free_list(lst);
 }
