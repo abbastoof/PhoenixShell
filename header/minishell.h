@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/20 18:40:14 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/22 15:11:48 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ typedef struct s_lst
 	char			*cmd;
 	char			**args;
 	struct s_lst	*next;
+	struct s_lst	*left;
+	struct s_lst	*right;
 	t_cmd			*cmd_info;
 }					t_lst;
 
