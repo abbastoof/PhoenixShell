@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_list.c                                      :+:      :+:    :+:   */
+/*   create_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 17:19:04 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/23 16:16:04 by mtoof            ###   ########.fr       */
+/*   Created: 2023/06/22 14:17:07 by mtoof             #+#    #+#             */
+/*   Updated: 2023/06/23 17:42:27 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,31 @@ static t_lst	*new_node(void)
 	node->args = NULL;
 	node->cmd = NULL;
 	node->next = NULL;
+	node->right = NULL;
+	node->left = NULL;
 	node->file_name = NULL;
 	node->type = 0;
 	node->value = NULL;
 	return (node);
 }
 
-static t_token	*parse_pipe(t_lst **lst, t_token *tokens)
+static t_token	*parse_pipe(t_lst **tree, t_token *tokens)
 {
 	t_lst	*node;
 
 	node = new_node();
 	node->type = tokens->type;
 	node->value = ft_strdup(tokens->value);
-	add_back(lst, node);
-	if ((tokens + 1)->value)
-		tokens++;
+	if ((*tree) && (*tree)->type == TOKEN_CMD)
+		node->left = *tree;
+	else
+		node->right = *tree;
+	*tree = node;
+	tokens++;
 	return (tokens);
 }
 
-static t_token	*parse_redirect(t_lst **lst, t_token *tokens)
+static t_token	*parse_redirect(t_lst **tree, t_token *tokens)
 {
 	t_lst	*node;
 
@@ -51,14 +56,25 @@ static t_token	*parse_redirect(t_lst **lst, t_token *tokens)
 	{
 		tokens++;
 		node->file_name = ft_strdup(tokens->value);
+		if ((tokens + 1)->value)
+			tokens++;
 	}
-	tokens++;
-	// tokens = add_remainder_as_args(lst, tokens);
-	add_back(lst, node);
+	if ((*tree)->type != TOKEN_CMD)
+		node->right = *tree;
+	else
+		node->left = *tree;
+	*tree = node;
 	return (tokens);
 }
 
-static t_token	*parse_cmd(t_lst **lst, t_token *tokens)
+int	redir(int type)
+{
+	if (type >= 4 && type <= 7)
+		return (1);
+	return (0);
+}
+
+static t_token	*parse_cmd(t_lst **tree, t_token *tokens)
 {
 	t_lst	*node;
 
@@ -69,21 +85,31 @@ static t_token	*parse_cmd(t_lst **lst, t_token *tokens)
 	node->value = ft_strdup(tokens->value);
 	while ((add_args(tokens, node)) == 1)
 		tokens++;
-	add_back(lst, node);
+	if (*tree && (*tree)->type == TOKEN_PIPE && (*tree)->left->type == TOKEN_CMD)
+		(*tree)->right = node;
+	else if (*tree && redir((*tree)->type) && (*tree)->left->type == TOKEN_CMD)
+		
+	else if (*tree && !(*tree)->left)
+		(*tree)->left = node;
+	else
+		*tree = node;
 	return (tokens);
 }
 
-void	create_list(t_token *tokens, t_lst **lst)
+void	create_list(t_token *tokens, t_lst **tree)
 {
+	int	indx;
+
+	indx = 0;
 	while (tokens->value != NULL)
 	{
 		if (tokens->type == TOKEN_PIPE)
-			tokens = parse_pipe(lst, tokens);
+			tokens = parse_pipe(tree, tokens);
 		else if (tokens->type == TOKEN_INPUT || tokens->type == TOKEN_OUTPUT
 			|| tokens->type == TOKEN_HEREDOC
 			|| tokens->type == TOKEN_OUTPUT_APPEND)
-			tokens = parse_redirect(lst, tokens);
+			tokens = parse_redirect(tree, tokens);
 		else
-			tokens = parse_cmd(lst, tokens);
+			tokens = parse_cmd(tree, tokens);
 	}
 }
