@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/20 20:07:16 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/23 16:39:44 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,34 @@ static void	init_info(t_lexer *state)
 	state->token_indx = 0;
 }
 
-static void	set_cmd_args_type(t_cmd *cmd, t_env *env, t_token *tokens)
-{
-	int		i;
+// static void	set_cmd_args_type(t_cmd *cmd, t_env *env, t_token *tokens)
+// {
+// 	int		i;
 
-	get_command_paths(cmd, env);
-	i = 0;
-	while (tokens[i].value)
-	{
-		if (tokens[i].type == 0)
-		{
-			get_command_arguments(cmd, &tokens[i]);
-			if (tokens[i].type == 1)
-			{
-				if (tokens[i + 1].value == NULL)
-					break ;
-				i++;
-				while (tokens[i].value && tokens[i].type == 0)
-				{
-					tokens[i].type = TOKEN_ARG;
-					i++;
-				}
-				if (tokens[i].value == NULL)
-					break ;
-			}
-		}
-		i++;
-	}
-}
+// 	get_command_paths(cmd, env);
+// 	i = 0;
+// 	while (tokens[i].value)
+// 	{
+// 		if (tokens[i].type == 0)
+// 		{
+// 			get_command_arguments(cmd, &tokens[i]);
+// 			if (tokens[i].type == 1)
+// 			{
+// 				if (tokens[i + 1].value == NULL)
+// 					break ;
+// 				i++;
+// 				while (tokens[i].value && tokens[i].type == 0)
+// 				{
+// 					tokens[i].type = TOKEN_ARG;
+// 					i++;
+// 				}
+// 				if (tokens[i].value == NULL)
+// 					break ;
+// 			}
+// 		}
+// 		i++;
+// 	}
+// }
 
 void	process_cmd(char *line, t_env *env)
 {
@@ -91,13 +91,13 @@ void	process_cmd(char *line, t_env *env)
 	if (!check_incorrect_quotes(tokens))
 	{
 		expand_quotes(tokens, env, &state);
-		set_cmd_args_type(&cmd, env, tokens);
-		free_cmd_struct(&cmd);
-		display_token(tokens);
-		free_tokens(tokens);
-		// create_list(tokens, &lst);
+		// set_cmd_args_type(&cmd, env, tokens);
+		// free_cmd_struct(&cmd);
+		// display_token(tokens);
+		// free_tokens(tokens);
+		create_list(tokens, &lst);
 		// TODO FREE_TOKENS
 	}
-	// display_list(lst);
+	display_list(lst);
 	// free_list(lst);
 }

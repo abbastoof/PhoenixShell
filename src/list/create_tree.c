@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:17:07 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/23 17:42:27 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/23 19:04:34 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,47 @@ int	redir(int type)
 	return (0);
 }
 
+int	get_list_size(t_lst *tree)
+{
+	int		size;
+	t_lst	*current;
+
+	size = 0;
+	current = tree;
+	while (current != NULL)
+	{
+		size++;
+		current = current->next;
+	}
+	return (size);
+}
+
+void	check_after_redir(t_lst **tree, t_token *tokens)
+{
+	int		size;
+	t_lst	*last;
+	t_lst	*new_node;
+
+	size = get_list_size(*tree);
+	last = *tree;
+	while (last->next != NULL)
+	{
+		last = last->next;
+		if (size > 0 && redir(last->type) && last->left->type == TOKEN_CMD)
+		{
+			new_node = malloc(sizeof(t_lst));
+			new_node->args = tokens->value;
+			last->next = new_node;
+		}
+	}
+}
+
 static t_token	*parse_cmd(t_lst **tree, t_token *tokens)
 {
 	t_lst	*node;
 
+	if (redir((*tree)->type))
+		check_after_redir(tree, tokens);
 	node = new_node();
 	if (tokens->type == 0)
 		tokens->type = TOKEN_CMD;
@@ -85,10 +122,13 @@ static t_token	*parse_cmd(t_lst **tree, t_token *tokens)
 	node->value = ft_strdup(tokens->value);
 	while ((add_args(tokens, node)) == 1)
 		tokens++;
-	if (*tree && (*tree)->type == TOKEN_PIPE && (*tree)->left->type == TOKEN_CMD)
+	if (*tree && (*tree)->type == TOKEN_PIPE
+		&& (*tree)->left->type == TOKEN_CMD)
 		(*tree)->right = node;
 	else if (*tree && redir((*tree)->type) && (*tree)->left->type == TOKEN_CMD)
-		
+	{
+		(*tree)->left->args = tokens->value;
+	}
 	else if (*tree && !(*tree)->left)
 		(*tree)->left = node;
 	else
@@ -106,8 +146,8 @@ void	create_list(t_token *tokens, t_lst **tree)
 		if (tokens->type == TOKEN_PIPE)
 			tokens = parse_pipe(tree, tokens);
 		else if (tokens->type == TOKEN_INPUT || tokens->type == TOKEN_OUTPUT
-			|| tokens->type == TOKEN_HEREDOC
-			|| tokens->type == TOKEN_OUTPUT_APPEND)
+				|| tokens->type == TOKEN_HEREDOC
+				|| tokens->type == TOKEN_OUTPUT_APPEND)
 			tokens = parse_redirect(tree, tokens);
 		else
 			tokens = parse_cmd(tree, tokens);
