@@ -6,11 +6,18 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/19 22:10:10 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/24 15:56:09 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	redir(int type)
+{
+	if (type >= TOKEN_INPUT && type <= TOKEN_HEREDOC)
+		return (1);
+	return (0);
+}
 
 static int	add_next_args(t_token *tokens, t_lst *new_node, int size)
 {
@@ -38,8 +45,7 @@ int	add_args(t_token *tokens, t_lst *new_node)
 {
 	static int	size;
 
-	if (tokens->type == TOKEN_ARG || tokens->type == TOKEN_VARIABLE
-		|| tokens->type == TOKEN_EXIT_STATUS || tokens->type == TOKEN_CMD)
+	if (!redir(tokens->type) && tokens->type != TOKEN_PIPE)
 	{
 		if (!new_node->args)
 		{

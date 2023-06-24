@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:53:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/23 17:11:04 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/24 16:06:22 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,42 +30,26 @@
 
 void	display_list(t_lst *lst)
 {
-	if (lst->left != NULL)
-		printf("has left = %s\n", lst->left->value);
-	if (lst->right != NULL)
-		printf("has right = %s\n", lst->right->value);
 	if (lst->right)
 	{
+
 		display_list(lst->right);
 		printf("redirector = %s\n", lst->value);
-		printf("type = %d\n", lst->type);
+		printf("file_name = %s\n", lst->file_name);
 	}
-	if (lst->left)
+	if (lst->left != NULL)
 	{
-		printf("cmd = %s\n", lst->left->value);
+		// printf("redirector = %s\n", lst->value);
+		// if (lst->file_name)
+		// 	printf("file_name = %s\n", lst->file_name);
+		printf("left = %s\n", lst->left->value);
+		int i = 0;
+		while (lst->left->args[i])
+		{
+			printf("args = %s\n", lst->left->args[i]);
+			i++;
+		}
 	}
-	// if (lst->left != NULL)
-	// 	printf("has left = %s\n", lst->left->value);
-	// if (lst->right != NULL)
-	// 	printf("has right = %s\n", lst->right->value);
-	// if (lst != NULL)
-	// {
-		// while (lst->value != NULL)
-		// {
-			// if (lst->type == TOKEN_CMD || lst->type == TOKEN_EXIT_STATUS)
-			// 	print_cmd_args(lst);
-			// else if (lst->type == TOKEN_PIPE)
-			// 	printf("pipe = %s\n", lst->value);
-			// else
-			// {
-			// 	printf("redirector = %s\n", lst->value);
-			// 	printf("file_name = %s\n", lst->file_name);
-			// }
-			// if (lst->next == NULL)
-			// 	break ;
-			// lst = lst->next;
-		// }
-	// }
 }
 
 void	free_list(t_lst *lst)

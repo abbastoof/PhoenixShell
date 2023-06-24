@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/22 15:11:48 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/24 13:50:20 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void		add_back(t_lst **lst, t_lst *new);
 int			add_args(t_token *tokens, t_lst *new_node);
 void		display_list(t_lst *lst);
 void		free_list(t_lst *lst);
+int	redir(int type);
 //TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
 //helper
