@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/24 14:37:28 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/01 23:26:53 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ void	process_cmd(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_lexer	state;
-	t_cmd	cmd;
-	t_lst	*lst;
+	// t_cmd	cmd;
+	t_tree	*lst;
 
 	lst = NULL;
-	cmd.paths = NULL;
-	cmd.cmd_paths = NULL;
+	// cmd.paths = NULL;
+	// cmd.cmd_paths = NULL;
 	init_info(&state);
 	(void)env;
 	if (line[0] == '\0')
@@ -95,9 +95,10 @@ void	process_cmd(char *line, t_env *env)
 		// free_cmd_struct(&cmd);
 		// display_token(tokens);
 		// free_tokens(tokens);
-		create_list(tokens, &lst);
+		create_tree(tokens, &lst);
 		// TODO FREE_TOKENS
 	}
-	display_list(lst);
+	if (lst)
+		display_list(lst);
 	// free_list(lst);
 }

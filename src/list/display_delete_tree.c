@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_delete_list.c                              :+:      :+:    :+:   */
+/*   display_delete_tree.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:53:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/01 18:57:21 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/01 23:47:35 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,66 +28,43 @@
 // 	}
 // }
 
+void	print_node(t_tree *lst)
+{
+	int	i;
+
+	printf("cmd = %s\n", lst->cmd);
+	i = 0;
+	while (lst->args[i])
+	{
+		printf("args = %s\n", lst->args[i]);
+		i++;
+	}
+	while(lst->redir)
+	{
+		printf("redir_type = %d\n", lst->redir->type);
+		printf("file_name = %s\n", lst->redir->file_name);
+		lst->redir = lst->redir->next;
+	}
+}
+
 void	display_list(t_tree *lst)
 {
 	if (lst->left && lst->left->type == TOKEN_PIPE)
-		display_list(lst->left);
-	if(lst && lst->left && lst->left->type == TOKEN_CMD)
 	{
-		printf("cmd = %s\n", lst->left->cmd);
-		int i = 0;
-		if (lst->left->args)
-		{
-			while (lst->left->args[i])
-			{
-				printf("args = %s\n", lst->left->args[i]);
-				i++;
-			}
-		}
-		if (lst->left->redir)
-		{
-			while(lst->left->redir)
-			{
-				printf("redir_type = %d\n", lst->left->redir->type);
-				printf("redir_type = %s\n", lst->left->redir->file_name);
-				lst->left->redir = lst->left->redir->next;
-			}
-		}
+			display_list(lst->left);
+			printf("pipe\n");
 	}
-	if(lst && lst->right && lst->right->type == TOKEN_CMD)
+	if(lst && (lst->left && lst->left->type == TOKEN_CMD) && (lst->right && lst->right->type == TOKEN_CMD))
 	{
-		printf("cmd = %s\n", lst->cmd);
-		int i = 0;
-		while (lst->right->args[i])
-		{
-			printf("args = %s\n", lst->right->args[i]);
-			i++;
-		}
-		while(lst->right->redir)
-		{
-			printf("redir_type = %d\n", lst->right->redir->type);
-			printf("redir_type = %s\n", lst->right->redir->file_name);
-			lst->right->redir = lst->right->redir->next;
-		}
+		printf("first pipe\n");
+		printf("left->cmd = %s\n", lst->left->cmd);
+		print_node(lst->left);
+		printf("right->cmd = %s\n", lst->right->cmd);
+		print_node(lst->right);
 	}
-	else
+	if(lst && lst->left->type == TOKEN_PIPE && lst->right && lst->right->type == TOKEN_CMD)
 	{
-		printf("cmd = %s\n", lst->cmd);
-		int i = 0;
-		if (lst->args)
-		{
-			while (lst->args[i])
-			{
-				printf("args = %s\n", lst->args[i]);
-				i++;
-			}
-		}
-		while(lst->redir != NULL)
-		{
-			printf("redir_type = %d\n", lst->redir->type);
-			printf("redir_type = %s\n", lst->redir->file_name);
-			lst->redir = lst->redir->next;
-		}
+		print_node(lst->right);
 	}
 }
 

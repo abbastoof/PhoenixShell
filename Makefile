@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
+#    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/06/23 16:23:53 by mtoof            ###   ########.fr        #
+#    Updated: 2023/07/01 23:44:29 by atoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \
 			split_utils.c token_utils.c expand_quotes.c find.c syntax.c check_quotes.c
 			
-SRC_LIST = create_tree.c create_list_utils.c add_back.c display_delete_list.c
+# SRC_LIST = create_tree.c create_list_utils.c add_back.c display_delete_list.c
+SRC_LIST = make_tree.c create_tree_utils.c create_tree_utils_2.c display_delete_tree.c
+
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
 		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS)) \
 		$(addprefix $(LIST_D), $(SRC_LIST))
@@ -53,7 +55,7 @@ $(NAME): $(OBJS)
 	else \
 		echo "$(YELLOW)$(BOLD)Compiling $(NAME)...$(NC)"; \
 		make -C ./libft; \
-		cc $(FLAGS) $(EXTRA_FLAGS) $(OBJS) -I$(HEADER_DIR) $(LIBFT) -o $@ ; \
+		cc $(FLAGS) $(EXTRA_FLAGS) $(ERROR_FLAGS) $(OBJS) -I$(HEADER_DIR) $(LIBFT) -o $@ ; \
 		echo "$(GREEN)$(BOLD)$(NAME) successfully compiled!$(NC)"; \
 	fi
 

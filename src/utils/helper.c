@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:05:33 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/20 20:04:56 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/01 18:36:16 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ char	*find_path(char **envp, char *str)
 	return (NULL);
 }
 
-void	initialize_minishell(t_cmd *line)
-{
-	line->pid = 0;
-	line->end[0] = 0;
-	line->end[1] = 0;
-	line->infile = 0;
-	line->outfile = 0;
-	line->cmd_paths = NULL;
-	line->cmd_arguments = NULL;
-	line->cmd = NULL;
-}
+// void	initialize_minishell(t_cmd *line)
+// {
+// 	line->pid = 0;
+// 	line->end[0] = 0;
+// 	line->end[1] = 0;
+// 	line->infile = 0;
+// 	line->outfile = 0;
+// 	line->cmd_paths = NULL;
+// 	line->cmd_arguments = NULL;
+// 	line->cmd = NULL;
+// }
 
 void	free_env(t_env *env)
 {
