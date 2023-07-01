@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:17:07 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/24 16:22:41 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/06/27 14:05:11 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static t_lst	*new_node(void)
 	node = malloc(sizeof(t_lst));
 	node->args = NULL;
 	node->cmd = NULL;
-	node->next = NULL;
 	node->right = NULL;
 	node->left = NULL;
 	node->file_name = NULL;
@@ -139,7 +138,7 @@ static t_token	*parse_cmd(t_lst **tree, t_token *tokens)
 		tokens->type = TOKEN_CMD;
 	node->type = tokens->type;
 	node->value = ft_strdup(tokens->value);
-	while (tokens->value && (!redir(tokens->type) && tokens->type!= TOKEN_PIPE) && (add_args(tokens, node)) == 1)
+	while (tokens->value && (!redir(tokens->type) && tokens->type != TOKEN_PIPE) && (add_args(tokens, node)) == 1)
 		tokens++;
 	//if we have a redirector or a pipe with a left then we create a new empty node and point its right to the tree
 	//and left of that point to the *node

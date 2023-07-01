@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   create_list_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/24 15:56:09 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/01 19:03:24 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_redir	*redir_node(t_token **tokens, int type)
+{
+	t_redir *new;
+
+	new = malloc(sizeof(t_redir));
+	if (!new)
+		return (NULL);
+	(*tokens)++;
+	new->file_name = ft_strdup((*tokens)->value);
+	new->type = type;
+	new->next = NULL;
+	(*tokens)++;
+	return (new);
+}
 
 int	redir(int type)
 {
@@ -19,14 +34,14 @@ int	redir(int type)
 	return (0);
 }
 
-static int	add_next_args(t_token *tokens, t_lst *new_node, int size)
+static int	add_next_args(t_token *tokens, t_tree *new_node, int size)
 {
 	char	**new_args;
 
 	new_args = NULL;
 	if (new_node->args)
 	{
-		new_args = ft_realloc(new_node->args, size + 1);
+		new_args = ft_realloc(new_node->args, ++size);
 		if (!new_args)
 		{
 			ft_putstr_fd("malloc\n", 2);
@@ -35,31 +50,48 @@ static int	add_next_args(t_token *tokens, t_lst *new_node, int size)
 		free(new_node->args);
 		new_node->args = NULL;
 		new_node->args = new_args;
-		new_node->args[size - 1] = ft_strdup(tokens->value);
-		size++;
+		new_node->args[size - 2] = ft_strdup(tokens->value);
 	}
 	return (size);
 }
 
-int	add_args(t_token *tokens, t_lst *new_node)
+static t_token *parse_redir(t_token *tokens, t_tree *new_node)
+{
+	t_redir *redir;
+
+	redir = redir_node(&tokens, tokens->type);
+	//protect_malloc
+	if (!new_node->redir)
+		new_node->redir = redir;
+	else
+		add_back(&new_node->redir, redir);
+	return (tokens);
+}
+
+int	add_args(t_token *tokens, t_tree *new_node)
 {
 	static int	size;
 
-	if (!redir(tokens->type) && tokens->type != TOKEN_PIPE)
+	if (tokens->type != TOKEN_PIPE)
 	{
-		if (!new_node->args)
+		if (redir(tokens->type))
+			parse_redir(tokens, new_node);
+		else
 		{
-			size = 2;
-			new_node->args = ft_calloc(size, sizeof(char *));
 			if (!new_node->args)
 			{
-				ft_putstr_fd("malloc\n", 2);
-				//GO FOR FREE LINKLIST;
+				size = 2;
+				new_node->args = ft_calloc(size, sizeof(char *));
+				if (!new_node->args)
+				{
+					ft_putstr_fd("malloc\n", 2);
+					//GO FOR FREE LINKLIST;
+				}
+				new_node->args[0] = ft_strdup(tokens->value);
 			}
-			new_node->args[0] = ft_strdup(tokens->value);
+			else
+				size = add_next_args(tokens, new_node, size);
 		}
-		else
-			size = add_next_args(tokens, new_node, size);
 		return (1);
 	}
 	return (0);
