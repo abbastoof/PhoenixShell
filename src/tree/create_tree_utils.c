@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_list_utils.c                                :+:      :+:    :+:   */
+/*   create_tree_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/01 21:36:51 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/03 14:29:49 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,31 @@ int	redir(int type)
 static int	add_next_args(t_token *tokens, t_tree *new_node, int size)
 {
 	char	**new_args;
+	int		indx;
 
 	new_args = NULL;
 	if (new_node->args)
 	{
-		new_args = ft_realloc(new_node->args, ++size);
+		new_args = ft_calloc(sizeof(char *), ++size);
 		if (!new_args)
 		{
 			ft_putstr_fd("malloc\n", 2);
 			//GO FOR FREE LINKLIST;
 		}
+		new_args = ft_memcpy(new_args, new_node->args, sizeof(char *));
+		indx = 0;
 		free(new_node->args);
-		new_node->args = NULL;
-		new_node->args = new_args;
+		new_node->args = ft_memcpy(new_args, new_node->args, sizeof(char *));
+		free(new_args);
+		new_args = NULL;
 		new_node->args[size - 2] = ft_strdup(tokens->value);
 	}
 	return (size);
 }
 
-static void parse_redir(t_token **tokens, t_tree *new_node)
+static void	parse_redir(t_token **tokens, t_tree *new_node)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	redir = redir_node(tokens, (*tokens)->type);
 	//protect_malloc

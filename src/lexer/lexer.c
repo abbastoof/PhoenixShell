@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/01 23:26:53 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/03 13:41:59 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,9 @@ void	process_cmd(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_lexer	state;
-	// t_cmd	cmd;
 	t_tree	*lst;
 
 	lst = NULL;
-	// cmd.paths = NULL;
-	// cmd.cmd_paths = NULL;
 	init_info(&state);
 	(void)env;
 	if (line[0] == '\0')
@@ -91,14 +88,32 @@ void	process_cmd(char *line, t_env *env)
 	if (!check_incorrect_quotes(tokens))
 	{
 		expand_quotes(tokens, env, &state);
-		// set_cmd_args_type(&cmd, env, tokens);
-		// free_cmd_struct(&cmd);
 		// display_token(tokens);
-		// free_tokens(tokens);
 		create_tree(tokens, &lst);
+		free_tokens(tokens);
 		// TODO FREE_TOKENS
 	}
+	//display
+	// if (lst)
+	// 	display_list(lst);
+	//free
 	if (lst)
-		display_list(lst);
-	// free_list(lst);
+		free_tree(lst);
+	lst = NULL;
+	//after free
+	// display_list(lst);
+	if (lst != NULL)
+	{
+		if (lst->left != NULL)
+		{
+			printf("has left\n");
+			printf("type = %d\n", lst->left->type);
+		}
+		if (lst->right != NULL)
+		{
+			printf("has right\n");
+		}
+		else
+			printf("has only one node\n");
+	}
 }

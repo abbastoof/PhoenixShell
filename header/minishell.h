@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/01 23:38:34 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/03 11:21:19 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,22 +137,24 @@ char				*var_finder(char *str, t_lexer *state, t_env *env,
 void				expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
 // void				get_command_arguments(t_cmd *lst, t_token *cmd);
 int					syntax(t_token *tokens);
-// void				free_cmd_struct(t_cmd *cmd);
 
 //built_in
 void				pwd(void);
 void				echo(char **args);
 void				ft_cd(t_env *env, char *args);
 
-// list
+// tree
+void				parse_cmd_node(t_token **tokens, t_tree *node);
+int					add_args(t_token **tokens, t_tree *new_node);
 void				create_tree(t_token *tokens, t_tree **tree);
 void				add_back(t_redir **lst, t_redir *new_node);
-int					add_args(t_token **tokens, t_tree *new_node);
-void				parse_cmd_node(t_token **tokens, t_tree *node);
-void				display_list(t_tree *lst);
-// void				free_list(t_lst *lst);
-int					redir(int type);
 t_redir				*redir_node(t_token **tokens, int type);
+void				display_list(t_tree *tree);
+void				free_tree(t_tree *tree);
+t_tree				*new_node(void);
+int					redir(int type);
+// void				free_list(t_lst *lst);
+
 //TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
 //helper

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:44:57 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/01 18:34:47 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/03 09:21:02 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,3 @@ void	free_tokens(t_token *tokens)
 	}
 	return ;
 }
-
-// void	free_cmd_struct(t_cmd *cmd)
-// {
-// 	int	indx;
-
-// 	indx = 0;
-// 	if (cmd->paths)
-// 		cmd->paths = NULL;
-// 	if (cmd->cmd_paths)
-// 	{
-// 		while (cmd->cmd_paths[indx])
-// 		{
-// 			free(cmd->cmd_paths[indx]);
-// 			cmd->cmd_paths[indx] = NULL;
-// 			indx++;
-// 		}
-// 		free(cmd->cmd_paths);
-// 		cmd->cmd_paths = NULL;
-// 	}
-// 	if (cmd->cmd)
-// 		cmd->cmd = NULL;
-// 	cmd->args = NULL;
-// 	cmd->cmd_arguments = NULL;
-// 	cmd->cmd_paths = NULL;
-// 	cmd->paths = NULL;
-// }
