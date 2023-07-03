@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/03 16:12:12 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/03 16:38:09 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static int	add_next_args(t_token *tokens, t_tree *new_node, int size)
 			ft_putstr_fd("malloc\n", 2);
 			//GO FOR FREE LINKLIST;
 		}
+		if (new_node->args)
+			free(new_node->args);
 		new_node->args = new_args;
 		new_node->args[size - 2] = ft_strdup(tokens->value);
 	}
