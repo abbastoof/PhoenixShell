@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/03 13:41:59 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/03 15:47:53 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,5 @@ void	process_cmd(char *line, t_env *env)
 		else
 			printf("has only one node\n");
 	}
+	// free_tokens(tokens);
 }

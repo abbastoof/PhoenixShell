@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:53:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/03 14:44:59 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/03 16:05:17 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ static void	free_redir_lst(t_redir *redir)
 
 static void	free_node(t_tree *tree)
 {
+	int	indx;
+
+	indx = 0;
 	if (tree == NULL)
 		return ;
 	if (tree->cmd != NULL)
@@ -97,6 +100,12 @@ static void	free_node(t_tree *tree)
 	}
 	if (tree->args != NULL)
 	{
+		while (tree->args[indx] != NULL)
+		{
+			free(tree->args[indx]);
+			indx++;
+		}
+		// if (tree->args != NULL)
 		free(tree->args);
 		tree->args = NULL;
 	}
