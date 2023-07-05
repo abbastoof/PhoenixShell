@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/05 16:22:38 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/05 19:35:43 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void	process_cmd(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_lexer	state;
-	t_tree	*lst;
+	t_tree	*tree;
 
-	lst = NULL;
+	tree = NULL;
 	init_info(&state);
 	(void)env;
 	if (line[0] == '\0')
@@ -89,13 +89,13 @@ void	process_cmd(char *line, t_env *env)
 	{
 		expand_quotes(tokens, env, &state);
 		// display_token(tokens);
-		create_tree(&tokens, &lst);
+		if (create_tree(&tokens, &tree) == -1)
+			free_tree(tree);
 		free_tokens(tokens);
-		// TODO FREE_TOKENS
 	}
-	if (lst)
-		display_list(lst);
-	if (lst)
-		free_tree(lst);
-	lst = NULL;
+	// if (tree)
+	// 	display_list(tree);
+	// if (tree)
+	// 	free_tree(tree);
+	tree = NULL;
 }

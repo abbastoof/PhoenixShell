@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:14:41 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/05 16:09:21 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/05 19:35:07 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_tree	*new_node(void)
 	node = malloc(sizeof(t_tree));
 	if (!node)
 	{
-		printf("got here\n");
+		ft_putstr_fd("malloc new_node\n", 2);
 		return (NULL);
 	}
 	node->type = 0;

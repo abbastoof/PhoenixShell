@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:53:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/05 17:09:27 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/05 19:36:19 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ static void	free_node(t_tree *tree)
 
 void	free_tree(t_tree *tree)
 {
-	if (tree->left || tree->right)
+	if (!tree)
+		return ;
+	if (tree->left != NULL || tree->right != NULL)
 	{
 		if (tree->left != NULL)
 			free_tree(tree->left);
