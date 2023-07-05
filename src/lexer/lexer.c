@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/03 15:47:53 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/05 16:22:38 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,32 +89,13 @@ void	process_cmd(char *line, t_env *env)
 	{
 		expand_quotes(tokens, env, &state);
 		// display_token(tokens);
-		create_tree(tokens, &lst);
+		create_tree(&tokens, &lst);
 		free_tokens(tokens);
 		// TODO FREE_TOKENS
 	}
-	//display
-	// if (lst)
-	// 	display_list(lst);
-	//free
+	if (lst)
+		display_list(lst);
 	if (lst)
 		free_tree(lst);
 	lst = NULL;
-	//after free
-	// display_list(lst);
-	if (lst != NULL)
-	{
-		if (lst->left != NULL)
-		{
-			printf("has left\n");
-			printf("type = %d\n", lst->left->type);
-		}
-		if (lst->right != NULL)
-		{
-			printf("has right\n");
-		}
-		else
-			printf("has only one node\n");
-	}
-	// free_tokens(tokens);
 }

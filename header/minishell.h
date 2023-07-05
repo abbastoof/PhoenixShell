@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/03 11:21:19 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/05 15:41:23 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,10 @@ void				echo(char **args);
 void				ft_cd(t_env *env, char *args);
 
 // tree
-void				parse_cmd_node(t_token **tokens, t_tree *node);
+int					parse_cmd_node(t_token **tokens, t_tree *node);
 int					add_args(t_token **tokens, t_tree *new_node);
-void				create_tree(t_token *tokens, t_tree **tree);
-void				add_back(t_redir **lst, t_redir *new_node);
+int					create_tree(t_token **tokens, t_tree **tree);
+int					add_back(t_redir **lst, t_redir *new_node);
 t_redir				*redir_node(t_token **tokens, int type);
 void				display_list(t_tree *tree);
 void				free_tree(t_tree *tree);
