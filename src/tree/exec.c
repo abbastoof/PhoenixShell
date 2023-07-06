@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/06 18:31:05 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/06 18:46:03 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ static void	exec_redir(t_tree *tree)
 				error_handling(tree->redir->file_name);
 			dup2(fd, STDOUT_FILENO);
 		}
+		close(fd);
+		exec_tree(select_next(tree->right));
+		exit(0);
 	}
+	wait(&(g_exit_status));
 }
 
 void	exec_tree(t_tree *tree)
