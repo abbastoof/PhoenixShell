@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/06 17:16:04 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/06 18:31:05 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,33 @@
 
 static void	exec_redir(t_tree *tree)
 {
-	if (tree)
+	int	fd;
+
+	fd = 0;
+	if (child_proc_defsig() == 0)
 	{
-		if (tree->type == TOKEN_INPUT)
-			
+		if (tree->type == TOKEN_OUTPUT)
+		{
+			fd = open(tree->redir->file_name, O_TRUNC | O_CREAT | O_RDWR, 0644);
+			if (fd == -1)
+				error_handling(tree->redir->file_name);
+			dup2(fd, STDOUT_FILENO);
+		}
+		else if (tree->type == TOKEN_INPUT)
+		{
+			fd = open(tree->redir->file_name, O_RDONLY);
+			if (fd == -1)
+				error_handling(tree->redir->file_name);
+			dup2(fd, STDIN_FILENO);
+		}
+		else if (tree->type == TOKEN_OUTPUT_APPEND)
+		{
+			fd = open(tree->redir->file_name, O_CREAT | O_APPEND | O_WRONLY,
+					0644);
+			if (fd == -1)
+				error_handling(tree->redir->file_name);
+			dup2(fd, STDOUT_FILENO);
+		}
 	}
 }
 
@@ -33,10 +56,6 @@ void	exec_tree(t_tree *tree)
 			exec_redir(tree);
 		else if (tree->type == TOKEN_CMD)
 			exec_cmd(tree);
-		else if (tree->type == TOKEN_BLTIN)
-			exec_builtin_leaf(tree);
-		else if (tree->type == TOKEN_HEREDOC)
-			exec_heredoc(tree);
 		g_exit_status = g_exit_status % 255;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:26:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/06 16:30:57 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/06 17:52:01 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,20 @@
 // 	pipex->cmd = NULL;
 // }
 
-void	ft_wait(t_tree *tree)
-{
-	t_tree	*node;
-	int		status;
+// void	ft_wait(t_tree *tree)
+// {
+// 	t_tree	*node;
+// 	int		status;
 
-	node = tree;
-	while (node)
-	{
-		waitpid(node->, &status, WUNTRACED);
-		if (WIFEXITED(status))
-			WEXITSTATUS(status);
-		node = node->next;
-	}
-}
+// 	node = tree;
+// 	while (node)
+// 	{
+// 		waitpid(node->, &status, WUNTRACED);
+// 		if (WIFEXITED(status))
+// 			WEXITSTATUS(status);
+// 		node = node->next;
+// 	}
+// }
 
 void	create_pipe(t_tree *tree)
 {
@@ -53,7 +53,7 @@ void	create_pipe(t_tree *tree)
 		exec_tree(tree->left);
 		exit(g_exit_code);
 	}
-	waitpid(pid, NULL, 0);
+	wait(&(g_data.exit_code));
 	if (child_proc_defsig() == 0)
 	{
 		if (dup2(end[FD_READ_END], STDIN_FILENO) < 0)
