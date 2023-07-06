@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:26:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/06 17:52:01 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/06 18:47:48 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ void	create_pipe(t_tree *tree)
 			exit(1);
 		close(end[FD_READ_END]);
 		exec_tree(tree->left);
-		exit(g_exit_code);
+		exit(g_exit_status);
 	}
-	wait(&(g_data.exit_code));
+	wait(&(g_exit_status));
 	if (child_proc_defsig() == 0)
 	{
 		if (dup2(end[FD_READ_END], STDIN_FILENO) < 0)
 			exit(1);
 		close(end[FD_WRITE_END]);
 		exec_tree(tree->right);
-		exit(g_tree.exit_code);
+		exit(g_exit_status);
 	}
 	close(end[FD_READ_END]);
 	close(end[FD_WRITE_END]);
