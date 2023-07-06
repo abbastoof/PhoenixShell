@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/05 15:41:23 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/06 16:13:41 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@
 # define TOKEN_EXIT_STATUS 9
 # define TOKEN_QUOTE 10
 # define TOKEN_DQUOTE 11
+# define TOKEN_BLTIN 12
 
 # define TRUE 1
 # define FALSE 0
-
-extern char			**environ;
+# define FD_WRITE_END 1
+# define FD_READ_END 0
 
 //cmd_trim
 typedef struct s_cmdsplit
@@ -79,6 +80,8 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 }					t_tree;
+
+int					g_exit_status;
 
 typedef struct s_token
 {
@@ -150,6 +153,7 @@ int					create_tree(t_token **tokens, t_tree **tree);
 int					add_back(t_redir **lst, t_redir *new_node);
 t_redir				*redir_node(t_token **tokens, int type);
 void				display_list(t_tree *tree);
+void				exec_tree(t_tree *tree);
 void				free_tree(t_tree *tree);
 t_tree				*new_node(void);
 int					redir(int type);
@@ -177,7 +181,9 @@ void				rl_replace_line(const char *text, int clear_undo);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 void				initialize_environment(t_env *env, char **environ);
 
-//pipe
+//exec
+pid_t				child_proc_defsig(void);
+void				create_pipe(t_tree *tree);
 
 // void				get_command_paths(t_cmd *lst, t_env *env);
 

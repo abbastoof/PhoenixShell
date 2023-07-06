@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/05 19:35:43 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/06 15:21:06 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	process_cmd(char *line, t_env *env)
 			free_tree(tree);
 		free_tokens(tokens);
 	}
+	exec_tree(tree);
 	// if (tree)
 	// 	display_list(tree);
 	// if (tree)

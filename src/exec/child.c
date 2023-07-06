@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/06 15:20:04 by atoof            ###   ########.fr       */
+/*   Created: 2023/07/04 12:36:18 by atoof             #+#    #+#             */
+/*   Updated: 2023/07/04 16:11:55 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av)
+pid_t	child_proc_defsig(void)
 {
-	char				*cmd;
-	t_env				env;
+	pid_t	pid;
 
-	(void)ac;
-	(void)av;
-	initialize_environment(&env, environ);
-	while (1)
+	pid = fork();
+	if (pid < 0)
 	{
-		disable_enable_ctl(0);
-		init_signals();
-		cmd = readline("Minishell>");
-		add_history(cmd);
-		if (cmd == NULL)
-			ctrl_d_handler();
-		process_cmd(cmd, &env);
-		signal(SIGINT, SIG_IGN);
-		disable_enable_ctl(1);
-		free(cmd);
+		perror("fork error");
+		exit(1);
 	}
-	free_env(&env);
-	return (0);
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	return (pid);
 }
