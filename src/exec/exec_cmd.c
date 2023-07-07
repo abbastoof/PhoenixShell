@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/07 14:00:32 by atoof            ###   ########.fr       */
+/*   Created: 2023/07/07 13:40:38 by atoof             #+#    #+#             */
+/*   Updated: 2023/07/07 13:54:04 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+void	get_command_arguments(t_tree *tree, char **argv)
 {
-	char				*cmd;
-	t_env				env;
-
-	(void)ac;
-	(void)av;
-	initialize_environment(&env, envp);
-	while (1)
-	{
-		disable_enable_ctl(0);
-		init_signals();
-		cmd = readline("Minishell>");
-		add_history(cmd);
-		if (cmd == NULL)
-			ctrl_d_handler();
-		process_cmd(cmd, &env);
-		signal(SIGINT, SIG_IGN);
-		disable_enable_ctl(1);
-		free(cmd);
-	}
-	free_env(&env);
-	return (0);
+	tree->cmd_arguments = ft_split(argv[2], ' ');
+	if (is_absolute_path(tree->cmd_arguments[0]))
+		tree->cmd = ft_strdup(tree->cmd_arguments[0]);
+	else
+		tree->cmd = get_cmd(tree->cmd_paths, tree->cmd_arguments[0]);
 }

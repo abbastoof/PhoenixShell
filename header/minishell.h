@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/06 16:13:41 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/07 14:33:17 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ typedef struct s_tree
 {
 	int				type;
 	char			*cmd;
+	char			*paths;
+	char			**cmd_paths;
 	char			**args;
 	t_redir			*redir;
 	struct s_tree	*left;
