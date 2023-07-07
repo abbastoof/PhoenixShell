@@ -6,37 +6,54 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:59:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/09 15:52:23 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/07 16:30:28 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_environment(t_env *env, char **environ)
+static void	skip_oldpwd_update_shlvl(t_env *env, char **envp)
 {
-	int	i;
+	int	indx;
 
-	i = 0;
-	while (environ[i])
-		i++;
-	env->counter = i;
-	env->env_var = ft_calloc(sizeof(char *), (i + 1));
+	indx = 0;
+	while (envp[indx])
+	{
+		if (ft_strnstr(envp[indx], "SHLVL=", 7) != NULL)
+		{
+			env->env_var[indx] = ft_strdup("SHLVL=2");
+			if (env->env_var[indx] == NULL)
+			{
+				perror("minishell: strdup");
+				exit(EXIT_FAILURE);
+			}
+			indx++;
+		}
+		if (ft_strnstr(envp[indx], "OLDPWD=", 7) != NULL)
+			indx++;
+		if (envp[indx] != NULL)
+		{
+			env->env_var[indx] = ft_strdup(envp[indx]);
+			if (env->env_var[indx] == NULL)
+			{
+				perror("minishell: strdup");
+				exit(EXIT_FAILURE);
+			}
+		}
+		indx++;
+	}
+}
+
+void	initialize_environment(t_env *env, char **envp)
+{
+	env->counter = 0;
+	while (envp[env->counter])
+		env->counter++;
+	env->env_var = ft_calloc(sizeof(char *), (env->counter + 1));
 	if (env->env_var == NULL)
 	{
 		perror("minishell: malloc");
 		exit(EXIT_FAILURE);
 	}
-	i = 0;
-	while (environ[i])
-	{
-		if (ft_strnstr(environ[i], "OLDPWD", 6) != NULL)
-			i++;
-		env->env_var[i] = ft_strdup(environ[i]);
-		if (env->env_var[i] == NULL)
-		{
-			perror("minishell: strdup");
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
+	skip_oldpwd_update_shlvl(env, envp);
 }

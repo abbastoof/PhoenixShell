@@ -3,11 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/05/24 12:23:15 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/07 14:31:24 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_env(t_env *env)
+{
+	int	indx;
+
+	indx = 0;
+	while (env->env_var[indx])
+	{
+		printf("%s\n", env->env_var[indx]);
+		indx++;
+	}
+}
