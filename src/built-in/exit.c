@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/10 11:16:28 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/10 11:22:54 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	ft_exit(t_tree *tree)
 		ft_putstr_fd("exit\n", 2);
 		exit_num = ft_atoi(tree->args[1]);
 		free_tree(tree);
-		exit(exit_num % 256);
+		exit(exit_num);
 	}
 	else
 	{
 		ft_putstr_fd("exit\n", 2);
-		exit(0 % 256);
+		exit(0);
 	}
 }
