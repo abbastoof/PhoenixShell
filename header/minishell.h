@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/10 11:05:05 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/10 13:18:42 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,10 @@ int					syntax(t_token *tokens);
 //built_in
 void				pwd(void);
 void				echo(char **args);
+void				ft_env(t_env *env);
 void				ft_exit(t_tree *tree);
 void				ft_cd(t_env *env, char *args);
+void				ft_export(t_env *env, char **args);
 
 // tree
 int					parse_cmd_node(t_token **tokens, t_tree *node);
