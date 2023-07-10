@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/07 14:33:17 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/10 11:05:05 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ int					syntax(t_token *tokens);
 //built_in
 void				pwd(void);
 void				echo(char **args);
+void				ft_exit(t_tree *tree);
 void				ft_cd(t_env *env, char *args);
 
 // tree
