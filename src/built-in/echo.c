@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/11 14:24:15 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/11 15:02:58 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	echo(char **args)
 
 	i = 1;
 	flag = 0;
-	printf("here");
 	while (args[i])
 	{
 		if (flag == 0)

@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/11 14:42:06 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/11 18:54:29 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*get_cmd(char **paths, char *cmd)
 		temp = ft_strjoin(*paths, "/");
 		unix_cmd = ft_strjoin(temp, cmd);
 		free(temp);
-		if (access(unix_cmd, 0) == 0)
+		if (access(unix_cmd, X_OK) == 0)
 			return (unix_cmd);
 		free(unix_cmd);
 		paths++;
@@ -97,11 +97,11 @@ static void	run_cmd_token(t_tree *tree, t_env *env)
 		tree->cmd = get_cmd(tree->cmd_paths, tree->args[0]);
 	if (child_proc_defsig() == 0)
 	{
-		if (execve(tree->cmd, tree->args, NULL) == -1)
+		if (execve(tree->cmd, tree->args, env->env_var) == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(tree->cmd, 2);
-			ft_putstr_fd(": command not found\n", 2);
+			ft_putstr_fd("command not found\n", 2);
 			exit(127);
 		}
 	}
@@ -131,7 +131,7 @@ static void	exec_cmd(t_tree *tree, t_env *env)
 
 // }
 
-t_tree	*next_redirect(t_tree *tree, t_redir *redir, t_env *env)
+t_tree	*next_redirect(t_tree *tree, t_redir *redir)
 {
 	int	fd;
 
@@ -151,14 +151,7 @@ t_tree	*next_redirect(t_tree *tree, t_redir *redir, t_env *env)
 			if (fd == -1)
 				error_access_filename(redir->file_name);
 		}
-		if (redir->next != NULL)
-			close(fd);
-		else
-		{
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-			exec_tree(tree, env);
-		}
+		close (fd);
 		redir = redir->next;
 	}
 	return (tree);
@@ -194,9 +187,8 @@ int	exec_redir(t_redir *redir, t_tree *tree, t_env *env)
 		}
 		close(fd);
 		if (redir->next != NULL)
-			next_redirect(tree, redir->next, env);
-		else
-			exec_tree(tree, env);
+			next_redirect(tree, redir->next);
+		exec_tree(tree, env);
 		exit(0);
 	}
 	wait(&(g_exit_status));
@@ -226,15 +218,12 @@ int	chk_blt(t_tree *tree, t_env *env)
 
 void	exec_tree(t_tree *tree, t_env *env)
 {
-	if (tree)
+	if (tree != NULL)
 	{
 		if (tree->type == TOKEN_PIPE)
-		{
 			create_pipe(tree, env);
-			write(1, "here\n", 6);
-		}
-		else if (tree->redir != NULL && tree->redir->type >= TOKEN_INPUT
-			&& tree->redir->type <= TOKEN_OUTPUT_APPEND)
+		else if (tree->type >= TOKEN_INPUT
+			&& tree->type <= TOKEN_OUTPUT_APPEND)
 			exec_redir(tree->redir, tree, env);
 		else if (tree->type == TOKEN_CMD)
 		{
