@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/10 13:18:42 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/11 13:19:27 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int					create_tree(t_token **tokens, t_tree **tree);
 int					add_back(t_redir **lst, t_redir *new_node);
 t_redir				*redir_node(t_token **tokens, int type);
 void				display_list(t_tree *tree);
-void				exec_tree(t_tree *tree);
+void				exec_tree(t_tree *tree, t_env *env);
 void				free_tree(t_tree *tree);
 t_tree				*new_node(void);
 int					redir(int type);
@@ -188,8 +188,10 @@ void				initialize_environment(t_env *env, char **environ);
 
 //exec
 pid_t				child_proc_defsig(void);
-void				create_pipe(t_tree *tree);
-
+void				create_pipe(t_tree *tree, t_env *env);
+int					exec_redir(t_redir *redir, t_tree *tree, t_env *env);
 // void				get_command_paths(t_cmd *lst, t_env *env);
+int					chk_blt(t_tree *tree, t_env *env);
+
 
 #endif
