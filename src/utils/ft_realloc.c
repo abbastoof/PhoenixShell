@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 15:33:21 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/03 16:30:28 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/12 13:53:01 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 char	**ft_realloc(char **ptr, size_t size)
 {
-	size_t		i;
+	size_t		index;
 	char		**new;
 
-	i = 0;
-	while (ptr[i])
-		i++;
-	if (size <= i)
+	index = 0;
+	while (ptr[index])
+		index++;
+	if (size <= index)
 		return (ptr);
 	new = ft_calloc(sizeof(char *), size);
 	if (!new)
 		return (ptr);
-	new = ft_memcpy(new, ptr, i * sizeof(char *));
-	i = 0;
+	index = 0;
+	while (ptr[index])
+	{
+		new[index] = ft_strdup(ptr[index]);
+		index++;
+	}
 	return (new);
 }

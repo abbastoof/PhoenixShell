@@ -3,38 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/11 15:02:58 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/12 14:09:16 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo(char **args)
+static void	handle_printing(char **args, int index, int flag)
 {
-	int	i;
+	if (flag == 0)
+	{
+		if (ft_strcmp(args[1], "-n") == 0)
+		{
+			index++;
+			flag = 1;
+		}
+	}
+	if (args[index + 1] != (void *)0)
+		ft_putstr(args[index]);
+	else if ((args[index + 1] == (void *)0) && !(ft_strcmp(args[0], "-n")))
+		ft_putstr(args[index]);
+	else if ((args[index + 1] == (void *)0) \
+	&& (ft_strcmp(args[0], "-n")) != 0)
+	{
+		ft_putstr(args[index]);
+		write(1, "\n", 2);
+	}
+}
+
+void	ft_echo(char **args)
+{
+	int	index;
 	int	flag;
 
-	i = 1;
+	index = 1;
 	flag = 0;
-	while (args[i])
+	while (args[index])
 	{
-		if (flag == 0)
-		{
-			if (ft_strcmp(args[1], "-n") == 0)
-			{
-				i++;
-				flag = 1;
-			}
-		}
-		if (args[i + 1] != (void *)0)
-			printf("%s ", args[i]);
-		else if ((args[i + 1] == (void *)0) && !(ft_strcmp(args[0], "-n")))
-			printf("%s", args[i]);
-		else if ((args[i + 1] == (void *)0) && (ft_strcmp(args[0], "-n")) != 0)
-			printf("%s\n", args[i]);
-		i++;
+		handle_printing(args, index, flag);
+		index++;
 	}
+	write(1, "\n", 2);
 }

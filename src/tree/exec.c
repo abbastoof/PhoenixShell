@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/11 18:54:29 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/12 15:53:14 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	error_access_filename(char *file_name)
 		exit(1);
 	}
 	else if ((access(file_name, W_OK) != 0) || access(file_name, R_OK) != 0
-		|| access(file_name, X_OK) != 0)
+			|| access(file_name, X_OK) != 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(file_name, 2);
@@ -90,7 +90,7 @@ static void	run_cmd_token(t_tree *tree, t_env *env)
 	tree->paths = find_path(env->env_var, "PATH=");
 	if (tree->paths != NULL && tree->paths[0] != '\0')
 		tree->cmd_paths = ft_split(tree->paths, ':');
-	free(tree->cmd);
+	// free(tree->cmd);
 	if (is_absolute_path(tree->args[0]))
 		tree->cmd = ft_strdup(tree->args[0]);
 	else
@@ -114,15 +114,11 @@ static void	run_cmd_token(t_tree *tree, t_env *env)
 
 static void	exec_cmd(t_tree *tree, t_env *env)
 {
+	run_cmd_token(tree, env);
 	if (tree->redir != NULL)
 	{
-		if (exec_redir(tree->redir, tree, env))
-			run_cmd_token(tree, env);
-		else
-			return ;
+		exec_redir(tree->redir, tree, env);
 	}
-	else
-		run_cmd_token(tree, env);
 }
 
 // static void	exec_heredoc(t_tree *tree)
@@ -135,23 +131,24 @@ t_tree	*next_redirect(t_tree *tree, t_redir *redir)
 {
 	int	fd;
 
-	while (redir)
+	fd = 0;
+	while (redir != NULL)
 	{
 		if (redir->type == TOKEN_OUTPUT)
 			fd = open(redir->file_name,
-					O_CREAT | O_TRUNC | O_WRONLY,
-					0644);
+						O_CREAT | O_TRUNC | O_WRONLY,
+						0644);
 		else if (redir->type == TOKEN_OUTPUT_APPEND)
 			fd = open(redir->file_name,
-					O_CREAT | O_APPEND | O_WRONLY,
-					0644);
+						O_CREAT | O_APPEND | O_WRONLY,
+						0644);
 		else if (redir->type == TOKEN_INPUT)
 		{
 			fd = open(redir->file_name, O_RDONLY);
 			if (fd == -1)
 				error_access_filename(redir->file_name);
 		}
-		close (fd);
+		close(fd);
 		redir = redir->next;
 	}
 	return (tree);
@@ -161,6 +158,7 @@ int	exec_redir(t_redir *redir, t_tree *tree, t_env *env)
 {
 	int	fd;
 
+	(void)env;
 	fd = 0;
 	if (child_proc_defsig() == 0)
 	{
@@ -188,7 +186,7 @@ int	exec_redir(t_redir *redir, t_tree *tree, t_env *env)
 		close(fd);
 		if (redir->next != NULL)
 			next_redirect(tree, redir->next);
-		exec_tree(tree, env);
+		// exec_tree(tree, env);
 		exit(0);
 	}
 	wait(&(g_exit_status));
@@ -222,8 +220,7 @@ void	exec_tree(t_tree *tree, t_env *env)
 	{
 		if (tree->type == TOKEN_PIPE)
 			create_pipe(tree, env);
-		else if (tree->type >= TOKEN_INPUT
-			&& tree->type <= TOKEN_OUTPUT_APPEND)
+		else if (tree->type >= TOKEN_INPUT && tree->type <= TOKEN_OUTPUT_APPEND)
 			exec_redir(tree->redir, tree, env);
 		else if (tree->type == TOKEN_CMD)
 		{

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/05 17:14:39 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/12 13:45:41 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ t_redir	*redir_node(t_token **tokens, int type)
 static int	add_next_args(t_token *tokens, t_tree *new_node, int size)
 {
 	char	**new_args;
+	int		indx;
 
+	indx = 0;
 	new_args = NULL;
 	if (new_node->args != NULL)
 	{
@@ -48,7 +50,7 @@ static int	add_next_args(t_token *tokens, t_tree *new_node, int size)
 			return (-1);
 		}
 		if (new_node->args)
-			free(new_node->args);
+			free_double_ptr(new_node->args);
 		new_node->args = new_args;
 		new_node->args[size - 2] = ft_strdup(tokens->value);
 		if (!new_node->args[size - 2])

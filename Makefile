@@ -6,7 +6,7 @@
 #    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/07/11 18:21:31 by atoof            ###   ########.fr        #
+#    Updated: 2023/07/12 14:37:59 by atoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ $(NAME): $(OBJS)
 	else \
 		echo "$(YELLOW)$(BOLD)Compiling $(NAME)...$(NC)"; \
 		make -C ./libft; \
-		cc $(FLAGS) $(EXTRA_FLAGS) $(OBJS) -I$(HEADER_DIR) $(LIBFT) -o $@ ; \
+		cc $(FLAGS) $(EXTRA_FLAGS) $(ERROR_FLAGS) $(OBJS) -I$(HEADER_DIR) $(LIBFT) -o $@ ; \
 		echo "$(GREEN)$(BOLD)$(NAME) successfully compiled!$(NC)"; \
 	fi
 

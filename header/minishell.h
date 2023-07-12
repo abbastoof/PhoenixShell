@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/11 13:19:27 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/12 16:06:36 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,24 +145,24 @@ int					syntax(t_token *tokens);
 
 //built_in
 void				pwd(void);
-void				echo(char **args);
+void				ft_echo(char **args);
 void				ft_env(t_env *env);
 void				ft_exit(t_tree *tree);
 void				ft_cd(t_env *env, char *args);
 void				ft_export(t_env *env, char **args);
 
 // tree
-int					parse_cmd_node(t_token **tokens, t_tree *node);
-int					add_args(t_token **tokens, t_tree *new_node);
-int					create_tree(t_token **tokens, t_tree **tree);
-int					add_back(t_redir **lst, t_redir *new_node);
-t_redir				*redir_node(t_token **tokens, int type);
-void				display_list(t_tree *tree);
-void				exec_tree(t_tree *tree, t_env *env);
-void				free_tree(t_tree *tree);
 t_tree				*new_node(void);
 int					redir(int type);
-// void				free_list(t_lst *lst);
+void				free_tree(t_tree *tree);
+void				display_list(t_tree *tree);
+void				free_double_ptr(char **args);
+void				exec_tree(t_tree *tree, t_env *env);
+t_redir				*redir_node(t_token **tokens, int type);
+int					add_back(t_redir **lst, t_redir *new_node);
+int					add_args(t_token **tokens, t_tree *new_node);
+int					create_tree(t_token **tokens, t_tree **tree);
+int					parse_cmd_node(t_token **tokens, t_tree *node);
 
 //TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 

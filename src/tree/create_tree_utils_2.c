@@ -6,11 +6,28 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:14:41 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/05 19:35:07 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/12 13:50:37 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_double_ptr(char **args)
+{
+	int	index;
+
+	index = 0;
+	if (args[index] != NULL)
+	{
+		while (args[index])
+		{
+			free(args[index]);
+			index++;
+		}
+		free(args);
+	}
+	args = NULL;
+}
 
 int	redir(int type)
 {
