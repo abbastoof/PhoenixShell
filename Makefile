@@ -6,7 +6,7 @@
 #    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/07/12 14:37:59 by atoof            ###   ########.fr        #
+#    Updated: 2023/07/13 14:57:30 by atoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,8 @@ SRC = main.c commands.c  env_init.c signals.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \
 			split_utils.c token_utils.c expand_quotes.c find.c syntax.c check_quotes.c
-SRC_TREE = make_tree.c create_tree_utils.c create_tree_utils_2.c display_delete_tree.c exec.c
-SRC_EXEC = child.c create_pipe.c error.c
+SRC_TREE = make_tree.c create_tree_utils.c create_tree_utils_2.c display_delete_tree.c
+SRC_EXEC = child.c create_pipe.c error.c exec.c exec_redir.c exec_cmd.c exec_cmd_utils.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
 		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS)) \

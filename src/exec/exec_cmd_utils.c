@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.c                                            :+:      :+:    :+:   */
+/*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/04 12:36:18 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/13 14:37:06 by atoof            ###   ########.fr       */
+/*   Created: 2023/07/13 14:30:59 by atoof             #+#    #+#             */
+/*   Updated: 2023/07/13 14:31:14 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-pid_t	child_process(void)
+void	exit_status_chk(void)
 {
-	pid_t	pid;
-
-	pid = fork();
-	if (pid < 0)
+	if (WIFEXITED(g_exit_status))
+		return ;
+	else if (WIFSIGNALED(g_exit_status))
 	{
-		write(STDOUT_FILENO, "hello", 4);
-		perror("fork error");
-		exit(1);
+		if (WTERMSIG(g_exit_status) == 2)
+		{
+			ft_putchar('\n');
+			g_exit_status += 128;
+		}
+		else if (WTERMSIG(g_exit_status) == 3)
+		{
+			ft_putstr_fd("Quit: 3\n", 2);
+			g_exit_status += 128;
+		}
 	}
-	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-	}
-	return (pid);
 }

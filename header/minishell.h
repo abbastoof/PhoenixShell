@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/12 16:06:36 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/13 14:57:02 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ typedef struct s_tree
 	char			*paths;
 	char			**cmd_paths;
 	char			**args;
+	int				infile;
+	int				outfile;
+	int				count_in;
+	int				count_out;
 	t_redir			*redir;
 	struct s_tree	*left;
 	struct s_tree	*right;
@@ -187,11 +191,14 @@ char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 void				initialize_environment(t_env *env, char **environ);
 
 //exec
-pid_t				child_proc_defsig(void);
+pid_t				child_process(void);
 void				create_pipe(t_tree *tree, t_env *env);
 int					exec_redir(t_redir *redir, t_tree *tree, t_env *env);
+void				exec_cmd(t_tree *tree, t_env *env);
+void				exit_status_chk(void);
+int					built_in(t_tree *tree, t_env *env);
+void				run_cmd_token(t_tree *tree, t_env *env);
 // void				get_command_paths(t_cmd *lst, t_env *env);
-int					chk_blt(t_tree *tree, t_env *env);
 
 
 #endif

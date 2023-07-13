@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_delete_tree.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:53:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/05 19:36:19 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/12 17:17:47 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	print_node(t_tree *tree)
 			printf("file_name = %s\n", tmp->file_name);
 			tmp = tmp->next;
 		}
+		printf("in_count = %d\n", tree->count_in);
+		printf("out_count = %d\n", tree->count_out);
 	}
 }
 

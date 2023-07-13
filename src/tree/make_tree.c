@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:31:15 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/05 19:30:31 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/12 17:30:25 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ static int	parse_pipe(t_tree **tree, t_token **tokens)
 
 static int	add_redir_node(t_tree **tree, t_token **tokens)
 {
-	t_redir	*tmp;
+	t_redir	*new;
 
-	tmp = NULL;
-	tmp = redir_node(tokens, (*tokens)->type);
-	if (!tmp)
+	new = NULL;
+	if ((*tokens)->type == TOKEN_INPUT)
+		(*tree)->count_in++;
+	else if ((*tokens)->type == TOKEN_OUTPUT)
+		(*tree)->count_out++;
+	new = redir_node(tokens, (*tokens)->type);
+	if (!new)
 		return (-1);
-	if (add_back(&((*tree)->redir), tmp) == -1)
+	if (add_back(&((*tree)->redir), new) == -1)
 		return (-1);
 	return (0);
 }
@@ -55,6 +59,7 @@ static int	parse_redirect(t_tree **tree, t_token **tokens)
 		if (!node)
 			return (-1);
 		node->type = (*tokens)->type;
+
 		node->redir = redir_node(tokens, (*tokens)->type);
 		if (!node->redir)
 			return (-1);
