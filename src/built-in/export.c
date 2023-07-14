@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 15:04:32 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 15:44:06 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,21 @@ static void	print_error(char **args, int args_indx)
 
 void	print_export(t_env *env)
 {
-	int		indx;
+	int		index;
 	char	**split;
 
-	indx = 0;
-	if (env->env_var[indx] == '\0')
+	index = 0;
+	if (env->env_var[index] == '\0')
 		return ;
-	while (env->env_var[indx] != NULL)
+	while (env->env_var[index] != NULL)
 	{
 		split = NULL;
-		split = ft_split(env->env_var[indx], '=');
-		if (!split)
-		{
-			ft_putstr("Malloc\n");
+		if (print_function(split, env, index) == -1)
 			return ;
-		}
-		ft_putstr("declare -x ");
-		ft_putstr(split[0]);
-		if (split[1] != NULL)
-		{
-			ft_putstr("=\"");
-			ft_putstr(split[1]);
-			ft_putstr("\"");
-		}
-		else if (split != NULL && split[1] == NULL)
-			ft_putstr("=""");
 		ft_putstr("\n");
-		free_double_ptr(split);
-		indx++;
+		if (split != NULL)
+			free_double_ptr(split);
+		index++;
 	}
 }
 

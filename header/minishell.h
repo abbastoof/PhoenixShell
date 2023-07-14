@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 14:47:05 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 15:45:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,9 @@ void				ft_echo(char **args);
 void				ft_env(t_env *env);
 void				ft_exit(t_tree *tree);
 void				ft_cd(t_env *env, char *args);
+void				ft_unset(char **args, t_env *env);
 void				ft_export(t_env *env, char **args);
+int					print_function(char **split, t_env *env, int index);
 
 // tree
 t_tree				*new_node(void);
