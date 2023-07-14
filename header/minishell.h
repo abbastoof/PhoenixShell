@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/13 14:57:02 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 14:38:33 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ typedef struct s_tree
 	char			*paths;
 	char			**cmd_paths;
 	char			**args;
-	int				infile;
-	int				outfile;
+	int				fd_in;
+	int				fd_out;
 	int				count_in;
 	int				count_out;
 	t_redir			*redir;
