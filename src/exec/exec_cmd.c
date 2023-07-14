@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/13 14:55:33 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 11:41:09 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static char	*get_cmd(char **paths, char *cmd)
 		free(unix_cmd);
 		paths++;
 	}
-	return (NULL);
+	//bejaye NULL bayad cmd ro bargardunim ta agar exit_status ro be onvane cmd dashtim ro betunim dar error print konim
+	// vagarna inro print mikoneh "minishell: : command not found"
+	return (cmd);
 }
 
 int	built_in(t_tree *tree, t_env *env)
@@ -68,6 +70,7 @@ void	run_cmd_token(t_tree *tree, t_env *env)
 	// free(tree->cmd);
 	if (is_absolute_path(tree->args[0]))
 		tree->cmd = ft_strdup(tree->args[0]);
+	// chere agar tree->cmd is_absolute_path== TRUE ro dobareh strdup mikoni 
 	else
 		tree->cmd = get_cmd(tree->cmd_paths, tree->args[0]);
 	if (child_process() == 0)

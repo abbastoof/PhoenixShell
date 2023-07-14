@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 15:44:06 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 10:29:52 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@ void	print_export(t_env *env)
 	char	**split;
 
 	index = 0;
-	if (env->env_var[index] == '\0')
-		return ;
-	while (env->env_var[index] != NULL)
+	if (env->env_var[index] != NULL)
 	{
-		split = NULL;
-		if (print_function(split, env, index) == -1)
-			return ;
-		ft_putstr("\n");
-		if (split != NULL)
-			free_double_ptr(split);
-		index++;
+		while (env->env_var[index] != NULL)
+		{
+			split = NULL;
+			if (print_function(split, env, index) == -1)
+				return ;
+			ft_putstr("\n");
+			if (split != NULL)
+				free_double_ptr(split);
+			index++;
+		}
 	}
 }
 

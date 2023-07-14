@@ -6,11 +6,23 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/19 18:21:49 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 10:51:57 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	return_exit_status(t_lexer *state)
+{
+	char *str_exit_status;
+
+	str_exit_status = ft_itoa(g_exit_status);
+	state->res = ft_strnjoin(state->tmp, str_exit_status, ft_strlen(str_exit_status));
+	if (state->tmp)
+		free(state->tmp);
+	state->tmp = state->res;
+	state->i += 2;
+}
 
 void	result_join(t_lexer *state, char *str)
 {
@@ -25,9 +37,6 @@ static void	dollar_handler_util(t_lexer *state, int var_flag)
 {
 	if (state->path != NULL)
 	{
-		// printf("strlen path = %d\n", (int)ft_strlen(state->path));
-		// printf("strlen tmp = %d\n", (int)ft_strlen(state->tmp));
-		// printf("res = %s\n", ft_strjoin(state->tmp, state->path));
 		if (state->path[0] == '=')
 			state->path++;
 		state->res = ft_strjoin(state->tmp, state->path);
@@ -46,8 +55,11 @@ void	check_dollar_sign(char *str, t_lexer *state, t_env *env, int var_flag)
 					+ 1] != '?')))
 	{
 		state->path = var_finder(str, state, env, var_flag);
-		// printf("path = %s\n", (state->path));
 		dollar_handler_util(state, var_flag);
+	}
+	else if (str[state->i] == '$' && str[state->i + 1] == '?')
+	{
+		return_exit_status(state);
 	}
 	else if (str[state->i] == '$' && (str[state->i + 1] == '\\'
 			|| (str[state->i + 1] == '%') || (str[state->i + 1] == '?')))

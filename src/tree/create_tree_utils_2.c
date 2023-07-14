@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree_utils_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:14:41 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/14 14:42:48 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 11:23:06 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	parse_cmd_node(t_token **tokens, t_tree *node)
 	res = 0;
 	if ((*tokens)->type == 0)
 		(*tokens)->type = TOKEN_CMD;
-	node->type = (*tokens)->type;
+	node->type = TOKEN_CMD;
 	node->cmd = ft_strdup((*tokens)->value);
 	if (!node->cmd)
 	{

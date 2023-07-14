@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/19 18:22:05 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 10:59:25 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	replace_value(t_token *token, t_lexer *state)
 		free(token->value);
 		token->value = NULL;
 	}
-	if (state->res)
+	if (state->res != NULL)
 		token->value = ft_strdup(state->res);
 	else
 		token->value = NULL;

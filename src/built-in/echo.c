@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 17:33:45 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 10:56:17 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	ft_echo(char **args)
 	while (args[index])
 	{
 		handle_printing(args, index, flag);
+		if (args[index + 1] != NULL)
+			write(1, " ", 1);
 		index++;
 	}
 	if (args[index] == NULL)

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 15:45:14 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 12:46:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,11 +176,12 @@ int					parse_cmd_node(t_token **tokens, t_tree *node);
 //helper
 int					ft_isquote(int c);
 int					ft_isspace(int c);
+void				init_signals(void);
 void				commands(char *cmd);
 void				free_env(t_env *env);
-void				init_signals(void);
-void				sigint_handler(int signum);
 void				ctrl_d_handler(void);
+int					ft_atol(const char *str);
+void				sigint_handler(int signum);
 void				disable_enable_ctl(int enable);
 char				*find_path(char **envp, char *str);
 char				**ft_realloc(char **ptr, size_t size);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:31:15 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/12 17:30:25 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 11:22:24 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int	parse_redirect(t_tree **tree, t_token **tokens)
 		if (!node)
 			return (-1);
 		node->type = (*tokens)->type;
-
 		node->redir = redir_node(tokens, (*tokens)->type);
 		if (!node->redir)
 			return (-1);
