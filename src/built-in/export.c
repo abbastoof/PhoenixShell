@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/12 13:56:19 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 15:04:32 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,46 @@ void	print_export(t_env *env)
 		split = NULL;
 		split = ft_split(env->env_var[indx], '=');
 		if (!split)
+		{
+			ft_putstr("Malloc\n");
 			return ;
+		}
 		ft_putstr("declare -x ");
 		ft_putstr(split[0]);
 		if (split[1] != NULL)
 		{
-			ft_putstr("=");
-			ft_putstr("\"");
+			ft_putstr("=\"");
 			ft_putstr(split[1]);
 			ft_putstr("\"");
 		}
+		else if (split != NULL && split[1] == NULL)
+			ft_putstr("=""");
 		ft_putstr("\n");
 		free_double_ptr(split);
 		indx++;
 	}
+}
+
+static int	find_var_in_env(char *var, t_env *env)
+{
+	int		index;
+	char	**split;
+
+	split = ft_split(var, '=');
+	index = 0;
+	while (env->env_var[index])
+	{
+		if (ft_strncmp(env->env_var[index], split[0], ft_strlen(split[0])) == 0)
+		{
+			free(env->env_var[index]);
+			printf("var = %s\n", var);
+			env->env_var[index] = ft_strdup(var);
+			return (1);
+		}
+		index++;
+	}
+	free_double_ptr(split);
+	return (0);
 }
 
 static char	**add_to_env(char *new_var, t_env *env)
@@ -55,12 +81,16 @@ static char	**add_to_env(char *new_var, t_env *env)
 
 	indx = 0;
 	new_env = NULL;
-	new_env = ft_realloc(env->env_var, env->counter + 2);
-	if (env->env_var != NULL)
-		free_double_ptr(env->env_var);
-	new_env[env->counter++] = ft_strdup(new_var);
-	indx = 0;
-	return (new_env);
+	if (find_var_in_env(new_var, env) == 0)
+	{
+		new_env = ft_realloc(env->env_var, env->counter + 2);
+		if (env->env_var != NULL)
+			free_double_ptr(env->env_var);
+		new_env[env->counter++] = ft_strdup(new_var);
+		indx = 0;
+		return (new_env);
+	}
+	return (env->env_var);
 }
 
 void	ft_export(t_env *env, char **args)
