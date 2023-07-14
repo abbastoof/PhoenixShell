@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 14:25:07 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 14:46:38 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ static void	error_access_filename(char *file_name)
 
 static void	next_redirect(t_redir *redir, t_tree *tree)
 {
-	t_redir	*last_redir;
 	t_redir	*tmp_redir;
 	int		fd;
 
-	last_redir = NULL;
 	tmp_redir = redir;
 	while (tmp_redir != NULL)
 	{
@@ -71,13 +69,13 @@ static void	next_redirect(t_redir *redir, t_tree *tree)
 			tmp_redir = tmp_redir->next;
 			continue ;
 		}
-		if (last_redir != NULL)
+		if (tree->last_redir != NULL)
 			close(tree->fd_out);
 		tree->fd_out = fd;
-		last_redir = tmp_redir;
+		tree->last_redir = tmp_redir;
 		tmp_redir = tmp_redir->next;
 	}
-	if (last_redir != NULL)
+	if (tree->last_redir != NULL)
 		dup2(tree->fd_out, STDOUT_FILENO);
 }
 

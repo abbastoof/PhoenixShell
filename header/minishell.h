@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 14:38:33 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 14:47:05 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_tree
 	t_redir			*redir;
 	struct s_tree	*left;
 	struct s_tree	*right;
+	t_redir			*last_redir;
 }					t_tree;
 
 int					g_exit_status;

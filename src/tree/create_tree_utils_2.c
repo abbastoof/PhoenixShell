@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:14:41 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/12 17:00:52 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/14 14:42:48 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ t_tree	*new_node(void)
 		return (NULL);
 	}
 	node->type = 0;
-	node->infile = 0;
-	node->outfile = 0;
+	node->fd_out = 0;
+	node->fd_in = 0;
 	node->count_in = 0;
 	node->count_out = 0;
+	node->last_redir = NULL;
 	node->cmd = NULL;
 	node->args = NULL;
 	node->redir = NULL;
