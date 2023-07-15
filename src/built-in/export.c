@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 10:29:52 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/15 03:51:25 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static int	find_var_in_env(char *var, t_env *env)
 		if (ft_strncmp(env->env_var[index], split[0], ft_strlen(split[0])) == 0)
 		{
 			free(env->env_var[index]);
-			printf("var = %s\n", var);
 			env->env_var[index] = ft_strdup(var);
 			return (1);
 		}
