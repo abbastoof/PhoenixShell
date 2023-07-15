@@ -1,38 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_tree_utils.c                                :+:      :+:    :+:   */
+/*   parse_cmd_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/12 13:45:41 by mtoof            ###   ########.fr       */
+/*   Created: 2023/07/15 03:33:11 by mtoof             #+#    #+#             */
+/*   Updated: 2023/07/15 03:35:54 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_redir	*redir_node(t_token **tokens, int type)
-{
-	t_redir	*new;
-
-	new = malloc(sizeof(t_redir));
-	if (!new)
-	{
-		ft_putstr_fd("malloc redir node\n", 2);
-		return (NULL);
-	}
-	(*tokens)++;
-	new->file_name = ft_strdup((*tokens)->value);
-	if (!new->file_name)
-	{
-		ft_putstr_fd("malloc redir node file_name\n", 2);
-		return (NULL);
-	}
-	new->type = type;
-	new->next = NULL;
-	return (new);
-}
 
 static int	add_next_args(t_token *tokens, t_tree *new_node, int size)
 {
@@ -60,20 +38,6 @@ static int	add_next_args(t_token *tokens, t_tree *new_node, int size)
 		}
 	}
 	return (size);
-}
-
-static int	parse_redir(t_token **tokens, t_tree *new_node)
-{
-	t_redir	*redir;
-
-	redir = redir_node(tokens, (*tokens)->type);
-	if (!redir)
-		return (-1);
-	if (!new_node->redir)
-		new_node->redir = redir;
-	else if (add_back(&new_node->redir, redir) == -1)
-		return (-1);
-	return (1);
 }
 
 static int	add_cmd_to_args_dbl_ptr(t_token **tokens, t_tree *new_node)
@@ -120,6 +84,33 @@ int	add_args(t_token **tokens, t_tree *new_node)
 			}
 		}
 		return (1);
+	}
+	return (0);
+}
+
+int	parse_cmd_node(t_token **tokens, t_tree *node)
+{
+	int	res;
+
+	res = 0;
+	if ((*tokens)->type == 0)
+		(*tokens)->type = TOKEN_CMD;
+	node->type = TOKEN_CMD;
+	node->cmd = ft_strdup((*tokens)->value);
+	if (!node->cmd)
+	{
+		ft_putstr_fd("malloc strdup parse_cmd\n", 2);
+		return (-1);
+	}
+	while ((*tokens)->value && (*tokens)->type != TOKEN_PIPE)
+	{
+		res = add_args(tokens, node);
+		if (res > 0)
+			(*tokens)++;
+		else if (res == 0)
+			break ;
+		else
+			return (-1);
 	}
 	return (0);
 }

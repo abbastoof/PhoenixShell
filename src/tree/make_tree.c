@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:31:15 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 11:22:24 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/15 03:41:45 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	parse_pipe(t_tree **tree, t_token **tokens)
 {
 	t_tree	*node;
 
-	node = new_node();
+	node = new_tree_node();
 	if (!node)
 		return (-1);
 	node->type = (*tokens)->type;
@@ -36,7 +36,7 @@ static int	add_redir_node(t_tree **tree, t_token **tokens)
 		(*tree)->count_in++;
 	else if ((*tokens)->type == TOKEN_OUTPUT)
 		(*tree)->count_out++;
-	new = redir_node(tokens, (*tokens)->type);
+	new = new_redir_node(tokens, (*tokens)->type);
 	if (!new)
 		return (-1);
 	if (add_back(&((*tree)->redir), new) == -1)
@@ -55,11 +55,11 @@ static int	parse_redirect(t_tree **tree, t_token **tokens)
 	}
 	else
 	{
-		node = new_node();
+		node = new_tree_node();
 		if (!node)
 			return (-1);
 		node->type = (*tokens)->type;
-		node->redir = redir_node(tokens, (*tokens)->type);
+		node->redir = new_redir_node(tokens, (*tokens)->type);
 		if (!node->redir)
 			return (-1);
 		if (*tree && (*tree)->left && (*tree)->type == TOKEN_PIPE
@@ -88,7 +88,7 @@ static int	parse_cmd(t_tree **tree, t_token **tokens)
 	}
 	else
 	{
-		node = new_node();
+		node = new_tree_node();
 		if (!node)
 			return (-1);
 		if (parse_cmd_node(tokens, node) == -1)

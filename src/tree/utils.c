@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_tree_utils_2.c                              :+:      :+:    :+:   */
+/*   create_tree_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:14:41 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/14 11:23:06 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/15 03:39:26 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_double_ptr(char **args)
-{
-	int	index;
-
-	index = 0;
-	if (args[index] != NULL)
-	{
-		while (args[index])
-		{
-			free(args[index]);
-			index++;
-		}
-		free(args);
-	}
-	args = NULL;
-}
 
 int	redir(int type)
 {
@@ -36,7 +19,7 @@ int	redir(int type)
 	return (0);
 }
 
-t_tree	*new_node(void)
+t_tree	*new_tree_node(void)
 {
 	t_tree	*node;
 
@@ -75,32 +58,5 @@ int	add_back(t_redir **lst, t_redir *new)
 	while (last->next != NULL)
 		last = last->next;
 	last->next = new;
-	return (0);
-}
-
-int	parse_cmd_node(t_token **tokens, t_tree *node)
-{
-	int	res;
-
-	res = 0;
-	if ((*tokens)->type == 0)
-		(*tokens)->type = TOKEN_CMD;
-	node->type = TOKEN_CMD;
-	node->cmd = ft_strdup((*tokens)->value);
-	if (!node->cmd)
-	{
-		ft_putstr_fd("malloc strdup parse_cmd\n", 2);
-		return (-1);
-	}
-	while ((*tokens)->value && (*tokens)->type != TOKEN_PIPE)
-	{
-		res = add_args(tokens, node);
-		if (res > 0)
-			(*tokens)++;
-		else if (res == 0)
-			break ;
-		else
-			return (-1);
-	}
 	return (0);
 }

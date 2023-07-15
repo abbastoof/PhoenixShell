@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 12:46:14 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/15 03:39:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,17 +159,18 @@ void				ft_export(t_env *env, char **args);
 int					print_function(char **split, t_env *env, int index);
 
 // tree
-t_tree				*new_node(void);
+t_tree				*new_tree_node(void);
 int					redir(int type);
 void				free_tree(t_tree *tree);
 void				display_list(t_tree *tree);
 void				free_double_ptr(char **args);
 void				exec_tree(t_tree *tree, t_env *env);
-t_redir				*redir_node(t_token **tokens, int type);
+t_redir				*new_redir_node(t_token **tokens, int type);
 int					add_back(t_redir **lst, t_redir *new_node);
 int					add_args(t_token **tokens, t_tree *new_node);
 int					create_tree(t_token **tokens, t_tree **tree);
 int					parse_cmd_node(t_token **tokens, t_tree *node);
+int					parse_redir(t_token **tokens, t_tree *new_node);
 
 //TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
