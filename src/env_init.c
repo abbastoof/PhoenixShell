@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:59:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 16:01:31 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 16:47:44 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	add_lines_to_env_var(t_env *env, char **envp, int indx)
 {
+	if (ft_strncmp(envp[indx], "_=", 2) == 0)
+		return ;
 	env->env_var[indx] = ft_strdup(envp[indx]);
 	if (env->env_var[indx] == NULL)
 	{

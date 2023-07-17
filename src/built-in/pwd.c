@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:43:35 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/13 16:58:42 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 14:39:20 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ void	pwd(void)
 		write(1, "\n", 2);
 	}
 	else
-		perror("getcwd() error");
+		ft_putstr_fd("Minishell: getcwd() error\n", 2);
 }

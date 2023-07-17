@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 13:57:29 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 16:50:40 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,10 +154,12 @@ void				pwd(void);
 void				ft_echo(char **args);
 void				ft_env(t_env *env);
 void				ft_exit(t_tree *tree);
-void				ft_cd(t_env *env, char *args);
+void				ft_cd(t_env *env, char **args);
 void				ft_unset(char **args, t_env *env);
 void				ft_export(t_env *env, char **args);
 int					print_function(char **split, t_env *env, int index);
+int					free_env_assign_new_var(char **new_env, t_env *env,
+						char *var);
 
 // tree
 t_tree				*new_tree_node(void);
@@ -207,7 +209,5 @@ void				run_cmd_token(t_tree *tree, t_env *env);
 // void				get_command_paths(t_cmd *lst, t_env *env);
 int					exec_redir_2(t_redir *redir, t_tree *tree);
 void				exec_heredoc(t_tree *tree);
-
-
 
 #endif

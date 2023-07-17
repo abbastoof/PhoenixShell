@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 14:10:30 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 14:42:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,15 @@ void	ft_unset(char **args, t_env *env)
 	int	index;
 
 	index = 1;
-	while (args[index] != NULL)
+	if (env->env_var != NULL)
 	{
-		if (ft_strchr(args[index], '='))
-			handle_error(args[index]);
-		else
-			find_var_inside_env(args[index], env);
-		index++;
+		while (args[index] != NULL)
+		{
+			if (ft_strchr(args[index], '='))
+				handle_error(args[index]);
+			else
+				find_var_inside_env(args[index], env);
+			index++;
+		}
 	}
 }

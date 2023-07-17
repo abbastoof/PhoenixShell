@@ -6,108 +6,57 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/01 18:00:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:51:17 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern char	**environ;
-
-void	ft_strjoin_inplace(char *dest, const char *s1, const char *s2)
+static int	error_handling(char **args)
 {
-	while (*s1)
-		*dest++ = *s1++;
-	*dest++ = '=';
-	while (*s2)
-		*dest++ = *s2++;
-	*dest = '\0';
+	int	index;
+
+	index = 0;
+	if (!args || !args[1])
+		return (-1);
+	while (args[index] != NULL)
+		index++;
+	if (index > 2)
+	{
+		ft_putstr_fd("cd: string not in pwd: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd("\n", 2);
+		return (-1);
+	}
+	return (0);
 }
 
-// void	set_environment_variable(const char *name, const char *value)
-// {
-// 	int		i;
-// 	char	*new_value;
-// 	char	**new_environ;
-
-// 	i = 0;
-// 	while (environ[i] && (ft_strncmp(environ[i], name, ft_strlen(name)) != 0
-// 			|| environ[i][ft_strlen(name)] != '='))
-// 		i++;
-// 	new_value = malloc(ft_strlen(name) + ft_strlen(value) + 2);
-// 	if (new_value == NULL)
-// 	{
-// 		perror("minishell: malloc");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	ft_strjoin_inplace(new_value, name, value);
-// 	if (environ[i])
-// 	{
-// 		free(environ[i]);
-// 		environ[i] = new_value;
-// 	}
-// 	else
-// 	{
-// 		new_environ = malloc((i + 2) * sizeof(char *));
-// 		if (new_environ == NULL)
-// 		{
-// 			perror("minishell: malloc");
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		ft_memcpy(new_environ, environ, i * sizeof(char *));
-// 		new_environ[i] = new_value;
-// 		new_environ[i + 1] = NULL;
-// 		free(environ);
-// 		environ = new_environ;
-// 	}
-// }
-
-void	ft_cd(t_env *env, char *args)
+void	ft_cd(t_env *env, char **args)
 {
-	char	*path;
 	char	cwd[1024];
-	int		i;
+	char	*path;
 
-	path = args;
+	path = NULL;
 	(void)env;
-	if (!args)
+	if (error_handling(args) == -1)
 		return ;
-	if (path[0] == '$')
+	if (ft_strcmp(args[1], "-") == 0)
 	{
-		if ((path + 1) == NULL)
-		{
-			perror(path);
-			return ;
-		}
-		path = path + 1;
-	}
-	else if (ft_strcmp((const char *)path, "-\0") == 0)
-	{
-		i = -1;
-		while (ft_strnstr(env->env_var[++i], "OLDPWD", 1) == NULL)
-			path = ft_strnstr(env->env_var[i], "OLDPWD", 1);
-		printf("%s\n", path);
+		path = find_path(env->env_var, "OLDPWD=");
 		if (path == NULL)
 		{
 			printf("minishell: cd: OLDPWD not set\n");
 			return ;
 		}
-		else
-			printf("%s\n", path);
 	}
+	if (path == NULL)
+		path = args[1];
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("minishell: getcwd");
 		return ;
 	}
-	if (chdir(path) < 0)
+	if (path && chdir(path) < 0)
 		perror("minishell: cd");
-	// else
-	// {
-	// 	set_environment_variable("OLDPWD", cwd);
-	// 	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	// 		perror("minishell: getcwd");
-	// 	else
-	// 		set_environment_variable("PWD", cwd);
-	// }
+	path = NULL;
 }

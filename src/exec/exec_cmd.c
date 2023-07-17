@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 14:23:17 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:41:06 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	built_in(t_tree *tree, t_env *env)
 		ft_exit(tree);
 	else if (!(ft_strcmp(tree->cmd, "echo")))
 		ft_echo(tree->args);
-	// else if (!(ft_strcmp(tree->cmd, "cd")))
-	// 	ft_cd(env->env_var, tree->cmd);
+	else if (!(ft_strcmp(tree->cmd, "cd")))
+		ft_cd(env, tree->args);
 	else if (!(ft_strcmp(tree->cmd, "env")))
 		ft_env(env);
 	else if (!(ft_strcmp(tree->cmd, "export")))
@@ -63,6 +63,7 @@ void	run_cmd_token(t_tree *tree, t_env *env)
 {
 	tree->cmd_paths = NULL;
 	tree->paths = find_path(env->env_var, "PATH=");
+	//remember to NULL the paths by the end
 	if (tree->paths != NULL && tree->paths[0] != '\0')
 		tree->cmd_paths = ft_split(tree->paths, ':');
 	// free(tree->cmd);
