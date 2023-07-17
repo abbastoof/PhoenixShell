@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 11:42:27 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 13:57:29 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_redir
 
 typedef struct s_tree
 {
+	char			*tmp_file;
 	int				type;
 	char			*cmd;
 	char			*paths;
@@ -205,6 +206,8 @@ int					built_in(t_tree *tree, t_env *env);
 void				run_cmd_token(t_tree *tree, t_env *env);
 // void				get_command_paths(t_cmd *lst, t_env *env);
 int					exec_redir_2(t_redir *redir, t_tree *tree);
+void				exec_heredoc(t_tree *tree);
+
 
 
 #endif

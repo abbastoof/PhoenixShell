@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 11:43:01 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 13:20:00 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	exec_tree(t_tree *tree, t_env *env)
 			if (built_in(tree, env) == 0)
 				exec_cmd(tree, env);
 		}
-		// else if (tree->type == TOKEN_HEREDOC)
-		// 	exec_heredoc(tree);
+		else if (tree->type == TOKEN_HEREDOC)
+			exec_heredoc(tree);
 		g_exit_status = g_exit_status % 255;
 	}
 }

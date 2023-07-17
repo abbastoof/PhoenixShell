@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
+#    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/07/15 03:42:49 by mtoof            ###   ########.fr        #
+#    Updated: 2023/07/17 13:35:44 by atoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c export_helper.c
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \
 			split_utils.c token_utils.c expand_quotes.c find.c syntax.c check_quotes.c
 SRC_TREE = make_tree.c utils.c display_delete_tree.c parse_cmd_node.c parse_redir_node.c
-SRC_EXEC = child.c create_pipe.c error.c exec.c exec_redir.c exec_cmd.c exec_cmd_utils.c
+SRC_EXEC = child.c create_pipe.c error.c exec.c exec_redir.c exec_cmd.c exec_cmd_utils.c \
+			heredoc.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
 		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS)) \
