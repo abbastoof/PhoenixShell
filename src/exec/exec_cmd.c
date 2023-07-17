@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 12:14:55 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 14:23:17 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	run_cmd_token(t_tree *tree, t_env *env)
 	if (is_absolute_path(tree->args[0]))
 		tree->cmd = ft_strdup(tree->args[0]);
 	// chere agar tree->cmd is_absolute_path== TRUE ro dobareh strdup mikoni 
-	else
+	else if (tree->cmd_paths != NULL)
 		tree->cmd = get_cmd(tree->cmd_paths, tree->args[0]);
 	if (child_process() == 0)
 	{
