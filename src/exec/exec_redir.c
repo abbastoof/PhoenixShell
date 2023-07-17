@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 15:03:31 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 12:23:58 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ static void	next_redirect(t_redir *redir, t_tree *tree)
 			continue ;
 		}
 		else
-		{
 			open_output_file(tmp_redir, &fd);
-		}
 		if (tree->last_redir != NULL)
 			close(tree->fd_out);
 		tree->fd_out = fd;
@@ -86,6 +84,17 @@ static void	next_redirect(t_redir *redir, t_tree *tree)
 	}
 	if (tree->last_redir != NULL)
 		dup2(tree->fd_out, STDOUT_FILENO);
+}
+
+int	exec_redir_2(t_redir *redir, t_tree *tree)
+{
+	if (child_process() == 0)
+	{
+		next_redirect(redir, tree);
+		exit(0);
+	}
+	wait(&(g_exit_status));
+	return (1);
 }
 
 int	exec_redir(t_redir *redir, t_tree *tree, t_env *env)

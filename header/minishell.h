@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/15 03:39:11 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 11:42:27 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ void				exit_status_chk(void);
 int					built_in(t_tree *tree, t_env *env);
 void				run_cmd_token(t_tree *tree, t_env *env);
 // void				get_command_paths(t_cmd *lst, t_env *env);
+int					exec_redir_2(t_redir *redir, t_tree *tree);
 
 
 #endif

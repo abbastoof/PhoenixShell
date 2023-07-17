@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 11:14:14 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 11:43:01 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	exec_tree(t_tree *tree, t_env *env)
 			create_pipe(tree, env);
 		//TODO:FIX THIS PART
 
-		// else if (tree->type >= TOKEN_INPUT && tree->type <= TOKEN_OUTPUT_APPEND)
-		// 	exec_redir(tree->redir);
+		else if (tree->type >= TOKEN_INPUT && tree->type <= TOKEN_OUTPUT_APPEND)
+			exec_redir_2(tree->redir, tree);
 		else if (tree->type == TOKEN_CMD)
 		{
 			if (built_in(tree, env) == 0)

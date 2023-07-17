@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 11:41:09 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/17 12:14:55 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static char	*get_cmd(char **paths, char *cmd)
 		free(unix_cmd);
 		paths++;
 	}
-	//bejaye NULL bayad cmd ro bargardunim ta agar exit_status ro be onvane cmd dashtim ro betunim dar error print konim
-	// vagarna inro print mikoneh "minishell: : command not found"
 	return (cmd);
 }
 
@@ -54,8 +52,8 @@ int	built_in(t_tree *tree, t_env *env)
 		ft_export(env, tree->args);
 	else if (!(ft_strcmp(tree->cmd, "pwd")))
 		pwd();
-	// else if (!(ft_strcmp(tree->cmd, "unset")))
-	// 	ft_unset();
+	else if (!(ft_strcmp(tree->cmd, "unset")))
+		ft_unset(tree->args, env);
 	else
 		return (0);
 	return (1);
