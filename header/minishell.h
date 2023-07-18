@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 16:50:40 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 11:45:51 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ void				disable_enable_ctl(int enable);
 char				*find_path(char **envp, char *str);
 char				**ft_realloc(char **ptr, size_t size);
 void				init_tokens(t_token *tokens, int wd_count);
-// void		initialize_minishell(t_minishell *line);
 int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_chrjoin(char const *s1, char const s2);
 void				handle_command(t_env *env, t_token *tokens);
@@ -200,14 +199,13 @@ void				initialize_environment(t_env *env, char **environ);
 
 //exec
 pid_t				child_process(void);
+void				error_access_filename(char *file_name);
 void				create_pipe(t_tree *tree, t_env *env);
-int					exec_redir(t_redir *redir, t_tree *tree, t_env *env);
+int					exec_cmd_redir(t_redir *redir, t_tree *tree, t_env *env);
 void				exec_cmd(t_tree *tree, t_env *env);
 void				exit_status_chk(void);
 int					built_in(t_tree *tree, t_env *env);
 void				run_cmd_token(t_tree *tree, t_env *env);
-// void				get_command_paths(t_cmd *lst, t_env *env);
-int					exec_redir_2(t_redir *redir, t_tree *tree);
 void				exec_heredoc(t_tree *tree);
 
 #endif

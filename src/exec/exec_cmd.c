@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 17:41:06 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 11:40:20 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	run_cmd_token(t_tree *tree, t_env *env)
 void	exec_cmd(t_tree *tree, t_env *env)
 {
 	if (tree->redir != NULL)
-		exec_redir(tree->redir, tree, env);
+		exec_cmd_redir(tree->redir, tree, env);
 	else
 		run_cmd_token(tree, env);
 }

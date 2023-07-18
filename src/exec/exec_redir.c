@@ -6,32 +6,11 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/17 12:23:58 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 11:39:56 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	error_access_filename(char *file_name)
-{
-	if (access(file_name, F_OK) != 0)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(file_name, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		g_exit_status = 1;
-		exit(1);
-	}
-	else if ((access(file_name, W_OK) != 0) || access(file_name, R_OK) != 0
-		|| access(file_name, X_OK) != 0)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(file_name, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-		g_exit_status = 1;
-		exit(1);
-	}
-}
 
 static void	open_output_file(t_redir *redir, int *fd)
 {
@@ -60,7 +39,7 @@ static void	open_input_file(t_redir *redir)
 	close(fd);
 }
 
-static void	next_redirect(t_redir *redir, t_tree *tree)
+static void	exec_redirect(t_redir *redir, t_tree *tree)
 {
 	t_redir	*tmp_redir;
 	int		fd;
@@ -86,23 +65,13 @@ static void	next_redirect(t_redir *redir, t_tree *tree)
 		dup2(tree->fd_out, STDOUT_FILENO);
 }
 
-int	exec_redir_2(t_redir *redir, t_tree *tree)
+int	exec_cmd_redir(t_redir *redir, t_tree *tree, t_env *env)
 {
 	if (child_process() == 0)
 	{
-		next_redirect(redir, tree);
-		exit(0);
-	}
-	wait(&(g_exit_status));
-	return (1);
-}
-
-int	exec_redir(t_redir *redir, t_tree *tree, t_env *env)
-{
-	if (child_process() == 0)
-	{
-		next_redirect(redir, tree);
-		run_cmd_token(tree, env);
+		exec_redirect(redir, tree);
+		if (tree->cmd != NULL)
+			run_cmd_token(tree, env);
 		exit(0);
 	}
 	wait(&(g_exit_status));
