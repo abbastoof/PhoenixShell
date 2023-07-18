@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 11:44:04 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 13:57:58 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	exec_tree(t_tree *tree, t_env *env)
 	{
 		if (tree->type == TOKEN_PIPE)
 			create_pipe(tree, env);
-		else if (tree->type == TOKEN_HEREDOC)
-			exec_heredoc(tree);
+		// else if (tree->type == TOKEN_HEREDOC)
+		// 	exec_heredoc(tree);
 		else if (tree->type >= TOKEN_INPUT && tree->type <= TOKEN_OUTPUT_APPEND)
 			exec_cmd_redir(tree->redir, tree, env);
 		else if (tree->type == TOKEN_CMD)

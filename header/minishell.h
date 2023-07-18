@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 11:45:51 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 13:55:56 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,6 @@ void				exec_cmd(t_tree *tree, t_env *env);
 void				exit_status_chk(void);
 int					built_in(t_tree *tree, t_env *env);
 void				run_cmd_token(t_tree *tree, t_env *env);
-void				exec_heredoc(t_tree *tree);
+// void				exec_heredoc(t_tree *tree);
 
 #endif

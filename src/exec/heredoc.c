@@ -6,13 +6,13 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:19:45 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 12:24:01 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 13:55:13 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_heredoc(t_tree *tree)
-{
+// void	exec_heredoc(t_tree *tree)
+// {
 	
-}
+// }

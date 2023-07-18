@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_finder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/13 11:49:29 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 14:14:06 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*var_finder(char *str, t_lexer *state, t_env *env, int var_flag)
 	if (!des)
 		return (NULL);
 	while (!ft_isspace(str[indx]) && str[indx] != '\0'
-		&& !ft_isquote(str[indx]))
+		&& !ft_isquote(str[indx]) && ft_isalnum(str[indx]))
 		indx++;
 	state->var = ft_strnjoin(des, (str + state->i), indx - state->i);
 	free(des);
