@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 13:55:56 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 18:05:37 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,13 @@ typedef struct s_lexer
 	char			*des;
 }					t_lexer;
 
-typedef struct s_environment
+typedef struct s_env
 {
 	char			**env_var;
+	char			*key;
+	char			*value;
 	int				counter;
+	struct s_env	*next;
 }					t_env;
 
 //cmd_trim
@@ -157,6 +160,8 @@ void				ft_exit(t_tree *tree);
 void				ft_cd(t_env *env, char **args);
 void				ft_unset(char **args, t_env *env);
 void				ft_export(t_env *env, char **args);
+//export utils used it in cd.c
+int					find_var_in_env(char *var, t_env *env, char *key);
 int					print_function(char **split, t_env *env, int index);
 int					free_env_assign_new_var(char **new_env, t_env *env,
 						char *var);

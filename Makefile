@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
+#    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/07/18 12:25:47 by atoof            ###   ########.fr        #
+#    Updated: 2023/07/18 18:16:10 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ LEXER_D = src/lexer/
 UTILS_D = src/utils/
 TREE_D = src/tree/
 EXEC_D = src/exec/
+ENV_D = src/env
 SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c helper.c ft_atol.c free_double_ptr.c
 SRC = main.c commands.c  env_init.c signals.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c export_helper.c
@@ -25,7 +26,7 @@ SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c
 SRC_TREE = make_tree.c utils.c display_delete_tree.c parse_cmd_node.c parse_redir_node.c
 SRC_EXEC = child.c create_pipe.c error.c exec_tree.c exec_redir.c exec_cmd.c exec_cmd_utils.c \
 			heredoc.c
-
+SRC_ENV = env_init.c
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
 		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS)) \
 		$(addprefix $(TREE_D), $(SRC_TREE)) $(addprefix $(EXEC_D), $(SRC_EXEC))

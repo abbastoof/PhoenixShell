@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 15:55:49 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/18 18:04:27 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	check_args(t_env *env, char **args, char *path, char *pwd_path)
 		if (path == NULL)
 			return (empty_oldpwd());
 	}
-	if (getcwd(pwd_path, 1024) == NULL)
+	if (getcwd(pwd_path, 256) == NULL)
 	{
 		ft_putstr_fd("Minishell: getcwd\n", 2);
 		return (-1);
@@ -53,28 +53,41 @@ static int	check_args(t_env *env, char **args, char *path, char *pwd_path)
 	return (0);
 }
 
-void	ft_cd(t_env *env, char **args)
+static void	change_path_update_env(char *path, t_env *env, char *pwd_path)
 {
-	char	*path;
-	char	pwd_path[1024];
+	char	*join;
 
-	(void)env;
-	path = NULL;
-	if (error_handling(args) == -1)
-		return ;
-	if (check_args(env, args, path, pwd_path) == -1)
-	{
-		return ;
-	}
-	if (path == NULL)
-		path = args[1];
-	if (path && chdir(path) < 0)
+	if (chdir(path) < 0)
 	{
 		ft_putstr_fd("Minishell: cd: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
+		return ;
 	}
-	update_env(env, pwd_path);
-	//update oldpwd with pwd_path char and use get_cwd again to update pwd in env
+	// join = ft_strjoin("PWD=", path);
+	// find_var_in_env(path, env, "PWD=");
+}
+
+void	ft_cd(t_env *env, char **args)
+{
+	char	*path;
+	char	*pwd_path;
+
+	(void)env;
+	path = NULL;
+	pwd_path = NULL;
+	pwd_path = ft_calloc(sizeof(char), 256);
+	if (!pwd_path)
+	{
+		ft_putstr_fd("Malloc\n", 2);
+		return ;
+	}
+	if (error_handling(args) == -1)
+		return ;
+	if (check_args(env, args, path, pwd_path) == -1)
+		return ;
+	if (path == NULL)
+		path = args[1];
+	change_path_update_env(path, env, pwd_path);
 	path = NULL;
 }
