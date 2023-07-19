@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 18:05:37 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/19 12:54:39 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 # define FD_WRITE_END 1
 # define FD_READ_END 0
 
-//cmd_trim
 typedef struct s_cmdsplit
 {
 	int				wd_count;
@@ -50,19 +49,6 @@ typedef struct s_cmdsplit
 	char			quote;
 	int				res;
 }					t_cmdsplit;
-
-// typedef struct s_cmd
-// {
-// 	pid_t	pid;
-// 	int		end[2];
-// 	int		infile;
-// 	int		outfile;
-// 	char	*paths;
-// 	char	**cmd_paths;
-// 	char	**cmd_arguments;
-// 	char	*cmd;
-// 	char	**args;
-// }			t_cmd;
 
 typedef struct s_redir
 {
@@ -90,6 +76,8 @@ typedef struct s_tree
 }					t_tree;
 
 int					g_exit_status;
+int					g_stdout;
+int					g_stdin;
 
 typedef struct s_token
 {
@@ -201,6 +189,7 @@ void				handle_command(t_env *env, t_token *tokens);
 void				rl_replace_line(const char *text, int clear_undo);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 void				initialize_environment(t_env *env, char **environ);
+// void				init_env(t_env *env, char **envp);
 
 //exec
 pid_t				child_process(void);
@@ -211,6 +200,6 @@ void				exec_cmd(t_tree *tree, t_env *env);
 void				exit_status_chk(void);
 int					built_in(t_tree *tree, t_env *env);
 void				run_cmd_token(t_tree *tree, t_env *env);
-// void				exec_heredoc(t_tree *tree);
+void				run_heredoc(t_tree *tree, t_env *env);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 18:04:27 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/19 12:52:50 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,8 @@ static int	check_args(t_env *env, char **args, char *path, char *pwd_path)
 	return (0);
 }
 
-static void	change_path_update_env(char *path, t_env *env, char *pwd_path)
+static void	change_path_update_env(char *path)
 {
-	char	*join;
 
 	if (chdir(path) < 0)
 	{
@@ -88,6 +87,6 @@ void	ft_cd(t_env *env, char **args)
 		return ;
 	if (path == NULL)
 		path = args[1];
-	change_path_update_env(path, env, pwd_path);
+	change_path_update_env(path);
 	path = NULL;
 }

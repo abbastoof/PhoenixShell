@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 17:11:57 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/19 12:53:48 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ static char	**add_to_env(char *var, t_env *env)
 	char	*split;
 
 	new_env = NULL;
-	split = ft_split(var, '=');
+	split = *ft_split(var, '=');
 	if (!split)
 	{
 		ft_putstr_fd("Malloc error\n", 2);
 		return (NULL);
 	}
-	if (find_var_in_env(var, env, split[0]) == 0)
+	if (find_var_in_env(var, env, &split[0]) == 0)
 	{
 		new_env = ft_realloc(env->env_var, env->counter + 2);
 		if (!new_env || free_env_assign_new_var(new_env, env, var) == -1)
@@ -85,7 +85,7 @@ static char	**add_to_env(char *var, t_env *env)
 	else
 		return (NULL);
 	if (split != NULL)
-		free_double_ptr(split);
+		free_double_ptr(&split);
 	return (env->env_var);
 }
 

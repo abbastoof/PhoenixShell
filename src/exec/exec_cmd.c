@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 15:40:10 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/19 12:52:04 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	run_cmd_token(t_tree *tree, t_env *env)
 	// free(tree->cmd);
 	if (is_absolute_path(tree->args[0]))
 		tree->cmd = ft_strdup(tree->args[0]);
-	// chere agar tree->cmd is_absolute_path== TRUE ro dobareh strdup mikoni 
+	// chere agar tree->cmd is_absolute_path== TRUE ro dobareh strdup mikoni
 	else if (tree->cmd_paths != NULL)
 		tree->cmd = get_cmd(tree->cmd_paths, tree->args[0]);
 	if (child_process() == 0)
