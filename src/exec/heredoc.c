@@ -6,42 +6,56 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:19:45 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/19 13:11:02 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 17:43:54 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	write_lines_to_file(const char *filename, t_tree *tree)
+{
+	char	*input_line;
+	int		fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+	if (fd < 0)
+	{
+		perror("open");
+		return ;
+	}
+	while (1)
+	{
+		input_line = readline("> ");
+		if (input_line != NULL && ft_strcmp(tree->redir->file_name, input_line) != 0)
+		{
+			write(fd, input_line, ft_strlen(input_line));
+			write(fd, "\n", 1);
+			free(input_line);
+		}
+		else
+			break ;
+	}
+	close(fd);
+}
+
 void	run_heredoc(t_tree *tree, t_env *env)
 {
-	int		end[2];
-	char	*line;
+	char	*filename;
+	int		fd;
 
-	if (pipe(end) < 0)
-		exit(1);
-	if (child_process() == 0)
+	init_heredoc_sigs();
+	filename = "/tmp/heredoc_temp_file";
+	write_lines_to_file(filename, tree);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
 	{
-		close(end[0]);
-		dup2(g_stdout, STDOUT_FILENO);
-		dup2(g_stdin, STDIN_FILENO);
-		line = readline("> ");
-		while (line && ft_strncmp(tree->redir->file_name, line,
-				ft_strlen(tree->redir->file_name)) != 0)
-		{
-			free(line);
-			line = readline("> ");
-		}
-		if (line)
-			free(line);
-		close(end[1]);
+		perror("open");
+		return ;
 	}
-	else
-	{
-		wait(NULL);
-		dup2(end[FD_WRITE_END], STDIN_FILENO);
-		close(end[FD_READ_END]);
-		exec_tree(tree->left, env);
-	}
-	wait(&(g_exit_status));
-	g_exit_status = g_exit_status % 255;
+	if (tree->type == TOKEN_CMD)
+		dup2(fd, 0);
+	close(fd);
+	disable_enable_ctl(1);
+	exec_tree(tree->left, env);
+	unlink(filename);
 }
