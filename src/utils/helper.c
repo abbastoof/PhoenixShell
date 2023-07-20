@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:05:33 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:11:14 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 13:17:41 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,23 @@ char	*find_path(t_env **env, char *str)
 	return (NULL);
 }
 
-// void	initialize_minishell(t_cmd *line)
-// {
-// 	line->pid = 0;
-// 	line->end[0] = 0;
-// 	line->end[1] = 0;
-// 	line->infile = 0;
-// 	line->outfile = 0;
-// 	line->cmd_paths = NULL;
-// 	line->cmd_arguments = NULL;
-// 	line->cmd = NULL;
-// }
-
-void	free_env(t_env *env)
+void	free_env(t_env **env)
 {
-	int	i;
+	t_env *head;
 
-	i = -1;
-	if (env->env_var)
+	if (!env)
+		return ;
+	head = *env;
+	while(*env != NULL)
 	{
-		while (env->env_var[++i])
-			free(env->env_var[i]);
-		free(env->env_var);
+		head = (*env)->next;
+		if ((*env)->key != NULL)
+			free((*env)->key);
+		if ((*env)->value != NULL)
+			free((*env)->value);
+		(*env)->value = NULL;
+		(*env)->key = NULL;
+		free((*env));
+		(*env) = head;
 	}
 }

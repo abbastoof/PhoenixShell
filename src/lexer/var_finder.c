@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:11:03 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 13:03:36 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ char	*var_finder(char *str, t_lexer *state, t_env **env, int var_flag)
 	indx = state->i;
 	des = ft_calloc(1, 1);
 	if (!des)
+	//message for malloc
 		return (NULL);
 	while (!ft_isspace(str[indx]) && str[indx] != '\0'
 		&& !ft_isquote(str[indx]) \
 		&& (str[indx] == '_' || ft_isalnum(str[indx])))
 		indx++;
 	state->var = ft_strnjoin(des, (str + state->i), indx - state->i);
+	//protect malloc
 	free(des);
 	des = NULL;
 	state->i = indx;

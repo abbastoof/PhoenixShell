@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:52:57 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/19 18:00:10 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 13:02:34 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int	syntax(t_token *tokens)
 			return (empty_pipe_redirect(res.token_1, tokens[i + 1].value));
 		i++;
 	}
+	//change the exit status if the syntax error exist
 	return (0);
 }

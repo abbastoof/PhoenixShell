@@ -27,7 +27,10 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 			n = ft_strlen(s2);
 		sjoin = (char *)malloc(sizeof(char) * (ft_strlen(s1) + n + 1));
 		if (!sjoin)
+		{
+			ft_putstr_fd("Malloc\n", 2);
 			return (NULL);
+		}
 		i = -1;
 		while (s1[++i])
 			sjoin[i] = s1[i];

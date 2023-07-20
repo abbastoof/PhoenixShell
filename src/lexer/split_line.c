@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/13 12:57:27 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 13:00:58 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	handle_quote(char *str, t_cmdsplit *cmd, t_token *tokens)
 	}
 	tokens[cmd->wd_count].value = ft_substr(str, cmd->start, (cmd->index
 				- cmd->start) + 1);
+	//protect malloc
 }
 
 static void	handle_redirector(char *str, t_cmdsplit *cmd, t_token *tokens)
@@ -38,6 +39,7 @@ static void	handle_redirector(char *str, t_cmdsplit *cmd, t_token *tokens)
 	{
 		tokens[cmd->wd_count].value = ft_substr(str, cmd->start, ((cmd->index
 						+ 2) - cmd->start));
+		//protect malloc
 		tokens[cmd->wd_count].type = cmd->res;
 		cmd->index++;
 	}
@@ -45,6 +47,7 @@ static void	handle_redirector(char *str, t_cmdsplit *cmd, t_token *tokens)
 	{
 		tokens[cmd->wd_count].value = ft_substr(str, cmd->start, ((cmd->index
 						+ 1) - cmd->start));
+		//protect malloc
 		tokens[cmd->wd_count].type = cmd->res;
 	}
 }
@@ -57,6 +60,7 @@ static void	handle_word(char *str, t_cmdsplit *cmd, t_token *tokens)
 		cmd->index++;
 	tokens[cmd->wd_count].value = ft_substr(str, cmd->start, (cmd->index
 				- cmd->start));
+	//protect malloc
 }
 
 static void	init_result(char *str, t_cmdsplit *cmd, t_token *tokens)

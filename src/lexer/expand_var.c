@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:45:33 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:59:31 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
 	if (!state->tmp)
 	{
 		state->tmp = ft_calloc(sizeof(char), 2);
+		//protect malloc
 		if (!state->tmp)
 			return ;
 	}
@@ -71,6 +72,7 @@ static void	replace_value(t_token *token, t_lexer *state)
 	}
 	if (state->res != NULL)
 		token->value = ft_strdup(state->res);
+		//protect malloc
 	else
 		token->value = NULL;
 }

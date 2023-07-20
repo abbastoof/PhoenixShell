@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:10:48 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:59:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	return_exit_status(t_lexer *state)
 	str_exit_status = ft_itoa(g_exit_status);
 	state->res = ft_strnjoin(state->tmp, str_exit_status, \
 	ft_strlen(str_exit_status));
+	//protect malloc
 	if (state->tmp)
 		free(state->tmp);
 	state->tmp = state->res;
@@ -28,6 +29,7 @@ void	return_exit_status(t_lexer *state)
 void	result_join(t_lexer *state, char *str)
 {
 	state->res = ft_strnjoin(state->tmp, str + state->i, 1);
+	//protect malloc
 	if (state->tmp)
 		free(state->tmp);
 	state->tmp = state->res;
@@ -41,6 +43,7 @@ static void	dollar_handler_util(t_lexer *state, int var_flag)
 		if (state->path[0] == '=')
 			state->path++;
 		state->res = ft_strjoin(state->tmp, state->path);
+		//protect malloc
 		if (state->tmp)
 			free(state->tmp);
 		state->tmp = state->res;
@@ -65,15 +68,18 @@ void	check_dollar_sign(char *str, t_lexer *state, t_env **env, int var_flag)
 		if (str[state->i + 1] == '\\')
 		{
 			state->res = ft_strnjoin(state->tmp, str + state->i, 1);
+			//protect malloc
 			if (state->tmp)
 				free(state->tmp);
 			state->tmp = state->res;
 			state->i += 2;
 		}
 		result_join(state, str);
+		//protect malloc
 	}
 	else if (str[state->i] == '$' && (str[state->i + 1] == '!'))
 		state->i++;
 	else
 		result_join(state, str);
+		//protect malloc
 }

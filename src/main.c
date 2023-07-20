@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:21:16 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 13:17:50 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int	main(int ac, char **av, char **envp)
 		disable_enable_ctl(1);
 		free(cmd);
 	}
-	// free_env(&env);
+	free_env(&env);
 	return (0);
 }

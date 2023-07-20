@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:40:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 13:18:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int					parse_redir(t_token **tokens, t_tree *new_node);
 int					ft_isquote(int c);
 int					ft_isspace(int c);
 void				init_signals(void);
-void				free_env(t_env *env);
+void				free_env(t_env **env);
 void				ctrl_d_handler(void);
 int					ft_atol(const char *str);
 void				sigint_handler(int signum);
