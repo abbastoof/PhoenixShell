@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:10:47 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 19:50:36 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,25 +73,27 @@ static void	add_to_env(char *var, t_env **env)
 	char	*new_node;
 	char	**split;
 
-	new_env = NULL;
-	split = ft_split(var, '=');
-	if (!split)
+	new_node = NULL;
+	if (var != NULL && ft_strlen(ft_strrchr(var, '=')) > 1)
 	{
-		ft_putstr_fd("Malloc error\n", 2);
-		return (NULL);
+		split = ft_split(var, '=');
+		if (!split)
+		{
+			ft_putstr_fd("Malloc error\n", 2);
+			return ;
+		}
+		if (find_key_in_env(env, split[0], split[1]) == 0)
+		{
+			if (split != NULL)
+				free_double_ptr(split);
+			return ;
+		}
 	}
-	if (find_var_in_env(var, env, split[0]) == 0)
-	{
-		new_env = ft_realloc(env->env_var, env->counter + 2);
-		if (!new_env || free_env_assign_new_var(new_env, env, var) == -1)
-			return (NULL);
-		return (new_env);
-	}
-	else
-		return (NULL);
-	if (split != NULL)
-		free_double_ptr(split);
-	return (env->env_var);
+	else if (var != NULL)
+		if (find_key_in_env(env, var, NULL) == 1)
+			add_back_env(env, new_env_node(var));
+		//protect_malloc
+	return ;
 }
 
 void	ft_export(t_env **env, char **args)

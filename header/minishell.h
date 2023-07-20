@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:09:09 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:40:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,12 @@ char				*ft_chrjoin(char const *s1, char const s2);
 void				handle_command(t_env *env, t_token *tokens);
 void				rl_replace_line(const char *text, int clear_undo);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
-void				initialize_environment(t_env *env, char **environ);
+
+//env_init
+t_env				*new_env_node(char *line);
+char				*shelvl_value(char *value);
+void				init_env(t_env **env, char **envp);
+int					add_back_env(t_env **lst, t_env *new_node);
 
 //exec
 pid_t				child_process(void);
@@ -197,8 +202,9 @@ void				create_pipe(t_tree *tree, t_env **env);
 int					exec_cmd_redir(t_redir *redir, t_tree *tree, t_env **env);
 void				exec_cmd(t_tree *tree, t_env **env);
 void				exit_status_chk(void);
-int					built_in(t_tree *tree, t_env *env);
-void				run_cmd_token(t_tree *tree, t_env *env);
+int					built_in(t_tree *tree, t_env **env);
+void				run_cmd_token(t_tree *tree, t_env **env);
+void				run_heredoc(t_tree *tree, t_env **env);
 // void				exec_heredoc(t_tree *tree);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:10:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 19:46:21 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static int	check_args(t_env **env, char **args, char **path, char **pwd_path)
 	return (0);
 }
 
-static void	change_path_update_env(char *path, t_env *env, char *pwd_path)
+static void	change_path_update_env(char *path, t_env **env, char *old_path)
 {
-	char	*join;
+	char	*pwd;
 
 	pwd = ft_calloc(sizeof(char), 1024);
 	if (chdir(path) < 0)
@@ -102,7 +102,7 @@ void	ft_cd(t_env **env, char **args)
 		return ;
 	if (path == NULL)
 		path = args[1];
-	change_path_update_env(path, env, pwd_path);
+	change_path_update_env(path, env, current_path);
 	path = NULL;
 	free(current_path);
 	current_path = NULL;

@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -38,7 +39,7 @@ static void	write_lines_to_file(const char *filename, t_tree *tree)
 	close(fd);
 }
 
-void	run_heredoc(t_tree *tree, t_env *env)
+void	run_heredoc(t_tree *tree, t_env **env)
 {
 	char	*filename;
 	int		fd;

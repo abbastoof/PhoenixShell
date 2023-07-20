@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:10:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:21:16 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	initialize_environment(&env, envp);
+	init_env(&env, envp);
 	while (1)
 	{
 		disable_enable_ctl(0);

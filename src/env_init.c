@@ -5,103 +5,98 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 13:59:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 16:59:29 by mtoof            ###   ########.fr       */
+/*   Created: 2023/07/18 18:07:47 by mtoof             #+#    #+#             */
+/*   Updated: 2023/07/20 19:05:31 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_lines_to_env_var(t_env *env, char **envp, int indx)
+static void	*error_handling(void)
 {
-	if (ft_strncmp(envp[indx], "_=", 2) == 0)
-		return ;
-	env->env_var[indx] = ft_strdup(envp[indx]);
-	if (env->env_var[indx] == NULL)
-	{
-		perror("minishell: strdup");
-		exit(EXIT_FAILURE);
-	}
+	ft_putstr_fd("Malloc\n", 2);
+	return (NULL);
 }
 
-static char	*find_shlvl(char **env, int index)
+static int	init_node(char **split, t_env **node)
 {
-	int		shlvl_value;
-	char	**tmp;
-
-	tmp = ft_split(env[index], '=');
-	if (!tmp)
+	if (split[0] != NULL)
 	{
-		ft_putstr("Malloc error\n");
-		return (NULL);
+		(*node)->key = ft_strdup(split[0]);
+		if (!(*node)->key)
+			return (-1);
 	}
-	shlvl_value = ft_atoi(tmp[1]);
-	shlvl_value += 1;
-	return (ft_itoa(shlvl_value));
-}
-
-static void	strdup_var(char *str, t_env *env, int index, char *res)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	if (str != NULL && ft_strncmp(str, "SHLVL=", 6) == 0)
+	if (split[1] != NULL)
 	{
-		tmp = ft_strjoin(str, res);
-		env->env_var[index] = ft_strdup(tmp);
+		if (split[0] != NULL && ft_strncmp(split[0], "SHLVL", 6) == 0)
+			(*node)->value = ft_strdup(shelvl_value(split[1]));
+		else if (split[0] != NULL && ft_strncmp(split[0], "OLDPWD", 6) == 0)
+			(*node)->value = NULL;
+		else
+			(*node)->value = ft_strdup(split[1]);
+		if (!(*node)->value && ft_strncmp(split[0], "OLDPWD", 6) != 0)
+			return (-1);
 	}
 	else
-		env->env_var[index] = ft_strdup(str);
-	if (tmp != NULL)
-	{
-		free(tmp);
-		tmp = NULL;
-	}
-	if (env->env_var[index] == NULL)
-	{
-		ft_putstr("minishell: strdup\n");
-		exit(EXIT_FAILURE);
-	}
+		(*node)->value = NULL;
+	return (0);
 }
 
-static void	skip_oldpwd_update_shlvl(t_env *env, char **envp)
+t_env	*new_env_node(char *line)
 {
-	int		indx;
-	char	*shlvl_value;
+	char	**split;
+	t_env	*node;
 
-	indx = 0;
-	shlvl_value = NULL;
-	while (envp[indx])
-	{
-		if (ft_strncmp(envp[indx], "SHLVL=", 6) == 0)
-		{
-			shlvl_value = find_shlvl(envp, indx);
-			strdup_var("SHLVL=", env, indx, shlvl_value);
-			free(shlvl_value);
-			shlvl_value = NULL;
-			indx++;
-		}
-		if (ft_strncmp(envp[indx], "OLDPWD=", 7) == 0)
-		{
-			strdup_var("OLDPWD", env, indx, NULL);
-			indx++;
-		}
-		if (envp[indx] != NULL)
-			add_lines_to_env_var(env, envp, indx);
-		indx++;
-	}
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (error_handling());
+	split = ft_split(line, '=');
+	if (!split)
+		return (error_handling());
+	if (init_node(split, &node) == -1)
+		return (error_handling());
+	node->next = NULL;
+	if (split)
+		free_double_ptr(split);
+	return (node);
 }
 
-void	initialize_environment(t_env *env, char **envp)
+int	add_back_env(t_env **lst, t_env *new_node)
 {
-	env->counter = 0;
-	while (envp[env->counter] != NULL)
-		env->counter++;
-	env->env_var = ft_calloc(sizeof(char *), env->counter + 1);
-	if (env->env_var == NULL)
+	t_env	*last;
+
+	last = *lst;
+	if (!new_node)
+		return (-1);
+	if (*lst == NULL)
 	{
-		perror("minishell: malloc");
-		exit(EXIT_FAILURE);
+		*lst = new_node;
+		return (0);
 	}
-	skip_oldpwd_update_shlvl(env, envp);
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new_node;
+	return (0);
+}
+
+void	init_env(t_env **env, char **envp)
+{
+	t_env	*node;
+	int		index;
+
+
+	index = 0;
+	while (envp[index] != NULL)
+	{
+		node = new_env_node(envp[index]);
+		if (!node)
+		{
+			error_handling();
+			exit(1);
+		}
+		if (add_back_env(env, node) == -1)
+			exit(1);
+		if (envp[index] != NULL)
+			index++;
+	}
 }

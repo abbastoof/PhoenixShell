@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:14:29 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:37:29 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ int	built_in(t_tree *tree, t_env **env)
 	else if (!(ft_strcmp(tree->cmd, "env")))
 		ft_env(env);
 	else if (!(ft_strcmp(tree->cmd, "export")))
-	{
 		ft_export(env, tree->args);
-	}
 	else if (!(ft_strcmp(tree->cmd, "pwd")))
 		pwd();
 	else if (!(ft_strcmp(tree->cmd, "unset")))
