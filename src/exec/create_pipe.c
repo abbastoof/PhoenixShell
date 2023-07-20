@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:26:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/13 14:09:55 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 15:45:57 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 // 	}
 // }
 
-void	create_pipe(t_tree *tree, t_env *env)
+void	create_pipe(t_tree *tree, t_env **env)
 {
 	int	end[2];
 

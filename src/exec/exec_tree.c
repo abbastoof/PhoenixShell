@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/19 12:22:00 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:16:42 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,15 @@
 /*  X_OK for execute/search permission),
 	the existence test (F_OK)*/
 
-void	exec_tree(t_tree *tree, t_env *env)
+// int	check_heredoc(t_tree *tree)
+// {
+// 	while (tree != NULL)
+// 	{
+		
+// 	}
+// }
+
+void	exec_tree(t_tree *tree, t_env **env)
 {
 	if (tree != NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/19 12:49:47 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:10:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 int	main(int ac, char **av, char **envp)
 {
 	char				*cmd;
-	t_env				env;
+	t_env				*env;
 
 	(void)ac;
 	(void)av;
-	g_stdout = dup(STDOUT_FILENO);
-	g_stdin = dup(STDIN_FILENO);
 	initialize_environment(&env, envp);
 	while (1)
 	{
@@ -35,6 +33,6 @@ int	main(int ac, char **av, char **envp)
 		disable_enable_ctl(1);
 		free(cmd);
 	}
-	free_env(&env);
+	// free_env(&env);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:05:33 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/01 18:36:16 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 15:11:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,16 @@ void	ft_free_strarray(char **str_array)
 	free(str_array);
 }
 
-char	*find_path(char **envp, char *str)
+char	*find_path(t_env **env, char *str)
 {
-	while (*envp != NULL)
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp != NULL)
 	{
-		if (ft_strncmp(str, *envp, ft_strlen(str)) == 0)
-			return (*envp + ft_strlen(str));
-		envp++;
+		if (ft_strncmp(str, tmp->key, ft_strlen(str)) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
 	}
 	return (NULL);
 }

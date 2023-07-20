@@ -6,24 +6,29 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/15 03:49:03 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 16:00:20 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_env *env)
+void	ft_env(t_env **env)
 {
-	int	indx;
+	t_env	*tmp;
 
-	indx = 0;
-	while (env->env_var[indx])
+	tmp = *env;
+	while (tmp != NULL)
 	{
-		if (ft_strchr(env->env_var[indx], '='))
+		if (tmp->key != NULL)
 		{
-			ft_putstr(env->env_var[indx]);
-			write(1, "\n", 1);
+			if (tmp->key && tmp->value)
+			{
+				ft_putstr_fd(tmp->key, 1);
+				ft_putstr_fd("=", 1);
+				ft_putstr_fd(tmp->value, 1);
+				ft_putstr_fd("\n", 1);
+			}
 		}
-		indx++;
+		tmp = tmp->next;
 	}
 }

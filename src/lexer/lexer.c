@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 11:02:01 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 15:09:44 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	init_info(t_lexer *state)
 // 	}
 // }
 
-void	process_cmd(char *line, t_env *env)
+void	process_cmd(char *line, t_env **env)
 {
 	t_token	*tokens;
 	t_lexer	state;
