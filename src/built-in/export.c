@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 19:50:36 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:50:43 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static void	add_to_env(char *var, t_env **env)
 		}
 		if (find_key_in_env(env, split[0], split[1]) == 0)
 		{
+			//protect malloc inside find_key_in_env
 			if (split != NULL)
 				free_double_ptr(split);
 			return ;

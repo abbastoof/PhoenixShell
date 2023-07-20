@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 12:44:21 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:48:21 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	check_digits(t_tree *tree, int indx)
 			ft_putstr_fd(tree->args[indx], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			free_tree(tree);
+			//free tokens
+			//free env linked list and double ptr
 			exit(255);
 		}
 		c++;
@@ -53,11 +55,16 @@ void	ft_exit(t_tree *tree)
 		ft_putstr_fd("exit\n", 2);
 		exit_num = ft_atol(tree->args[1]);
 		free_tree(tree);
+		//free tokens
+		//free env linked list and double ptr
 		exit(exit_num % 256);
 	}
 	else
 	{
 		ft_putstr_fd("exit\n", 2);
+		//free_tree
+		//free tokens
+		//free env linked list and double ptr
 		exit(0);
 	}
 }

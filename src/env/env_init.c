@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:07:47 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:35:23 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 12:54:28 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,25 @@ static int	init_node(char **split, t_env **node)
 	return (0);
 }
 
+t_env	*new_env_node(char *line)
+{
+	char	**split;
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (error_handling());
+	split = ft_split(line, '=');
+	if (!split)
+		return (error_handling());
+	if (init_node(split, &node) == -1)
+		return (error_handling());
+	node->next = NULL;
+	if (split)
+		free_double_ptr(split);
+	return (node);
+}
+
 void	init_env(t_env **env, char **envp)
 {
 	t_env	*node;
@@ -53,10 +72,7 @@ void	init_env(t_env **env, char **envp)
 	{
 		node = new_env_node(envp[index]);
 		if (!node)
-		{
-			error_handling();
 			exit(1);
-		}
 		if (add_back_env(env, node) == -1)
 			exit(1);
 		if (envp[index] != NULL)
