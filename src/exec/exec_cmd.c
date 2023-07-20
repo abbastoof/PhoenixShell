@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 15:40:10 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 17:07:21 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*get_cmd(char **paths, char *cmd)
 	return (cmd);
 }
 
-int	built_in(t_tree *tree, t_env *env)
+int	built_in(t_tree *tree, t_env **env)
 {
 	if (!(ft_strcmp(tree->cmd, "exit")))
 		ft_exit(tree);
@@ -49,7 +49,9 @@ int	built_in(t_tree *tree, t_env *env)
 	else if (!(ft_strcmp(tree->cmd, "env")))
 		ft_env(env);
 	else if (!(ft_strcmp(tree->cmd, "export")))
+	{
 		ft_export(env, tree->args);
+	}
 	else if (!(ft_strcmp(tree->cmd, "pwd")))
 		pwd();
 	else if (!(ft_strcmp(tree->cmd, "unset")))
@@ -59,10 +61,10 @@ int	built_in(t_tree *tree, t_env *env)
 	return (1);
 }
 
-void	run_cmd_token(t_tree *tree, t_env *env)
+void	run_cmd_token(t_tree *tree, t_env **env)
 {
 	tree->cmd_paths = NULL;
-	tree->paths = find_path(env->env_var, "PATH=");
+	tree->paths = find_path(env, "PATH");
 	//remember to NULL the paths by the end
 	if (tree->paths != NULL && tree->paths[0] != '\0')
 		tree->cmd_paths = ft_split(tree->paths, ':');
@@ -74,7 +76,7 @@ void	run_cmd_token(t_tree *tree, t_env *env)
 		tree->cmd = get_cmd(tree->cmd_paths, tree->args[0]);
 	if (child_process() == 0)
 	{
-		if (execve(tree->cmd, tree->args, env->env_var) == -1)
+		if (execve(tree->cmd, tree->args, NULL) == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(tree->cmd, 2);
@@ -87,7 +89,7 @@ void	run_cmd_token(t_tree *tree, t_env *env)
 	exit_status_chk();
 }
 
-void	exec_cmd(t_tree *tree, t_env *env)
+void	exec_cmd(t_tree *tree, t_env **env)
 {
 	if (tree->redir != NULL)
 		exec_cmd_redir(tree->redir, tree, env);

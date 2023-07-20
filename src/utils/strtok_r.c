@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   strtok_r.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 14:52:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/07 15:38:05 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 15:50:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
 char	*ft_strpbrk(const char *s1, const char *s2)
 {
@@ -37,10 +37,10 @@ size_t	ft_strspn(const char *s1, const char *s2)
 	const char	*p;
 	const char	*spanp;
 	int			found;
+	char		c;
+	char		sc;
 
 	p = s1;
-	char c;
-	char sc;
 	while ((c = *p) != '\0')
 	{
 		spanp = s2;
@@ -88,15 +88,15 @@ char	*ft_strtok_r(char *s, const char *delim, char **save_ptr)
 	return (token);
 }
 
-
-int main()
+int	main(void)
 {
-    char str[] = "Geeks for Geeks";
-    char* token;
-    char* rest = str;
- 
-    while ((token = strtok_r(rest, " ", &rest)))
-        printf("%s\n", token);
- 
-    return (0);
+	char	str[];
+	char	*token;
+	char	*rest;
+
+	str[] = "Geeks for Geeks";
+	rest = str;
+	while ((token = strtok_r(rest, " ", &rest)))
+		printf("%s\n", token);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 10:59:25 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 15:45:33 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	handlequote(char *str, t_lexer *state)
 	handledquote(str, state);
 }
 
-static void	join_char(char *str, t_lexer *state, t_env *env, int var_flag)
+static void	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
 {
 	if (!state->tmp)
 	{
@@ -75,7 +75,7 @@ static void	replace_value(t_token *token, t_lexer *state)
 		token->value = NULL;
 }
 
-int	expand_var(t_token *token, t_lexer *state, t_env *env, int var_flag)
+int	expand_var(t_token *token, t_lexer *state, t_env **env, int var_flag)
 {
 	state->flag = 0;
 	state->i = 0;

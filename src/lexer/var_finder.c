@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/18 17:23:46 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 15:11:03 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	checker(char *str, t_lexer *state, int var_flag)
 	return (0);
 }
 
-char	*var_finder(char *str, t_lexer *state, t_env *env, int var_flag)
+char	*var_finder(char *str, t_lexer *state, t_env **env, int var_flag)
 {
 	int		indx;
 	char	*des;
@@ -58,7 +58,7 @@ char	*var_finder(char *str, t_lexer *state, t_env *env, int var_flag)
 	des = NULL;
 	state->i = indx;
 	if (var_flag == 1)
-		return (find_path(env->env_var, state->var));
+		return (find_path(env, state->var));
 	else
 		return (state->var);
 }

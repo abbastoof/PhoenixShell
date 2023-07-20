@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 11:39:56 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 15:44:05 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	exec_redirect(t_redir *redir, t_tree *tree)
 		dup2(tree->fd_out, STDOUT_FILENO);
 }
 
-int	exec_cmd_redir(t_redir *redir, t_tree *tree, t_env *env)
+int	exec_cmd_redir(t_redir *redir, t_tree *tree, t_env **env)
 {
 	if (child_process() == 0)
 	{

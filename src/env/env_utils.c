@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:49:32 by mtoof            ###   ########.fr       */
+/*   Created: 2023/07/19 11:58:25 by mtoof             #+#    #+#             */
+/*   Updated: 2023/07/20 18:54:07 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+char	*shelvl_value(char *value)
 {
-	char				*cmd;
-	t_env				*env;
+	int	res;
 
-	(void)ac;
-	(void)av;
-
-	env = NULL;
-	init_env(&env, envp);
-	while (1)
+	res = 0;
+	if (value != NULL)
 	{
-		disable_enable_ctl(0);
-		init_signals();
-		cmd = readline("Minishell>");
-		add_history(cmd);
-		if (cmd == NULL)
-			ctrl_d_handler();
-		process_cmd(cmd, &env);
-		signal(SIGINT, SIG_IGN);
-		disable_enable_ctl(1);
-		free(cmd);
+		res = ft_atoi(value);
+		res++;
+		return (ft_itoa(res));
 	}
-	// free_env(&env);
-	return (0);
+	return (NULL);
 }
+

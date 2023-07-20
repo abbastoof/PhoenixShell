@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/17 12:23:35 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 15:10:48 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	dollar_handler_util(t_lexer *state, int var_flag)
 	}
 }
 
-void	check_dollar_sign(char *str, t_lexer *state, t_env *env, int var_flag)
+void	check_dollar_sign(char *str, t_lexer *state, t_env **env, int var_flag)
 {
 	if (str[state->i] == '$' && (str[state->i + 1] != '\\' && (str[state->i \
 	+ 1] != '%' && str[state->i + 1] != '!' && str[state->i + 1] != '?')))

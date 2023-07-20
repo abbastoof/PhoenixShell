@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/18 18:05:37 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/20 18:42:59 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,31 +140,32 @@ int					words_count(char *str, t_cmdsplit *cmd);
 void				free_state(t_lexer *state);
 void				free_tokens(t_token *tokens);
 void				display_token(t_token *tokens);
-void				process_cmd(char *line, t_env *env);
+void				process_cmd(char *line, t_env **env);
 int					check_incorrect_quotes(t_token *tokens);
-int					expand_var(t_token *token, t_lexer *state, t_env *env,
+int					expand_var(t_token *token, t_lexer *state, t_env **env,
 						int var_flag);
-void				check_dollar_sign(char *str, t_lexer *state, t_env *env,
+void				check_dollar_sign(char *str, t_lexer *state, t_env **env,
 						int var_flag);
-char				*var_finder(char *str, t_lexer *state, t_env *env,
+char				*var_finder(char *str, t_lexer *state, t_env **env,
 						int var_flag);
-void				expand_quotes(t_token *tokens, t_env *env, t_lexer *state);
+void				expand_quotes(t_token *tokens, t_env **env, t_lexer *state);
 // void				get_command_arguments(t_cmd *lst, t_token *cmd);
 int					syntax(t_token *tokens);
 
 //built_in
 void				pwd(void);
 void				ft_echo(char **args);
-void				ft_env(t_env *env);
+void				ft_env(t_env **env);
 void				ft_exit(t_tree *tree);
-void				ft_cd(t_env *env, char **args);
-void				ft_unset(char **args, t_env *env);
-void				ft_export(t_env *env, char **args);
+void				ft_cd(t_env **env, char **args);
+int					empty_key_with_equal(t_env **tmp);
+void				ft_unset(char **args, t_env **env);
+void				ft_export(t_env **env, char **args);
 //export utils used it in cd.c
-int					find_var_in_env(char *var, t_env *env, char *key);
-int					print_function(char **split, t_env *env, int index);
-int					free_env_assign_new_var(char **new_env, t_env *env,
+int					find_key_in_env(t_env **env, char *key, char *value);
+int					free_env_assign_new_var(char **new_env, t_env **env,
 						char *var);
+
 
 // tree
 t_tree				*new_tree_node(void);
@@ -172,7 +173,7 @@ int					redir(int type);
 void				free_tree(t_tree *tree);
 void				display_list(t_tree *tree);
 void				free_double_ptr(char **args);
-void				exec_tree(t_tree *tree, t_env *env);
+void				exec_tree(t_tree *tree, t_env **env);
 t_redir				*new_redir_node(t_token **tokens, int type);
 int					add_back(t_redir **lst, t_redir *new_node);
 int					add_args(t_token **tokens, t_tree *new_node);
@@ -186,13 +187,12 @@ int					parse_redir(t_token **tokens, t_tree *new_node);
 int					ft_isquote(int c);
 int					ft_isspace(int c);
 void				init_signals(void);
-void				commands(char *cmd);
 void				free_env(t_env *env);
 void				ctrl_d_handler(void);
 int					ft_atol(const char *str);
 void				sigint_handler(int signum);
 void				disable_enable_ctl(int enable);
-char				*find_path(char **envp, char *str);
+char				*find_path(t_env **env, char *str);
 char				**ft_realloc(char **ptr, size_t size);
 void				init_tokens(t_token *tokens, int wd_count);
 int					ft_strcmp(const char *s1, const char *s2);
@@ -202,15 +202,23 @@ void				rl_replace_line(const char *text, int clear_undo);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 void				initialize_environment(t_env *env, char **environ);
 
+//env
+t_env				*new_env_node(char *line);
+char				*shelvl_value(char *value);
+void				init_env(t_env **env, char **envp);
+void				free_key_env(t_env **env, char *key);
+int					add_back_env(t_env **lst, t_env *new_node);
+void				add_key_to_env(t_env **env, char *key, char *value);
+
 //exec
 pid_t				child_process(void);
 void				error_access_filename(char *file_name);
-void				create_pipe(t_tree *tree, t_env *env);
-int					exec_cmd_redir(t_redir *redir, t_tree *tree, t_env *env);
-void				exec_cmd(t_tree *tree, t_env *env);
+void				create_pipe(t_tree *tree, t_env **env);
+int					exec_cmd_redir(t_redir *redir, t_tree *tree, t_env **env);
+void				exec_cmd(t_tree *tree, t_env **env);
 void				exit_status_chk(void);
-int					built_in(t_tree *tree, t_env *env);
-void				run_cmd_token(t_tree *tree, t_env *env);
+int					built_in(t_tree *tree, t_env **env);
+void				run_cmd_token(t_tree *tree, t_env **env);
 // void				exec_heredoc(t_tree *tree);
 
 #endif
