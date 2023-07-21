@@ -44,7 +44,7 @@ void	run_heredoc(t_tree *tree, t_env **env)
 	char	*filename;
 	int		fd;
 
-	init_heredoc_sigs();
+	// init_heredoc_sigs();
 	filename = "/tmp/heredoc_temp_file";
 	write_lines_to_file(filename, tree);
 	fd = open(filename, O_RDONLY);

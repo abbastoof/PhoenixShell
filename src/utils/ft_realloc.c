@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 15:33:21 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 13:08:04 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/21 01:58:29 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	**ft_realloc(char **ptr, size_t size)
 	while (ptr[index])
 	{
 		new[index] = ft_strdup(ptr[index]);
+		if (!new[index])
 		{
 			ft_putstr_fd("Malloc\n", 2);
 			return (NULL);
