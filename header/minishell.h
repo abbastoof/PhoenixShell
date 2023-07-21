@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 15:45:38 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/21 18:54:56 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,8 @@ t_env				*new_env_node(char *line);
 char				*shelvl_value(char *value);
 void				init_env(t_env **env, char **envp);
 int					add_back_env(t_env **lst, t_env *new_node);
-
+int					ft_listsize(t_env **env);
+char				**env_char_ptr(t_env **env);
 //exec
 pid_t				child_process(void);
 void				error_access_filename(char *file_name);
