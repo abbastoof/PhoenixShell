@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 13:18:11 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/21 15:45:38 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ typedef struct s_tree
 }					t_tree;
 
 int					g_exit_status;
-int					g_stdout;
-int					g_stdin;
 
 typedef struct s_token
 {
@@ -179,7 +177,7 @@ void				free_env(t_env **env);
 void				ctrl_d_handler(void);
 int					ft_atol(const char *str);
 void				sigint_handler(int signum);
-void				disable_enable_ctl(int enable);
+void				echoing_control_chars(int enable);
 char				*find_path(t_env **env, char *str);
 char				**ft_realloc(char **ptr, size_t size);
 void				init_tokens(t_token *tokens, int wd_count);

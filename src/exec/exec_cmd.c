@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:37:29 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/21 15:17:42 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,22 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 
 void	exec_cmd(t_tree *tree, t_env **env)
 {
+	t_redir	*tmp_redir;
+
 	if (tree->redir != NULL)
+	{
+		tmp_redir = tree->redir;
+		while (tmp_redir != NULL)
+		{
+			if (tmp_redir->type == TOKEN_HEREDOC)
+			{
+				run_heredoc(tree, env);
+				break ;
+			}
+			tmp_redir = tmp_redir->next;
+		}
 		exec_cmd_redir(tree->redir, tree, env);
+	}
 	else
 		run_cmd_token(tree, env);
 }

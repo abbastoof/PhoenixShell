@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/20 19:48:39 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/21 15:28:40 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 	 associated with the current line is cleared.
 */
 
-void	disable_enable_ctl(int enable)
+void	echoing_control_chars(int enable)
 {
 	struct termios	term;
 
@@ -78,7 +78,7 @@ void	init_signals(void)
 
 void	ctrl_d_handler(void)
 {
-	disable_enable_ctl(1);
+	echoing_control_chars(1);
 	write(1, "exit\n", 6);
 	exit(1);
 }
