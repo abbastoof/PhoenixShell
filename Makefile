@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
+#    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/07/21 01:53:33 by mtoof            ###   ########.fr        #
+#    Updated: 2023/07/22 23:41:57 by atoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ UTILS_D = src/utils/
 TREE_D = src/tree/
 EXEC_D = src/exec/
 ENV_D = src/env/
-SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c helper.c ft_atol.c free_double_ptr.c
+SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c helper.c ft_atol.c free_double_ptr.c \
+			ft_listsize.c
 SRC = main.c signals.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c export_helper.c
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 03:33:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/15 03:35:54 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/22 23:41:16 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static int	add_next_args(t_token *tokens, t_tree *new_node, int size)
 {
 	char	**new_args;
-	int		indx;
 
-	indx = 0;
 	new_args = NULL;
 	if (new_node->args != NULL)
 	{

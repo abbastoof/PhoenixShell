@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:50:43 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/22 23:40:56 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ int	find_key_in_env(t_env **env, char *key, char *value)
 
 static void	add_to_env(char *var, t_env **env)
 {
-	char	*new_node;
 	char	**split;
 
-	new_node = NULL;
 	if (var != NULL && ft_strlen(ft_strrchr(var, '=')) > 1)
 	{
 		split = ft_split(var, '=');
