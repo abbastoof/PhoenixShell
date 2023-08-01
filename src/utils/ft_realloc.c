@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 15:33:21 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 01:58:29 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/01 13:55:25 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	**ft_realloc(char **ptr, size_t size)
 {
-	size_t		index;
-	char		**new;
+	size_t	index;
+	char	**new;
 
 	index = 0;
 	while (ptr[index])

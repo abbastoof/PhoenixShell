@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_delete_tree.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:53:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/12 17:17:47 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/01 14:50:01 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,6 @@ static void	free_redir_lst(t_redir *redir)
 
 static void	free_node(t_tree *tree)
 {
-	int	indx;
-
-	indx = 0;
 	if (tree == NULL)
 		return ;
 	if (tree->cmd != NULL)
@@ -103,33 +100,27 @@ static void	free_node(t_tree *tree)
 		tree->cmd = NULL;
 	}
 	if (tree->args != NULL)
-	{
-		while (tree->args[indx] != NULL)
-		{
-			free(tree->args[indx]);
-			indx++;
-		}
-		free(tree->args);
-		tree->args = NULL;
-	}
+		free_double_ptr(tree->args);
 	if (tree->redir != NULL)
 		free_redir_lst(tree->redir);
+	if (tree->cmd_paths != NULL)
+		free_double_ptr(tree->cmd_paths);
 }
 
-void	free_tree(t_tree *tree)
+void	free_tree(t_tree **tree)
 {
 	if (!tree)
 		return ;
-	if (tree->left != NULL || tree->right != NULL)
+	if ((*tree)->left != NULL || (*tree)->right != NULL)
 	{
-		if (tree->left != NULL)
-			free_tree(tree->left);
-		if (tree->right != NULL)
-			free_tree(tree->right);
+		if ((*tree)->left != NULL)
+			free_tree(&(*tree)->left);
+		if ((*tree)->right != NULL)
+			free_tree(&(*tree)->right);
 	}
-	if (tree->type != TOKEN_PIPE)
-		free_node(tree);
-	if (tree != NULL)
-		free(tree);
-	tree = NULL;
+	if ((*tree)->type != TOKEN_PIPE)
+		free_node((*tree));
+	if ((*tree) != NULL)
+		free((*tree));
+	(*tree) = NULL;
 }

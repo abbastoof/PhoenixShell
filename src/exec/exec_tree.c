@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 14:08:20 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/01 17:02:40 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@
 // 	}
 // }
 
-void	exec_tree(t_tree *tree, t_env **env)
+void	exec_tree(t_tree **tree, t_env **env)
 {
-	if (tree != NULL)
+	if (*tree != NULL)
 	{
-		if (tree->type == TOKEN_PIPE)
-			create_pipe(tree, env);
-		else if (tree->type >= TOKEN_INPUT && tree->type <= TOKEN_OUTPUT_APPEND)
-			exec_cmd_redir(tree->redir, tree, env);
-		else if (tree->type == TOKEN_CMD)
+		if ((*tree)->type == TOKEN_PIPE)
+			create_pipe(&(*tree), env);
+		else if ((*tree)->type >= TOKEN_INPUT && (*tree)->type <= TOKEN_OUTPUT_APPEND)
+			exec_cmd_redir((*tree)->redir, tree, env);
+		else if ((*tree)->type == TOKEN_CMD)
 		{
-			if (built_in(tree, env) == 0)
-				exec_cmd(tree, env);
+			if (built_in(&(*tree), env) == 0)
+				exec_cmd(&(*tree), env);
 		}
-		else if (tree->type == TOKEN_HEREDOC)
-			run_heredoc(tree, env);
+		else if ((*tree)->type == TOKEN_HEREDOC)
+			run_heredoc(*tree);
 		g_exit_status = g_exit_status % 255;
 	}
 }

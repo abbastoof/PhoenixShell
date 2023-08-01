@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 18:54:56 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/01 16:59:21 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int					syntax(t_token *tokens);
 void				pwd(void);
 void				ft_echo(char **args);
 void				ft_env(t_env **env);
-void				ft_exit(t_tree *tree);
+void				ft_exit(t_tree *tree, t_env **env);
 void				ft_cd(t_env **env, char **args);
 int					empty_key_with_equal(t_env **tmp);
 void				ft_unset(char **args, t_env **env);
@@ -156,10 +156,10 @@ int					free_env_assign_new_var(char **new_env, t_env **env,
 // tree
 t_tree				*new_tree_node(void);
 int					redir(int type);
-void				free_tree(t_tree *tree);
+void				free_tree(t_tree **tree);
 void				display_list(t_tree *tree);
 void				free_double_ptr(char **args);
-void				exec_tree(t_tree *tree, t_env **env);
+void				exec_tree(t_tree **tree, t_env **env);
 t_redir				*new_redir_node(t_token **tokens, int type);
 int					add_back(t_redir **lst, t_redir *new_node);
 int					add_args(t_token **tokens, t_tree *new_node);
@@ -191,19 +191,19 @@ char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 t_env				*new_env_node(char *line);
 char				*shelvl_value(char *value);
 void				init_env(t_env **env, char **envp);
-int					add_back_env(t_env **lst, t_env *new_node);
+int					add_back_env(t_env **env, t_env *new_node);
 int					ft_listsize(t_env **env);
 char				**env_char_ptr(t_env **env);
 //exec
 pid_t				child_process(void);
 void				error_access_filename(char *file_name);
-void				create_pipe(t_tree *tree, t_env **env);
-int					exec_cmd_redir(t_redir *redir, t_tree *tree, t_env **env);
-void				exec_cmd(t_tree *tree, t_env **env);
+void				create_pipe(t_tree **tree, t_env **env);
+int					exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env);
+void				exec_cmd(t_tree **tree, t_env **env);
 void				exit_status_chk(void);
-int					built_in(t_tree *tree, t_env **env);
+int					built_in(t_tree **tree, t_env **env);
 void				run_cmd_token(t_tree *tree, t_env **env);
-void				run_heredoc(t_tree *tree, t_env **env);
+void				run_heredoc(t_tree *tree);
 // void				exec_heredoc(t_tree *tree);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_tree_utils.c                                :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:14:41 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/15 03:39:26 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/01 14:58:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_tree	*new_tree_node(void)
 	node->last_redir = NULL;
 	node->cmd = NULL;
 	node->args = NULL;
+	node->cmd_paths = NULL;
 	node->redir = NULL;
 	node->left = NULL;
 	node->right = NULL;

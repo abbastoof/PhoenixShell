@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:05:33 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 13:17:41 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/31 16:56:58 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ char	*find_path(t_env **env, char *str)
 
 void	free_env(t_env **env)
 {
-	t_env *head;
+	t_env	*head;
 
 	if (!env)
 		return ;
 	head = *env;
-	while(*env != NULL)
+	while (*env != NULL)
 	{
 		head = (*env)->next;
 		if ((*env)->key != NULL)

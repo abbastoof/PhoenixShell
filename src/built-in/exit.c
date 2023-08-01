@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 17:08:11 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/01 14:32:03 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	check_digits(t_tree *tree, int indx)
 			ft_putstr_fd("exit\nMinishell: exit: ", 2);
 			ft_putstr_fd(tree->args[indx], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			free_tree(tree);
+			free_tree(&tree);
 			//free tokens
 			//free env linked list and double ptr
 			exit(255);
@@ -35,11 +35,13 @@ static void	check_digits(t_tree *tree, int indx)
 	}
 }
 
-void	ft_exit(t_tree *tree)
+void	ft_exit(t_tree *tree, t_env **env)
 {
-	int		indx;
+	int			indx;
 	long		exit_num;
+	int			pid = 0;
 
+	
 	indx = 1;
 	exit_num = 0;
 	if (tree->args[indx] != NULL)
@@ -54,15 +56,17 @@ void	ft_exit(t_tree *tree)
 		}
 		ft_putstr_fd("exit\n", 2);
 		exit_num = ft_atol(tree->args[1]);
-		free_tree(tree);
+		free_tree(&tree);
+		free_env(env);
 		//free tokens
 		//free env linked list and double ptr
 		exit(exit_num % 256);
 	}
 	else
 	{
-		ft_putstr_fd("exit\n", 2);
-		//free_tree
+		if (pid == getpid())
+			ft_putstr_fd("exit\n", 2);
+		free_tree(&tree);
 		//free tokens
 		//free env linked list and double ptr
 		exit(0);

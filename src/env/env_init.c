@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:07:47 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/21 18:46:58 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/31 16:59:41 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	init_node(char **split, t_env **node)
 	if (split[1] != NULL)
 	{
 		if (split[0] != NULL && ft_strncmp(split[0], "SHLVL", 6) == 0)
-			(*node)->value = ft_strdup(shelvl_value(split[1]));
+			(*node)->value = shelvl_value(split[1]);
 		else if (split[0] != NULL && ft_strncmp(split[0], "OLDPWD", 6) == 0)
 			(*node)->value = NULL;
 		else

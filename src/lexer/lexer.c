@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:09:44 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/01 14:40:00 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ void	process_cmd(char *line, t_env **env)
 		expand_quotes(tokens, env, &state);
 		// display_token(tokens);
 		if (create_tree(&tokens, &tree) == -1)
-			free_tree(tree);
+			free_tree(&tree);
 		free_tokens(tokens);
 	}
 	// if (tree)
 	// 	display_list(tree);
-	exec_tree(tree, env);
-	// if (tree)
-	// 	free_tree(tree);
+	exec_tree(&tree, env);
+	if (tree)
+		free_tree(&tree);
 	tree = NULL;
 }

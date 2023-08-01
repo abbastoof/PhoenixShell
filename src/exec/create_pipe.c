@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:26:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:45:57 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/01 17:52:08 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 // 	}
 // }
 
-void	create_pipe(t_tree *tree, t_env **env)
+void	create_pipe(t_tree **tree, t_env **env)
 {
 	int	end[2];
 
@@ -50,7 +50,7 @@ void	create_pipe(t_tree *tree, t_env **env)
 		if (dup2(end[FD_WRITE_END], STDOUT_FILENO) < 0)
 			exit(1);
 		close(end[FD_READ_END]);
-		exec_tree(tree->left, env);
+		exec_tree(&(*tree)->left, env);
 		exit(g_exit_status);
 	}
 	wait(&(g_exit_status));
@@ -59,7 +59,7 @@ void	create_pipe(t_tree *tree, t_env **env)
 		if (dup2(end[FD_READ_END], STDIN_FILENO) < 0)
 			exit(1);
 		close(end[FD_WRITE_END]);
-		exec_tree(tree->right, env);
+		exec_tree(&(*tree)->right, env);
 		exit(g_exit_status);
 	}
 	close(end[FD_READ_END]);

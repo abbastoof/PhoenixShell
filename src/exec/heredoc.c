@@ -13,49 +13,74 @@
 
 #include "minishell.h"
 
-static int	write_lines_to_file(const char *filename, t_tree *tree)
+// void	run_heredoc(t_tree *tree)
+// {
+// 	int		end[2];
+// 	char	*line;
+
+// 	if (pipe(end) < 0)
+// 		exit(1);
+// 	line = readline("> ");
+// 	while (line && ft_strcmp(tree->redir->file_name, line) != 0)
+// 	{
+// 		if (line)
+// 		{
+// 			write(end[FD_WRITE_END], line, ft_strlen(line));
+// 			write(end[FD_WRITE_END], "\n", 1);
+// 		}
+// 		free(line);
+// 		line = readline("> ");
+// 	}
+// 	if (line)
+// 		free(line);
+// 	dup2(end[FD_READ_END], STDIN_FILENO);
+// 	close(end[FD_WRITE_END]);
+// 	close(end[FD_READ_END]);
+// 	g_exit_status = g_exit_status % 255;
+// }
+
+static int	write_lines_to_file(t_tree *tree)
 {
 	char	*input_line;
-	int		fd;
 
-	fd = open(filename, O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-	if (fd < 0)
+	int	p[2];
+
+	pipe(p);
+
+	tree->fd_in = open("heredoc_temp_file",O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	if (tree->fd_in < 0)
 	{
 		perror("open");
 		return (-1);
 	}
-	while (1)
+	input_line = readline("> ");
+	while (input_line && ft_strncmp(tree->redir->file_name, input_line, \
+		ft_strlen(input_line) + 1) != 0)
 	{
-		input_line = readline("> ");
-		if (input_line != NULL && \
-			ft_strcmp(tree->redir->file_name, input_line) != 0)
+		if (input_line)
 		{
-			write(fd, input_line, ft_strlen(input_line));
-			write(fd, "\n", 1);
-			free(input_line);
+			ft_putstr_fd(input_line, tree->fd_in);
+			ft_putstr_fd("\n", tree->fd_in);
 		}
-		else
-			break ;
+		free(input_line);
+		input_line = readline("> ");
 	}
-	return (fd);
+	if (input_line)
+		free(input_line);
+	return (tree->fd_in);
 }
 
-void	run_heredoc(t_tree *tree, t_env **env)
+void	run_heredoc(t_tree *tree)
 {
-	char	*filename;
-	int		fd;
-	(void)env;
 	// init_heredoc_sigs();
-	filename = "/tmp/heredoc_temp_file";
-	fd = write_lines_to_file(filename, tree);
-	if (fd < 0)
+	tree->fd_in = write_lines_to_file(tree);
+	if (tree->fd_in < 0)
 	{
 		perror("open");
 		return ;
 	}
-	if (tree->type == TOKEN_CMD && tree->redir->next == NULL)
-		dup2(fd, STDIN_FILENO);
-	close(fd);
+	if (tree->type == TOKEN_CMD)
+		dup2(tree->fd_in, STDIN_FILENO);
+	close(tree->fd_in);
 	echoing_control_chars(1);
-	unlink(filename);
 }

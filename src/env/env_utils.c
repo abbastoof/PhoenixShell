@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:58:25 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/21 18:45:37 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/07/31 12:56:39 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@ static void	*error_handling(void)
 	return (NULL);
 }
 
+static char	*str_env(t_env *tmp)
+{
+	char	*join_equal_sign;
+
+	if (tmp->key != NULL && tmp->value == NULL)
+		return (ft_strdup(tmp->key));
+	else if (tmp->key != NULL && tmp->value != NULL)
+	{
+		join_equal_sign = ft_strjoin("=", tmp->value);
+		if (!join_equal_sign)
+			return (NULL);
+		else
+			return (ft_strjoin(tmp->key, join_equal_sign));
+	}
+	return (NULL);
+}
+
 char	**env_char_ptr(t_env **env)
 {
 	char	**ptr;
@@ -40,25 +57,16 @@ char	**env_char_ptr(t_env **env)
 
 	if (!env)
 		return (NULL);
-	ptr = ft_calloc(sizeof(char *), ft_listsize(env));
+	ptr = ft_calloc(sizeof(char *), ft_listsize(env) + 1);
 	if (!ptr)
 		return (NULL);
 	tmp = *env;
 	index = 0;
 	while (tmp != NULL)
 	{
-		if (tmp->key != NULL && tmp->value == NULL)
-		{
-			ptr[index] = ft_strdup(tmp->key);
-			if (!ptr[index])
-				return (error_handling());
-		}
-		else if (tmp->key != NULL && tmp->value != NULL)
-		{
-			ptr[index] = ft_strjoin(tmp->key, ft_strjoin("=", tmp->value));
-			if (!ptr[index])
-				return (error_handling());
-		}
+		ptr[index] = str_env(tmp);
+		if (!ptr[index])
+			return (error_handling());
 		index++;
 		tmp = tmp->next;
 	}
@@ -66,16 +74,16 @@ char	**env_char_ptr(t_env **env)
 	return (ptr);
 }
 
-int	add_back_env(t_env **lst, t_env *new_node)
+int	add_back_env(t_env **env, t_env *new_node)
 {
 	t_env	*last;
 
-	last = *lst;
+	last = *env;
 	if (!new_node)
 		return (-1);
-	if (*lst == NULL)
+	if (*env == NULL)
 	{
-		*lst = new_node;
+		*env = new_node;
 		return (0);
 	}
 	while (last->next != NULL)
