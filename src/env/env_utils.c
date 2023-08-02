@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:58:25 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/31 12:56:39 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/02 21:00:34 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,46 +32,54 @@ static void	*error_handling(void)
 	return (NULL);
 }
 
-static char	*str_env(t_env *tmp)
+static int	str_env(t_env *tmp, char **env_ptr, int index)
 {
 	char	*join_equal_sign;
 
 	if (tmp->key != NULL && tmp->value == NULL)
-		return (ft_strdup(tmp->key));
+	{
+		env_ptr[index] = ft_strdup(tmp->key);
+		if (!env_ptr[index])
+			return (-1);
+	}
 	else if (tmp->key != NULL && tmp->value != NULL)
 	{
 		join_equal_sign = ft_strjoin("=", tmp->value);
 		if (!join_equal_sign)
-			return (NULL);
+			return (-1);
 		else
-			return (ft_strjoin(tmp->key, join_equal_sign));
+		{
+			env_ptr[index] = ft_strjoin(tmp->key, join_equal_sign);
+			if (join_equal_sign != NULL)
+				free(join_equal_sign);
+			join_equal_sign = NULL;
+		}
 	}
-	return (NULL);
+	return (0);
 }
 
-char	**env_char_ptr(t_env **env)
+char	**env_char_ptr(t_env **env, char **env_ptr)
 {
-	char	**ptr;
 	int		index;
 	t_env	*tmp;
 
 	if (!env)
 		return (NULL);
-	ptr = ft_calloc(sizeof(char *), ft_listsize(env) + 1);
-	if (!ptr)
+	env_ptr = ft_calloc(sizeof(char *), ft_listsize(env) + 1);
+	if (!env_ptr)
 		return (NULL);
 	tmp = *env;
 	index = 0;
 	while (tmp != NULL)
 	{
-		ptr[index] = str_env(tmp);
-		if (!ptr[index])
+		str_env(tmp, env_ptr, index);
+		if (!env_ptr[index])
 			return (error_handling());
 		index++;
 		tmp = tmp->next;
 	}
 
-	return (ptr);
+	return (env_ptr);
 }
 
 int	add_back_env(t_env **env, t_env *new_node)

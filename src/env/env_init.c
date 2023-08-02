@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:07:47 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/31 16:59:41 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/02 21:18:03 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ void	init_env(t_env **env, char **envp)
 		node = new_env_node(envp[index]);
 		if (!node)
 			exit(1);
+		if (ft_strcmp(node->key, "_") == 0)
+		{
+			free(node);
+			if (envp[index] != NULL)
+				index++;
+			continue ;
+		}
 		if (add_back_env(env, node) == -1)
 			exit(1);
 		if (envp[index] != NULL)

@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/02 15:32:24 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/02 21:19:31 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 	// chere agar tree->cmd is_absolute_path== TRUE ro dobareh strdup mikoni
 	else
 		tree->cmd = get_cmd(tree->cmd_paths, tree->cmd);
-	env_to_char_ptr = env_char_ptr(env);
+	env_to_char_ptr = env_char_ptr(env, env_to_char_ptr);
 	if (child_process() == 0)
 	{
 		if (execve(tree->cmd, tree->args, env_to_char_ptr) == -1)
@@ -83,6 +83,8 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(tree->cmd, 2);
 			ft_putstr_fd(": command not found\n", 2);
+			// if (env_to_char_ptr != NULL)
+			// 	free_double_ptr(env_to_char_ptr);
 			exit(127);
 		}
 	}

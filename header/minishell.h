@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/02 16:14:11 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/02 20:59:45 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ char				*shelvl_value(char *value);
 void				init_env(t_env **env, char **envp);
 int					add_back_env(t_env **env, t_env *new_node);
 int					ft_listsize(t_env **env);
-char				**env_char_ptr(t_env **env);
+char				**env_char_ptr(t_env **env, char **env_ptr);
 //exec
 pid_t				child_process(void);
 void				error_access_filename(char *file_name);
