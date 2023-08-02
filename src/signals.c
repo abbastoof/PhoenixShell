@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/02 16:50:41 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/02 17:26:28 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ void	ctrl_d_handler(void)
 static void	heredoc_signal_handler(int signal)
 {
 	(void)signal;
-	// write(1, "\n", 1);
-	// rl_cleanup_after_signal();
+	write(1, "\n", 1);
 	exit(1);
 }
 
