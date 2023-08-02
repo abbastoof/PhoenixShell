@@ -13,49 +13,18 @@
 
 #include "minishell.h"
 
-// void	run_heredoc(t_tree *tree)
-// {
-// 	int		end[2];
-// 	char	*line;
-
-// 	if (pipe(end) < 0)
-// 		exit(1);
-// 	line = readline("> ");
-// 	while (line && ft_strcmp(tree->redir->file_name, line) != 0)
-// 	{
-// 		if (line)
-// 		{
-// 			write(end[FD_WRITE_END], line, ft_strlen(line));
-// 			write(end[FD_WRITE_END], "\n", 1);
-// 		}
-// 		free(line);
-// 		line = readline("> ");
-// 	}
-// 	if (line)
-// 		free(line);
-// 	dup2(end[FD_READ_END], STDIN_FILENO);
-// 	close(end[FD_WRITE_END]);
-// 	close(end[FD_READ_END]);
-// 	g_exit_status = g_exit_status % 255;
-// }
-
-static int	write_lines_to_file(t_tree *tree)
+static void	write_lines_to_file(t_redir *redir, t_tree *tree)
 {
 	char	*input_line;
 
-	int	p[2];
-
-	pipe(p);
-
-	tree->fd_in = open("heredoc_temp_file",O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	tree->fd_in = open("temp", O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (tree->fd_in < 0)
 	{
 		perror("open");
-		return (-1);
+		return ;
 	}
 	input_line = readline("> ");
-	while (input_line && ft_strncmp(tree->redir->file_name, input_line, \
-		ft_strlen(input_line) + 1) != 0)
+	while (input_line && ft_strcmp(redir->file_name, input_line) != 0)
 	{
 		if (input_line)
 		{
@@ -67,20 +36,23 @@ static int	write_lines_to_file(t_tree *tree)
 	}
 	if (input_line)
 		free(input_line);
-	return (tree->fd_in);
+	close(tree->fd_in);
 }
 
-void	run_heredoc(t_tree *tree)
+void	run_heredoc(t_redir *redir, t_tree *tree)
 {
-	// init_heredoc_sigs();
-	tree->fd_in = write_lines_to_file(tree);
-	if (tree->fd_in < 0)
+	if (child_process() == 0)
 	{
-		perror("open");
-		return ;
+		heredoc_signals();
+		write_lines_to_file(redir, tree);
+		if (tree->fd_in < 0)
+		{
+			perror("open");
+			return ;
+		}
+		echoing_control_chars(1);
+		exit(0);
 	}
-	if (tree->type == TOKEN_CMD)
-		dup2(tree->fd_in, STDIN_FILENO);
-	close(tree->fd_in);
-	echoing_control_chars(1);
+	wait(&(g_exit_status));
+	g_exit_status = g_exit_status % 255;
 }

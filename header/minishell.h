@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/01 16:59:21 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/02 16:14:11 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_redir
 {
 	int				type;
 	char			*file_name;
+	int				last;
 	struct s_redir	*next;
 }					t_redir;
 
@@ -203,7 +204,10 @@ void				exec_cmd(t_tree **tree, t_env **env);
 void				exit_status_chk(void);
 int					built_in(t_tree **tree, t_env **env);
 void				run_cmd_token(t_tree *tree, t_env **env);
-void				run_heredoc(t_tree *tree);
-// void				exec_heredoc(t_tree *tree);
+void				run_heredoc(t_redir *redir, t_tree *tree);
+void				open_input_file(t_redir *redir, t_tree *tree);
+void				open_output_file(t_redir *redir, t_tree *tree);
+void				check_for_last(t_redir *redir);
+void				heredoc_signals(void);
 
 #endif
