@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:58:25 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/02 21:00:34 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 12:26:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	**env_char_ptr(t_env **env, char **env_ptr)
 
 	if (!env)
 		return (NULL);
-	env_ptr = ft_calloc(sizeof(char *), ft_listsize(env) + 1);
+	env_ptr = ft_calloc(sizeof(char *), ft_listsize(env) * 2);
 	if (!env_ptr)
 		return (NULL);
 	tmp = *env;
