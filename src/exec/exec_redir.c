@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 12:29:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 13:00:41 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int	exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env)
 			check_for_last(redir);
 		exec_redirect(redir, (*tree));
 		if ((*tree)->cmd != NULL)
-			run_cmd_token((*tree), env);
+		{
+			if (built_in(&(*tree), env) == 0)
+				run_cmd_token((*tree), env);
+		}
 		exit(0);
 	}
 	wait(&(g_exit_status));

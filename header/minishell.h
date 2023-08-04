@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/02 20:59:45 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 13:06:19 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef struct s_tree
 }					t_tree;
 
 int					g_exit_status;
+int					g_stdin;
+int					g_stdout;
 
 typedef struct s_token
 {

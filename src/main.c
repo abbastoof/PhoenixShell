@@ -6,11 +6,12 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 15:27:51 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 13:02:43 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 int	main(int ac, char **av, char **envp)
 {
@@ -20,6 +21,8 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env = NULL;
+	g_stdin = dup(0);
+	g_stdout = dup(1);
 	init_env(&env, envp);
 	while (1)
 	{

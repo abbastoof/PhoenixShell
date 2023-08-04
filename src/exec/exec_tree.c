@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/02 15:38:36 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 12:31:30 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	exec_tree(t_tree **tree, t_env **env)
 			exec_cmd_redir((*tree)->redir, tree, env);
 		else if ((*tree)->type == TOKEN_CMD)
 		{
-			if (built_in(&(*tree), env) == 0)
-				exec_cmd(&(*tree), env);
+			exec_cmd(&(*tree), env);
 		}
 		g_exit_status = g_exit_status % 255;
 	}
