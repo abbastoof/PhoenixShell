@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/04 15:05:00 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:26:10 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	return_exit_status(t_lexer *state)
 	char	*str_exit_status;
 
 	str_exit_status = ft_itoa(g_tree.exit_status);
-	state->res = ft_strnjoin(state->tmp, str_exit_status, \
-	ft_strlen(str_exit_status));
+	state->res = ft_strnjoin(state->tmp, str_exit_status,
+			ft_strlen(str_exit_status));
 	//protect malloc
 	if (state->tmp)
 		free(state->tmp);
@@ -54,16 +54,17 @@ static void	dollar_handler_util(t_lexer *state, int var_flag)
 
 void	check_dollar_sign(char *str, t_lexer *state, t_env **env, int var_flag)
 {
-	if (str[state->i] == '$' && (str[state->i + 1] != '\\' && (str[state->i \
-	+ 1] != '%' && str[state->i + 1] != '!' && str[state->i + 1] != '?')))
+	if (str[state->i] == '$' && (str[state->i + 1] != '\\' && (str[state->i
+				+ 1] != '%' && str[state->i + 1] != '!' && str[state->i
+				+ 1] != '?')))
 	{
 		state->path = var_finder(str, state, env, var_flag);
 		dollar_handler_util(state, var_flag);
 	}
 	else if (str[state->i] == '$' && str[state->i + 1] == '?')
 		return_exit_status(state);
-	else if (str[state->i] == '$' && (str[state->i + 1] == '\\' \
-	|| (str[state->i + 1] == '%') || (str[state->i + 1] == '?')))
+	else if (str[state->i] == '$' && (str[state->i + 1] == '\\' || (str[state->i
+					+ 1] == '%') || (str[state->i + 1] == '?')))
 	{
 		if (str[state->i + 1] == '\\')
 		{
@@ -81,5 +82,5 @@ void	check_dollar_sign(char *str, t_lexer *state, t_env **env, int var_flag)
 		state->i++;
 	else
 		result_join(state, str);
-		//protect malloc
+	//protect malloc
 }

@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:07:47 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/02 21:18:03 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:51:50 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	init_env(t_env **env, char **envp)
 			exit(1);
 		if (ft_strcmp(node->key, "_") == 0)
 		{
+			free(node->key);
+			free(node->value);
 			free(node);
 			if (envp[index] != NULL)
 				index++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/01 14:40:00 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:55:14 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,13 @@ void	process_cmd(char *line, t_env **env)
 		return ;
 	tokens = NULL;
 	tokens = ft_cmdtrim(line, tokens);
-	if (!check_incorrect_quotes(tokens))
+	if (check_quotes_syntax(tokens) != 0)
+	{
+		g_tree.exit_status = 258;
+		free_tokens(tokens);
+		return ;
+	}
+	else
 	{
 		expand_quotes(tokens, env, &state);
 		// display_token(tokens);

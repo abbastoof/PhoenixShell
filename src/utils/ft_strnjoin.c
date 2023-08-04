@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strnjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+        
 	+:+     */
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+      
 	+#+        */
 /*                                                +#+#+#+#+#+  
 	+#+           */
-/*   Created: 2022/11/10 08:33:45 by atoof             #+#    #+#             */
-/*   Updated: 2022/11/22 17:32:47 by atoof            ###   ########.fr       */
+/*   Created: 2023/08/04 15:15:44 by atoof             #+#    #+#             */
+/*   Updated: 2023/08/04 15:15:44 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*error_handling(void)
+{
+	ft_putstr_fd("Malloc\n", 2);
+	return (NULL);
+}
 
 char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 {
@@ -27,10 +33,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 			n = ft_strlen(s2);
 		sjoin = (char *)malloc(sizeof(char) * (ft_strlen(s1) + n + 1));
 		if (!sjoin)
-		{
-			ft_putstr_fd("Malloc\n", 2);
-			return (NULL);
-		}
+			return (error_handling());
 		i = -1;
 		while (s1[++i])
 			sjoin[i] = s1[i];

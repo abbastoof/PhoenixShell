@@ -6,17 +6,16 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 15:08:16 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:52:53 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 int	main(int ac, char **av, char **envp)
 {
-	char				*cmd;
-	t_env				*env;
+	char	*cmd;
+	t_env	*env;
 
 	(void)ac;
 	(void)av;
@@ -35,7 +34,8 @@ int	main(int ac, char **av, char **envp)
 		process_cmd(cmd, &env);
 		signal(SIGINT, SIG_IGN);
 		echoing_control_chars(1);
-		free(cmd);
+		if (cmd != NULL)
+			free(cmd);
 	}
 	free_env(&env);
 	return (0);

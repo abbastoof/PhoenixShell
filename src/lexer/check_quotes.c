@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:11:17 by atoof             #+#    #+#             */
-/*   Updated: 2023/06/16 17:08:53 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:36:42 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	quotes_validity(char *line)
 	return (0);
 }
 
-int	check_incorrect_quotes(t_token *tokens)
+int	check_quotes_syntax(t_token *tokens)
 {
 	int	indx;
 
