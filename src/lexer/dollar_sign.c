@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:59:14 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:05:00 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	return_exit_status(t_lexer *state)
 {
 	char	*str_exit_status;
 
-	str_exit_status = ft_itoa(g_exit_status);
+	str_exit_status = ft_itoa(g_tree.exit_status);
 	state->res = ft_strnjoin(state->tmp, str_exit_status, \
 	ft_strlen(str_exit_status));
 	//protect malloc

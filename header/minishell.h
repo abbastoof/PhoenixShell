@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 14:29:16 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:07:35 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,13 @@ typedef struct s_tree
 	t_redir			*redir;
 	struct s_tree	*left;
 	struct s_tree	*right;
+	int				exit_status;
+	int				standard_input;
+	int				standard_output;
 	t_redir			*last_redir;
 }					t_tree;
 
-int					g_exit_status;
-int					g_stdin;
-int					g_stdout;
+t_tree				g_tree;
 
 typedef struct s_token
 {

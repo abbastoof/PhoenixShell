@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 14:14:40 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:08:16 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env = NULL;
-	g_stdin = dup(0);
-	g_stdout = dup(1);
+	g_tree.standard_input = dup(STDIN_FILENO);
+	g_tree.standard_output = dup(STDOUT_FILENO);
 	init_env(&env, envp);
 	while (1)
 	{

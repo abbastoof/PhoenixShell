@@ -44,8 +44,8 @@ void	run_heredoc(t_redir *redir, t_tree *tree)
 	if (child_process() == 0)
 	{
 		init_signals(0);
-		dup2(g_stdout, 1);
-		dup2(g_stdin, 0);
+		dup2(g_tree.standard_input, STDIN_FILENO);
+		dup2(g_tree.standard_output, STDOUT_FILENO);
 		heredoc_signals();
 		write_lines_to_file(redir, tree);
 		if (tree->fd_in < 0)
@@ -56,6 +56,6 @@ void	run_heredoc(t_redir *redir, t_tree *tree)
 		echoing_control_chars(1);
 		exit(0);
 	}
-	wait(&(g_exit_status));
-	g_exit_status = g_exit_status % 255;
+	wait(&(g_tree.exit_status));
+	g_tree.exit_status = g_tree.exit_status % 255;
 }

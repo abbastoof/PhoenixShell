@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 14:23:52 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:04:29 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ void	exec_tree(t_tree **tree, t_env **env)
 		{
 			exec_cmd(&(*tree), env);
 		}
-		g_exit_status = g_exit_status % 255;
+		g_tree.exit_status = g_tree.exit_status % 255;
 	}
 }
