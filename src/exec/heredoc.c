@@ -43,6 +43,7 @@ void	run_heredoc(t_redir *redir, t_tree *tree)
 {
 	if (child_process() == 0)
 	{
+		init_signals(0);
 		dup2(g_stdout, 1);
 		dup2(g_stdin, 0);
 		heredoc_signals();

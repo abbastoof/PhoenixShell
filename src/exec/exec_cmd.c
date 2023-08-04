@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 12:33:03 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 14:19:46 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 	if (env_to_char_ptr != NULL)
 		free_double_ptr(env_to_char_ptr);
 	wait(&(g_exit_status));
+	init_signals(1);
 	g_exit_status = g_exit_status % 255;
 	exit_status_chk();
 }

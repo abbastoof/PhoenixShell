@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 13:00:41 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 14:21:33 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	exec_redirect(t_redir *redir, t_tree *tree)
 
 int	exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env)
 {
+	init_signals(0);
 	if (child_process() == 0)
 	{
 		if (redir != NULL)

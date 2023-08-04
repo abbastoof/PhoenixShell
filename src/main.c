@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 13:02:43 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 14:14:40 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		echoing_control_chars(0);
-		init_signals();
+		init_signals(1);
 		cmd = readline("Minishell>");
 		add_history(cmd);
 		if (cmd == NULL)
