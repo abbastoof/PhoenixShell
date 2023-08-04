@@ -6,29 +6,24 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/14 10:56:17 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 19:51:10 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_printing(char **args, int index, int flag)
+static int	check_flag(char *option)
 {
-	if (flag == 0)
-	{
-		if (ft_strcmp(args[1], "-n") == 0)
-		{
-			index++;
-			flag = 1;
-		}
-	}
-	if (args[index + 1] != (void *)0)
-		ft_putstr(args[index]);
-	else if ((args[index + 1] == (void *)0) && !(ft_strcmp(args[0], "-n")))
-		ft_putstr(args[index]);
-	else if ((args[index + 1] == (void *)0) \
-	&& (ft_strcmp(args[0], "-n")) != 0)
-		ft_putstr(args[index]);
+	int	index;
+
+	index = 1;
+	if (!option || !option[0] || option[0] != '-')
+		return (-1);
+	while (option[index] == 'n')
+		index++;
+	if (index != (int)ft_strlen(option))
+		return (-1);
+	return (0);
 }
 
 void	ft_echo(char **args)
@@ -38,13 +33,21 @@ void	ft_echo(char **args)
 
 	index = 1;
 	flag = 0;
-	while (args[index])
+	if (args[1] != NULL && args[1][0] == '-')
 	{
-		handle_printing(args, index, flag);
+		if (check_flag(args[index]) == 0)
+		{
+			flag = 1;
+			index++;
+		}
+	}
+	while (args[index] != NULL)
+	{
+		ft_putstr(args[index]);
 		if (args[index + 1] != NULL)
-			write(1, " ", 1);
+			ft_putchar(' ');
 		index++;
 	}
-	if (args[index] == NULL)
-		write(1, "\n", 2);
+	if (flag == 0)
+		ft_putchar('\n');
 }
