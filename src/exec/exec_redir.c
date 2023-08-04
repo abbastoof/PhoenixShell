@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/02 15:55:21 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/04 12:29:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_input_output_redirect(t_redir *redir, t_tree *tree)
+static void	exec_redirect(t_redir *redir, t_tree *tree)
 {
 	t_redir	*tmp_redir;
 
@@ -33,18 +33,7 @@ static void	exec_input_output_redirect(t_redir *redir, t_tree *tree)
 				close(tree->fd_out);
 			}
 		}
-		tmp_redir = tmp_redir->next;
-	}
-}
-
-static void	exec_heredoc_redirect(t_redir *redir, t_tree *tree)
-{
-	t_redir	*tmp_redir;
-
-	tmp_redir = redir;
-	while (tmp_redir != NULL)
-	{
-		if (tmp_redir->type == TOKEN_HEREDOC)
+		else if (tmp_redir->type == TOKEN_HEREDOC)
 		{
 			run_heredoc(tmp_redir, tree);
 			if (tmp_redir->last == 1)
@@ -57,12 +46,6 @@ static void	exec_heredoc_redirect(t_redir *redir, t_tree *tree)
 		}
 		tmp_redir = tmp_redir->next;
 	}
-}
-
-static void	exec_redirect(t_redir *redir, t_tree *tree)
-{
-	exec_input_output_redirect(redir, tree);
-	exec_heredoc_redirect(redir, tree);
 }
 
 int	exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env)
