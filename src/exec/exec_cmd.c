@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 15:03:39 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/05 14:05:26 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ static char	*get_cmd(char **paths, char *cmd)
 	while (*paths)
 	{
 		temp = ft_strjoin(*paths, "/");
+		//protect
 		unix_cmd = ft_strjoin(temp, cmd);
+		//protect
 		free(temp);
 		if (access(unix_cmd, X_OK) == 0)
 			return (unix_cmd);
@@ -59,6 +61,24 @@ int	built_in(t_tree **tree, t_env **env)
 	return (1);
 }
 
+void	replace_cmd_absolute_path(t_tree *tree)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = get_cmd(tree->cmd_paths, tree->cmd);
+	if (!tmp)
+	{
+		ft_putstr_fd("Malloc in replace_cmd_absolute_path\n", 2);
+		return ;
+	}
+	if (tree->cmd && ft_strcmp(tree->cmd, tmp) != 0)
+	{
+		free(tree->cmd);
+		tree->cmd = tmp;
+	}
+}
+
 void	run_cmd_token(t_tree *tree, t_env **env)
 {
 	char	**env_to_char_ptr;
@@ -66,15 +86,12 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 	env_to_char_ptr = NULL;
 	tree->paths = NULL;
 	tree->paths = find_path(env, "PATH");
-	//remember to NULL the paths by the end
 	if (tree->paths != NULL && tree->paths[0] != '\0')
 		tree->cmd_paths = ft_split(tree->paths, ':');
-	// free(tree->cmd);
 	if (is_absolute_path(tree->cmd))
 		tree->cmd = ft_strdup(tree->args[0]);
-	// chere agar tree->cmd is_absolute_path== TRUE ro dobareh strdup mikoni
 	else
-		tree->cmd = get_cmd(tree->cmd_paths, tree->cmd);
+		replace_cmd_absolute_path(tree);
 	env_to_char_ptr = env_char_ptr(env, env_to_char_ptr);
 	if (child_process() == 0)
 	{
@@ -83,8 +100,6 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(tree->cmd, 2);
 			ft_putstr_fd(": command not found\n", 2);
-			// if (env_to_char_ptr != NULL)
-			// 	free_double_ptr(env_to_char_ptr);
 			exit(127);
 		}
 	}
