@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/05 14:05:26 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 08:41:24 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ int	built_in(t_tree **tree, t_env **env)
 	if (!(ft_strcmp((*tree)->cmd, "exit")))
 		ft_exit((*tree), env);
 	else if (!(ft_strcmp((*tree)->cmd, "echo")))
-		ft_echo((*tree)->args);
+		g_tree.exit_status = ft_echo((*tree)->args);
 	else if (!(ft_strcmp((*tree)->cmd, "cd")))
-		ft_cd(env, (*tree)->args);
+		g_tree.exit_status = ft_cd(env, (*tree)->args);
 	else if (!(ft_strcmp((*tree)->cmd, "env")))
 		ft_env(env);
 	else if (!(ft_strcmp((*tree)->cmd, "export")))
 		ft_export(env, (*tree)->args);
 	else if (!(ft_strcmp((*tree)->cmd, "pwd")))
-		pwd();
+		g_tree.exit_status = pwd();
 	else if (!(ft_strcmp((*tree)->cmd, "unset")))
 		ft_unset((*tree)->args, env);
 	else
