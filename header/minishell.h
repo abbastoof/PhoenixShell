@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 08:39:49 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 08:43:16 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int					syntax(t_token *tokens);
 
 //built_in
 int					pwd(void);
-void				ft_echo(char **args);
+int					ft_echo(char **args);
 void				ft_env(t_env **env);
 void				ft_exit(t_tree *tree, t_env **env);
 int					ft_cd(t_env **env, char **args);
