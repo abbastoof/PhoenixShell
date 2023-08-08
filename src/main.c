@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 15:52:53 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 07:54:40 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	main(int ac, char **av, char **envp)
 		echoing_control_chars(0);
 		init_signals(1);
 		cmd = readline("Minishell>");
-		add_history(cmd);
+		if (cmd != NULL && cmd[0] != 0)
+			add_history(cmd);
 		if (cmd == NULL)
 			ctrl_d_handler();
 		process_cmd(cmd, &env);
