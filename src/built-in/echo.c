@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 19:51:10 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 08:41:41 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	check_flag(char *option)
 	return (0);
 }
 
-void	ft_echo(char **args)
+int	ft_echo(char **args)
 {
 	int	index;
 	int	flag;
@@ -35,7 +35,7 @@ void	ft_echo(char **args)
 	flag = 0;
 	if (args[1] != NULL && args[1][0] == '-')
 	{
-		if (check_flag(args[index]) == 0)
+		while (check_flag(args[index]) == 0)
 		{
 			flag = 1;
 			index++;
@@ -50,4 +50,5 @@ void	ft_echo(char **args)
 	}
 	if (flag == 0)
 		ft_putchar('\n');
+	return (0);
 }

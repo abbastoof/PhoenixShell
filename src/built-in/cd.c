@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/05 13:55:25 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 08:01:06 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	change_path_update_env(char *path, t_env **env, char *old_path)
 	find_key_in_env(env, "OLDPWD", old_path);
 }
 
-void	ft_cd(t_env **env, char **args)
+int	ft_cd(t_env **env, char **args)
 {
 	char	*path;
 	char	*current_path;
@@ -94,13 +94,14 @@ void	ft_cd(t_env **env, char **args)
 	current_path = NULL;
 	path = NULL;
 	if (error_handling(args) == -1)
-		return ;
+		return (1);
 	if (check_args(env, args, &path, &current_path) == -1)
-		return ;
+		return (1);
 	if (path == NULL)
 		path = args[1];
 	change_path_update_env(path, env, current_path);
 	path = NULL;
 	free(current_path);
 	current_path = NULL;
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 15:02:00 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 08:29:13 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_exit(t_tree *tree, t_env **env)
 		{
 			ft_putstr_fd("exit\nMinishell: exit: too many arguments\n", 2);
 			g_tree.exit_status = 1;
-			return ;
+			return (1);
 		}
 		ft_putstr_fd("exit\n", 2);
 		exit_num = ft_atol(tree->args[1]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 15:36:50 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 08:39:49 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,11 @@ void				expand_quotes(t_token *tokens, t_env **env, t_lexer *state);
 int					syntax(t_token *tokens);
 
 //built_in
-void				pwd(void);
+int					pwd(void);
 void				ft_echo(char **args);
 void				ft_env(t_env **env);
 void				ft_exit(t_tree *tree, t_env **env);
-void				ft_cd(t_env **env, char **args);
+int					ft_cd(t_env **env, char **args);
 int					empty_key_with_equal(t_env **tmp);
 void				ft_unset(char **args, t_env **env);
 void				ft_export(t_env **env, char **args);
