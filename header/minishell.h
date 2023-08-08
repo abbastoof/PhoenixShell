@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 08:43:16 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 12:17:18 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int					syntax(t_token *tokens);
 int					pwd(void);
 int					ft_echo(char **args);
 void				ft_env(t_env **env);
-void				ft_exit(t_tree *tree, t_env **env);
+int					ft_exit(t_tree *tree, t_env **env);
 int					ft_cd(t_env **env, char **args);
 int					empty_key_with_equal(t_env **tmp);
 void				ft_unset(char **args, t_env **env);

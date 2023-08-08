@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 14:28:49 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 11:09:57 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,11 @@ void	echoing_control_chars(int enable)
 
 void	handle_signal(int sig)
 {
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	init_signals(int state)
@@ -94,13 +92,11 @@ void	ctrl_d_handler(void)
 	exit(1);
 }
 
-static void	heredoc_signal_handler(int signal)
+void	heredoc_signal_handler(int signal)
 {
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		exit(1);
-	}
+	(void)signal;
+	write(1, "\n", 1);
+	exit(1);
 }
 
 void	heredoc_signals(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 08:41:24 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/08 11:53:31 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*get_cmd(char **paths, char *cmd)
 int	built_in(t_tree **tree, t_env **env)
 {
 	if (!(ft_strcmp((*tree)->cmd, "exit")))
-		ft_exit((*tree), env);
+		g_tree.exit_status = ft_exit((*tree), env);
 	else if (!(ft_strcmp((*tree)->cmd, "echo")))
 		g_tree.exit_status = ft_echo((*tree)->args);
 	else if (!(ft_strcmp((*tree)->cmd, "cd")))
