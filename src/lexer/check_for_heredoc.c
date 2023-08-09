@@ -6,52 +6,50 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 13:33:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 14:08:07 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/09 18:37:36 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_heredoc(t_redir *redir, t_tree *tree)
+void	exec_heredoc(t_redir *redir, t_tree *tree)
 {
-	while (redir != NULL)
+	t_redir	*tmp;
+
+	tmp = redir;
+	while (tmp != NULL)
 	{
-		run_heredoc(redir, tree);
-		//exit_check flag = 1 if (flag) ->do not run rest and exit from this file
-		redir = redir->next;
-	}
-	if (redir->last == 1)
-	{
-		tree->fd_in = open("temp", O_RDONLY);
-		dup2(tree->fd_in, STDIN_FILENO);
-		close(tree->fd_in);
-		unlink("temp");
+		if (tmp->type == TOKEN_HEREDOC)
+			run_heredoc(tmp, tree);
+		if (tmp->last == 0)
+			unlink(tmp->file_name);
+		tmp = tmp->next;
 	}
 }
 
 int	check_for_heredoc(t_tree **tree)
 {
-	t_redir	*tmp;
-
-	tmp = NULL;
 	if (tree != NULL)
 	{
-		if ((*tree)->left != NULL && (*tree)->left == TOKEN_PIPE)
+		if ((*tree)->left != NULL && (*tree)->left->type == TOKEN_PIPE)
 			check_for_heredoc(&(*tree)->left);
-		if ((*tree)->left == TOKEN_CMD && (*tree)->left->redir != NULL)
+		if ((*tree)->left->type == TOKEN_CMD && (*tree)->left->redir != NULL)
 		{
-			tmp = (*tree)->left->redir;
-			exec_heredoc(tmp, (*tree)->left);
+			if ((*tree)->left->redir != NULL)
+				check_for_last((*tree)->left->redir);
+			exec_heredoc((*tree)->left->redir, (*tree)->left);
 		}
-		if ((*tree)->right == TOKEN_CMD && (*tree)->right->redir != NULL)
+		if ((*tree)->right->type == TOKEN_CMD && (*tree)->right->redir != NULL)
 		{
-			tmp = (*tree)->right->redir;
-			exec_heredoc(tmp, (*tree)->right);
+			if ((*tree)->right->redir != NULL)
+				check_for_last((*tree)->right->redir);
+			exec_heredoc((*tree)->right->redir, (*tree)->right);
 		}
 		if ((*tree)->type == TOKEN_CMD && (*tree)->redir != NULL)
 		{
-			tmp = (*tree)->right->redir;
-			exec_heredoc(tmp, tree);
+			if ((*tree)->redir != NULL)
+				check_for_last((*tree)->redir);
+			exec_heredoc((*tree)->redir, *tree);
 		}
 	}
 	return (0);

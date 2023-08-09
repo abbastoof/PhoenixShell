@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/09 11:03:47 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/09 18:17:43 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ char				*var_finder(char *str, t_lexer *state, t_env **env,
 void				expand_quotes(t_token *tokens, t_env **env, t_lexer *state);
 // void				get_command_arguments(t_cmd *lst, t_token *cmd);
 int					syntax(t_token *tokens);
+int					check_for_heredoc(t_tree **tree);
 
 //built_in
 int					pwd(void);
@@ -157,19 +158,19 @@ int					free_env_assign_new_var(char **new_env, t_env **env,
 
 
 // tree
-t_tree				*new_tree_node(void);
 int					redir(int type);
+t_tree				*new_tree_node(void);
+int					redir_size(t_redir *lst);
 void				free_tree(t_tree **tree);
 void				display_list(t_tree *tree);
 void				free_double_ptr(char **args);
 void				exec_tree(t_tree **tree, t_env **env);
-t_redir				*new_redir_node(t_token **tokens, int type);
+t_redir				*new_redir_node(t_token **tokens, int type, char *index);
 int					add_back(t_redir **lst, t_redir *new_node);
 int					add_args(t_token **tokens, t_tree *new_node);
 int					create_tree(t_token **tokens, t_tree **tree);
 int					parse_cmd_node(t_token **tokens, t_tree *node);
 int					parse_redir(t_token **tokens, t_tree *new_node);
-
 //TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
 //helper
