@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 12:17:18 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/09 11:03:47 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,12 @@ int					syntax(t_token *tokens);
 //built_in
 int					pwd(void);
 int					ft_echo(char **args);
-void				ft_env(t_env **env);
+int					ft_env(t_env **env);
 int					ft_exit(t_tree *tree, t_env **env);
 int					ft_cd(t_env **env, char **args);
 int					empty_key_with_equal(t_env **tmp);
-void				ft_unset(char **args, t_env **env);
-void				ft_export(t_env **env, char **args);
-//export utils used it in cd.c
+int					ft_unset(char **args, t_env **env);
+int					ft_export(t_env **env, char **args);
 int					find_key_in_env(t_env **env, char *key, char *value);
 int					free_env_assign_new_var(char **new_env, t_env **env,
 						char *var);

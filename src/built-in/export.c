@@ -3,20 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/22 23:40:56 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/09 11:11:34 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_error(char **args, int args_indx)
+static int	print_error(char **args, int args_indx, int flag)
 {
-	ft_putstr("Minishell: export: `");
-	ft_putstr(args[args_indx]);
-	ft_putstr("': not a valid identifier");
+	if (flag == 0)
+	{
+		ft_putstr("Minishell: export: `");
+		ft_putstr(args[args_indx]);
+		ft_putstr("': not a valid identifier\n");
+	}
+	else
+	{
+		ft_putstr_fd("Malloc error in ft_export()\n", 2);
+		return (-1);
+	}
+	return (1);
 }
 
 static void	print_export(t_env **env)
@@ -55,8 +64,7 @@ int	find_key_in_env(t_env **env, char *key, char *value)
 					free(tmp->value);
 				tmp->value = ft_strdup(value);
 				if (!tmp->value)
-					return (-1);
-					//protect malloc
+					return (print_error(NULL, 0, 1));
 			}
 			return (0);
 		}
@@ -68,49 +76,56 @@ int	find_key_in_env(t_env **env, char *key, char *value)
 	return (1);
 }
 
-static void	add_to_env(char *var, t_env **env)
+static int	add_to_env(char *var, t_env **env)
 {
 	char	**split;
+	int		flag;
 
 	if (var != NULL && ft_strlen(ft_strrchr(var, '=')) > 1)
 	{
 		split = ft_split(var, '=');
 		if (!split)
-		{
-			ft_putstr_fd("Malloc error\n", 2);
-			return ;
-		}
+			return (print_error(NULL, 0, 1));
 		if (find_key_in_env(env, split[0], split[1]) == 0)
 		{
-			//protect malloc inside find_key_in_env
 			if (split != NULL)
 				free_double_ptr(split);
-			return ;
+			return (0);
 		}
 	}
 	else if (var != NULL)
-		if (find_key_in_env(env, var, NULL) == 1)
-			add_back_env(env, new_env_node(var));
-		//protect_malloc
-	return ;
+	{
+		flag = find_key_in_env(env, var, NULL);
+		if (flag == 1)
+			return (add_back_env(env, new_env_node(var)));
+		else
+			return (flag);
+	}
+	return (0);
 }
 
-void	ft_export(t_env **env, char **args)
+int	ft_export(t_env **env, char **args)
 {
 	int	args_indx;
+	int	flag;
 
+	flag = 0;
 	args_indx = 1;
 	if (args[args_indx] != NULL)
 	{
 		while (args[args_indx] != NULL)
 		{
 			if (ft_isdigit(args[args_indx][0]))
-				print_error(args, args_indx);
+				flag = print_error(args, args_indx, 0);
 			else
-				add_to_env(args[args_indx], env);
+			{
+				if (add_to_env(args[args_indx], env) != 0)
+					return (1);
+			}
 			args_indx++;
 		}
 	}
 	else
 		print_export(env);
+	return (flag);
 }
