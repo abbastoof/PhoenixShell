@@ -24,8 +24,10 @@ static void	write_lines_to_file(t_redir *redir, t_tree *tree)
 		return ;
 	}
 	input_line = readline("> ");
-	while (input_line && ft_strcmp(redir->file_name, input_line) != 0)
+	while (input_line && ft_strcmp(redir->key, input_line) != 0)
 	{
+		if (g_tree.exit_status == 1)
+			return ;
 		if (input_line)
 		{
 			ft_putstr_fd(input_line, tree->fd_in);

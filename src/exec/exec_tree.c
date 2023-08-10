@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 13:30:18 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/10 15:42:36 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	exec_tree(t_tree **tree, t_env **env)
 {
-	t_redir	*current_redir;
-
 	if (*tree != NULL)
 	{
-		init_signals(0);
+		// init_signals(1);
 		if ((*tree)->type == TOKEN_PIPE)
 			create_pipe(&(*tree), env);
 		else if ((*tree)->type >= TOKEN_INPUT && (*tree)->type <= TOKEN_HEREDOC)

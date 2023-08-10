@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/09 18:17:43 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/10 13:45:22 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_redir
 {
 	int				type;
 	char			*file_name;
+	char			*key;
 	int				last;
 	struct s_redir	*next;
 }					t_redir;
@@ -141,7 +142,7 @@ char				*var_finder(char *str, t_lexer *state, t_env **env,
 void				expand_quotes(t_token *tokens, t_env **env, t_lexer *state);
 // void				get_command_arguments(t_cmd *lst, t_token *cmd);
 int					syntax(t_token *tokens);
-int					check_for_heredoc(t_tree **tree);
+// int					check_for_heredoc(t_tree **tree);
 
 //built_in
 int					pwd(void);
@@ -211,5 +212,8 @@ void				open_input_file(t_redir *redir, t_tree *tree);
 void				open_output_file(t_redir *redir, t_tree *tree);
 void				check_for_last(t_redir *redir);
 void				heredoc_signals(void);
+int contains_heredoc(t_redir *redir_list);
+void handle_only_heredoc_logic(t_redir *redir_list, t_tree *cmd_node);
+int check_for_heredoc(t_tree **tree);
 
 #endif

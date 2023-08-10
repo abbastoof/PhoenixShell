@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 13:43:17 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/10 16:39:29 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ void	process_cmd(char *line, t_env **env)
 	t_token	*tokens;
 	t_lexer	state;
 	t_tree	*tree;
-
+	int 	res;
+	
+	res = 0;
 	tree = NULL;
 	init_info(&state);
 	(void)env;
@@ -101,8 +103,10 @@ void	process_cmd(char *line, t_env **env)
 	}
 	// if (tree)
 	// 	display_list(tree);
-	check_for_heredoc(&tree);
-	exec_tree(&tree, env);
+	res = check_for_heredoc(&tree);
+	// printf("res = %d\n", res);
+	if (res == 0)
+		exec_tree(&tree, env);
 	if (tree)
 		free_tree(&tree);
 	tree = NULL;

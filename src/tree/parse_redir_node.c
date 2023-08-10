@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/09 18:36:04 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/10 15:03:15 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,21 @@ t_redir	*new_redir_node(t_token **tokens, int type, char *index)
 	new = malloc(sizeof(t_redir));
 	if (!new)
 		return (error_msg());
-	(*tokens)++;
-	fd = ft_strjoin((*tokens)->value, index);
-	if (!fd)
-		return (error_msg());
-	new->file_name = ft_strdup(fd);
+	if ((*tokens)->type == TOKEN_HEREDOC)
+	{
+		(*tokens)++;
+		fd = ft_strjoin((*tokens)->value, index);
+		if (!fd)
+			return (error_msg());
+		new->file_name = ft_strdup(fd);
+		new->key = ft_strdup((*tokens)->value);
+	}
+	else
+	{
+		(*tokens)++;
+		new->file_name = ft_strdup((*tokens)->value);
+		new->key = NULL;
+	}
 	if (!new->file_name)
 		return (error_msg());
 	new->type = type;
@@ -60,7 +70,7 @@ int	redir_size(t_redir *lst)
 int	parse_redir(t_token **tokens, t_tree *new_node)
 {
 	t_redir		*redir;
-	int			lst_size;
+	static int	lst_size;
 	t_redir		*tmp;
 
 	tmp = new_node->redir;

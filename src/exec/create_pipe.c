@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:26:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 12:24:13 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/10 16:10:44 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	create_pipe(t_tree **tree, t_env **env)
 		exec_tree(&(*tree)->left, env);
 		exit(g_tree.exit_status);
 	}
-	wait(&(g_tree.exit_status));
 	if (child_process() == 0)
 	{
 		if (dup2(pipe_fds[FD_READ_END], STDIN_FILENO) < 0)
@@ -41,5 +40,6 @@ void	create_pipe(t_tree **tree, t_env **env)
 	}
 	close(pipe_fds[FD_READ_END]);
 	close(pipe_fds[FD_WRITE_END]);
+	wait(&(g_tree.exit_status));
 	wait(&(g_tree.exit_status));
 }
