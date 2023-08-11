@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/10 15:40:25 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/11 11:26:48 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 	char	**env_to_char_ptr;
 
 	init_signals(0);
+	echoing_control_chars(1);
 	env_to_char_ptr = NULL;
 	tree->paths = NULL;
 	tree->paths = find_path(env, "PATH");

@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 13:33:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/10 16:05:20 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/11 11:19:14 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int check_for_heredoc(t_tree **tree)
                 return (1);
 		}
         if ((*tmp)->type == TOKEN_CMD && contains_heredoc((*tmp)->redir))
-                handle_only_heredoc_logic((*tmp)->redir, *tmp);
-        if (g_tree.exit_status == 1)
+        {
+            handle_only_heredoc_logic((*tmp)->redir, *tmp);
+            if (g_tree.exit_status == 1)
             return (1);
+        }
 		g_tree.exit_status = g_tree.exit_status % 255;
 	}
     return (0);
