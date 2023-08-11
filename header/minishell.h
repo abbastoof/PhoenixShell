@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/10 13:45:22 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/11 14:00:57 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,11 @@ typedef struct s_tree
 	int				count_in;
 	int				count_out;
 	t_redir			*redir;
-	struct s_tree	*left;
-	struct s_tree	*right;
 	int				exit_status;
 	int				standard_input;
 	int				standard_output;
-	t_redir			*last_redir;
+	struct s_tree	*left;
+	struct s_tree	*right;
 }					t_tree;
 
 t_tree				g_tree;

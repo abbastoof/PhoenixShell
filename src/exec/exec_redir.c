@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/10 15:45:58 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/11 11:43:25 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,20 @@ static void	exec_redirect(t_redir *redir, t_tree *tree)
 		}
 		else if (tmp_redir->type == TOKEN_HEREDOC)
 		{
-			// if (g_tree.exit_status == 1)
-			// 	return ;
 			if (tmp_redir->last == 1)
 			{
-				tree->fd_in = open("temp", O_RDONLY);
+				tree->fd_in = open(tmp_redir->file_name, O_RDONLY);
+				if (tree->fd_in < 0)
+				{
+					perror("open");
+					return ;
+				}
 				dup2(tree->fd_in, STDIN_FILENO);
 				close(tree->fd_in);
-				unlink("temp");
+				unlink(tmp_redir->file_name);
 			}
+			else
+				unlink(tmp_redir->file_name);
 		}
 		tmp_redir = tmp_redir->next;
 	}

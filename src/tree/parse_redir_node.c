@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/10 15:03:15 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/11 14:40:45 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,32 @@ static void	*error_msg(void)
 	return (NULL);
 }
 
-t_redir	*new_redir_node(t_token **tokens, int type, char *index)
+static void	heredoc_filename(t_token **tokens, char *index, t_redir **new)
 {
-	t_redir	*new;
 	char	*fd;
 
 	fd = NULL;
+	if (index == NULL)
+		fd = ft_strjoin((*tokens)->value, "0");
+	else
+		fd = ft_strjoin((*tokens)->value, index);
+	if (!fd)
+		return ;
+	(*new)->file_name = ft_strdup(fd);
+	(*new)->key = ft_strdup((*tokens)->value);
+}
+
+t_redir	*new_redir_node(t_token **tokens, int type, char *index)
+{
+	t_redir	*new;
+
 	new = malloc(sizeof(t_redir));
 	if (!new)
 		return (error_msg());
 	if ((*tokens)->type == TOKEN_HEREDOC)
 	{
 		(*tokens)++;
-		fd = ft_strjoin((*tokens)->value, index);
-		if (!fd)
-			return (error_msg());
-		new->file_name = ft_strdup(fd);
-		new->key = ft_strdup((*tokens)->value);
+		heredoc_filename(tokens, index, &new);
 	}
 	else
 	{
@@ -74,7 +83,7 @@ int	parse_redir(t_token **tokens, t_tree *new_node)
 	t_redir		*tmp;
 
 	tmp = new_node->redir;
-	lst_size = redir_size(tmp);
+	lst_size += redir_size(tmp);
 	redir = new_redir_node(tokens, (*tokens)->type, ft_itoa(lst_size));
 	if (!redir)
 		return (-1);
