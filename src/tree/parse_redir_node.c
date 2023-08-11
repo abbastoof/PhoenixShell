@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/11 14:40:45 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/11 16:05:45 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	parse_redir(t_token **tokens, t_tree *new_node)
 	t_redir		*tmp;
 
 	tmp = new_node->redir;
-	lst_size += redir_size(tmp);
+	lst_size += redir_size(tmp) + 2;
 	redir = new_redir_node(tokens, (*tokens)->type, ft_itoa(lst_size));
 	if (!redir)
 		return (-1);

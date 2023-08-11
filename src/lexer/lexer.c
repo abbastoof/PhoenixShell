@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/11 15:22:40 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/11 16:11:59 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void	process_cmd(char *line, t_env **env)
 			free_tree(&tree);
 		free_tokens(tokens);
 	}
-	// if (tree)
-	// 	display_list(tree);
+	if (tree)
+		display_list(tree);
 	res = check_for_heredoc(&tree);
 	if (res == 0)
 		exec_tree(&tree, env);

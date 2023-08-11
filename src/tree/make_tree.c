@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:31:15 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/11 14:54:57 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/11 17:49:59 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	parse_redirect(t_tree **tree, t_token **tokens)
 {
 	t_tree	*node;
 
-	if (*tree)
+	if (*tree && redir((*tree)->type))
 	{
 		if (add_redir_node(tree, tokens) == -1)
 			return (-1);
@@ -58,7 +58,7 @@ static int	parse_redirect(t_tree **tree, t_token **tokens)
 		node = new_tree_node();
 		if (!node)
 			return (-1);
-		node->type = TOKEN_CMD;
+		node->type = (*tokens)->type;
 		node->redir = new_redir_node(tokens, (*tokens)->type, 0);
 		if (!node->redir)
 			return (-1);
