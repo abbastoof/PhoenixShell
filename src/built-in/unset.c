@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 18:42:30 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 15:43:07 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_error(char *str)
+static int	handle_error(char *str)
 {
-	ft_putstr("bash: unset: `");
+	ft_putstr("Minishell: unset: `");
 	ft_putstr(str);
 	ft_putstr("': not a valid identifier\n");
+	return (1);
 }
 
 static void	free_node(t_env **node, t_env **prev)
@@ -44,19 +45,19 @@ static void	delete_from_head(t_env **env, t_env **tmp)
 	free((*tmp));
 }
 
-void	free_key_env(t_env **env, char *key)
+int	free_key_env(t_env **env, char *key)
 {
 	t_env	*tmp;
 	t_env	*prev;
 
 	if (!env)
-		return ;
+		return (0);
 	tmp = *env;
 	prev = *env;
 	if (key != NULL && tmp->key != NULL && ft_strcmp(tmp->key, key) == 0)
 	{
 		delete_from_head(env, &tmp);
-		return ;
+		return (0);
 	}
 	while (tmp != NULL && tmp->key != NULL && ft_strcmp(tmp->key, key) != 0)
 	{
@@ -64,25 +65,30 @@ void	free_key_env(t_env **env, char *key)
 		tmp = tmp->next;
 	}
 	if (!tmp)
-		return ;
+		return (0);
 	free_node(&tmp, &prev);
-	return ;
+	return (0);
 }
 
-void	ft_unset(char **args, t_env **env)
+int	ft_unset(char **args, t_env **env)
 {
 	int	index;
+	int	flag;
 
+	flag = 0;
 	index = 1;
 	if (*env != NULL)
 	{
 		while (args[index] != NULL)
 		{
+			if (ft_isdigit(args[index][0]))
+				flag = handle_error(args[index]);
 			if (ft_strchr(args[index], '='))
-				handle_error(args[index]);
+				flag = handle_error(args[index]);
 			else
 				free_key_env(env, args[index]);
 			index++;
 		}
 	}
+	return (flag);
 }

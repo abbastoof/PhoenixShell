@@ -3,66 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   create_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:26:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:45:57 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 17:59:35 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	initialize_pipe(t_cmd *pipex)
-// {
-// 	pipex->pid = 0;
-// 	pipex->end[0] = 0;
-// 	pipex->end[1] = 0;
-// 	pipex->infile = 0;
-// 	pipex->outfile = 0;
-// 	pipex->cmd_paths = NULL;
-// 	pipex->cmd_arguments = NULL;
-// 	pipex->cmd = NULL;
-// }
-
-// void	ft_wait(t_tree *tree)
-// {
-// 	t_tree	*node;
-// 	int		status;
-
-// 	node = tree;
-// 	while (node)
-// 	{
-// 		waitpid(node->, &status, WUNTRACED);
-// 		if (WIFEXITED(status))
-// 			WEXITSTATUS(status);
-// 		node = node->next;
-// 	}
-// }
-
-void	create_pipe(t_tree *tree, t_env **env)
+static void	first_child(t_tree **tree, t_env **env, pid_t pipe_fds[2])
 {
-	int	end[2];
+	if (child_process() == 0)
+	{
+		if (dup2(pipe_fds[FD_WRITE_END], STDOUT_FILENO) < 0)
+			exit(1);
+		close(pipe_fds[FD_READ_END]);
+		close(pipe_fds[FD_WRITE_END]);
+		exec_tree(&(*tree)->left, env, 0);
+		exit(g_tree.exit_status);
+	}
+}
 
-	if (pipe(end) < 0)
+void	create_pipe(t_tree **tree, t_env **env)
+{
+	pid_t	pipe_fds[2];
+
+	if (pipe(pipe_fds) < 0)
 		exit(1);
+	first_child(tree, env, pipe_fds);
 	if (child_process() == 0)
 	{
-		if (dup2(end[FD_WRITE_END], STDOUT_FILENO) < 0)
+		if (dup2(pipe_fds[FD_READ_END], STDIN_FILENO) < 0)
 			exit(1);
-		close(end[FD_READ_END]);
-		exec_tree(tree->left, env);
-		exit(g_exit_status);
-	}
-	wait(&(g_exit_status));
-	if (child_process() == 0)
-	{
-		if (dup2(end[FD_READ_END], STDIN_FILENO) < 0)
+		close(pipe_fds[FD_WRITE_END]);
+		close(pipe_fds[FD_READ_END]);
+		if (g_tree.exit_status == 1)
 			exit(1);
-		close(end[FD_WRITE_END]);
-		exec_tree(tree->right, env);
-		exit(g_exit_status);
+		exec_tree(&(*tree)->right, env, 0);
+		exit(g_tree.exit_status);
 	}
-	close(end[FD_READ_END]);
-	close(end[FD_WRITE_END]);
-	wait(&g_exit_status);
+	close(pipe_fds[FD_READ_END]);
+	close(pipe_fds[FD_WRITE_END]);
+	wait(&(g_tree.exit_status));
+	wait(&(g_tree.exit_status));
 }

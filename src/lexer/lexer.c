@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 15:09:44 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 18:25:16 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,41 +43,14 @@ static void	init_info(t_lexer *state)
 	state->token_indx = 0;
 }
 
-// static void	set_cmd_args_type(t_cmd *cmd, t_env *env, t_token *tokens)
-// {
-// 	int		i;
-
-// 	get_command_paths(cmd, env);
-// 	i = 0;
-// 	while (tokens[i].value)
-// 	{
-// 		if (tokens[i].type == 0)
-// 		{
-// 			get_command_arguments(cmd, &tokens[i]);
-// 			if (tokens[i].type == 1)
-// 			{
-// 				if (tokens[i + 1].value == NULL)
-// 					break ;
-// 				i++;
-// 				while (tokens[i].value && tokens[i].type == 0)
-// 				{
-// 					tokens[i].type = TOKEN_ARG;
-// 					i++;
-// 				}
-// 				if (tokens[i].value == NULL)
-// 					break ;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// }
-
 void	process_cmd(char *line, t_env **env)
 {
 	t_token	*tokens;
 	t_lexer	state;
 	t_tree	*tree;
+	int		res;
 
+	res = 0;
 	tree = NULL;
 	init_info(&state);
 	(void)env;
@@ -85,18 +58,23 @@ void	process_cmd(char *line, t_env **env)
 		return ;
 	tokens = NULL;
 	tokens = ft_cmdtrim(line, tokens);
-	if (!check_incorrect_quotes(tokens))
+	if (check_quotes_syntax(tokens) != 0)
+	{
+		g_tree.exit_status = 258;
+		free_tokens(tokens);
+		return ;
+	}
+	else
 	{
 		expand_quotes(tokens, env, &state);
-		// display_token(tokens);
 		if (create_tree(&tokens, &tree) == -1)
-			free_tree(tree);
+			free_tree(&tree);
 		free_tokens(tokens);
 	}
-	// if (tree)
-	// 	display_list(tree);
-	exec_tree(tree, env);
-	// if (tree)
-	// 	free_tree(tree);
+	res = check_for_heredoc(&tree);
+	if (res == 0)
+		exec_tree(&tree, env, getpid());
+	if (tree)
+		free_tree(&tree);
 	tree = NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:58:25 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/21 18:45:37 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 16:14:00 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,50 +32,65 @@ static void	*error_handling(void)
 	return (NULL);
 }
 
-char	**env_char_ptr(t_env **env)
+static int	str_env(t_env *tmp, char **env_ptr, int index)
 {
-	char	**ptr;
+	char	*join_equal_sign;
+
+	if (tmp->key != NULL && tmp->value == NULL)
+	{
+		env_ptr[index] = ft_strdup(tmp->key);
+		if (!env_ptr[index])
+			return (-1);
+	}
+	else if (tmp->key != NULL && tmp->value != NULL)
+	{
+		join_equal_sign = ft_strjoin("=", tmp->value);
+		if (!join_equal_sign)
+			return (-1);
+		else
+		{
+			env_ptr[index] = ft_strjoin(tmp->key, join_equal_sign);
+			if (join_equal_sign != NULL)
+				free(join_equal_sign);
+			join_equal_sign = NULL;
+		}
+	}
+	return (0);
+}
+
+char	**env_char_ptr(t_env **env, char **env_ptr)
+{
 	int		index;
 	t_env	*tmp;
 
 	if (!env)
 		return (NULL);
-	ptr = ft_calloc(sizeof(char *), ft_listsize(env));
-	if (!ptr)
+	env_ptr = ft_calloc(sizeof(char *), ft_listsize(env) * 2);
+	if (!env_ptr)
 		return (NULL);
 	tmp = *env;
 	index = 0;
 	while (tmp != NULL)
 	{
-		if (tmp->key != NULL && tmp->value == NULL)
-		{
-			ptr[index] = ft_strdup(tmp->key);
-			if (!ptr[index])
-				return (error_handling());
-		}
-		else if (tmp->key != NULL && tmp->value != NULL)
-		{
-			ptr[index] = ft_strjoin(tmp->key, ft_strjoin("=", tmp->value));
-			if (!ptr[index])
-				return (error_handling());
-		}
+		str_env(tmp, env_ptr, index);
+		if (!env_ptr[index])
+			return (error_handling());
 		index++;
 		tmp = tmp->next;
 	}
-
-	return (ptr);
+	return (env_ptr);
 }
 
-int	add_back_env(t_env **lst, t_env *new_node)
+int	add_back_env(t_env **env, t_env *new_node)
 {
 	t_env	*last;
 
-	last = *lst;
+	last = *env;
 	if (!new_node)
 		return (-1);
-	if (*lst == NULL)
+	if (*env == NULL)
 	{
-		*lst = new_node;
+		*env = new_node;
 		return (0);
 	}
 	while (last->next != NULL)

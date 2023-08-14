@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:36:18 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/13 14:37:06 by atoof            ###   ########.fr       */
+/*   Updated: 2023/07/31 15:03:22 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ pid_t	child_process(void)
 	pid = fork();
 	if (pid < 0)
 	{
-		write(STDOUT_FILENO, "hello", 4);
 		perror("fork error");
 		exit(1);
 	}

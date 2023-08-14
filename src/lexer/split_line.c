@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/20 13:00:58 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 18:30:42 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_quote(char *str, t_cmdsplit *cmd, t_token *tokens)
+static int	handle_quote(char *str, t_cmdsplit *cmd, t_token *tokens)
 {
 	cmd->quote = str[cmd->index];
 	cmd->start = cmd->index;
@@ -27,10 +27,12 @@ static void	handle_quote(char *str, t_cmdsplit *cmd, t_token *tokens)
 	}
 	tokens[cmd->wd_count].value = ft_substr(str, cmd->start, (cmd->index
 				- cmd->start) + 1);
-	//protect malloc
+	if (!tokens[cmd->wd_count].value)
+		return (-1);
+	return (0);
 }
 
-static void	handle_redirector(char *str, t_cmdsplit *cmd, t_token *tokens)
+static int	handle_redirector(char *str, t_cmdsplit *cmd, t_token *tokens)
 {
 	cmd->start = cmd->index;
 	cmd->res = redirectors(str, cmd->index);
@@ -39,7 +41,8 @@ static void	handle_redirector(char *str, t_cmdsplit *cmd, t_token *tokens)
 	{
 		tokens[cmd->wd_count].value = ft_substr(str, cmd->start, ((cmd->index
 						+ 2) - cmd->start));
-		//protect malloc
+		if (!tokens[cmd->wd_count].value)
+			return (-1);
 		tokens[cmd->wd_count].type = cmd->res;
 		cmd->index++;
 	}
@@ -47,12 +50,14 @@ static void	handle_redirector(char *str, t_cmdsplit *cmd, t_token *tokens)
 	{
 		tokens[cmd->wd_count].value = ft_substr(str, cmd->start, ((cmd->index
 						+ 1) - cmd->start));
-		//protect malloc
+		if (!tokens[cmd->wd_count].value)
+			return (-1);
 		tokens[cmd->wd_count].type = cmd->res;
 	}
+	return (0);
 }
 
-static void	handle_word(char *str, t_cmdsplit *cmd, t_token *tokens)
+static int	handle_word(char *str, t_cmdsplit *cmd, t_token *tokens)
 {
 	cmd->start = cmd->index;
 	while (str[cmd->index] != '\0' && !ft_isspace(str[cmd->index])
@@ -60,32 +65,38 @@ static void	handle_word(char *str, t_cmdsplit *cmd, t_token *tokens)
 		cmd->index++;
 	tokens[cmd->wd_count].value = ft_substr(str, cmd->start, (cmd->index
 				- cmd->start));
-	//protect malloc
+	if (!tokens[cmd->wd_count].value)
+		return (-1);
+	return (0);
 }
 
-static void	init_result(char *str, t_cmdsplit *cmd, t_token *tokens)
+static int	init_result(char *str, t_cmdsplit *cmd, t_token *tokens)
 {
 	while (str[cmd->index] != '\0')
 	{
 		if (str[cmd->index] && !ft_isspace(str[cmd->index]) && (redirectors(str,
 					cmd->index) == 0 && !ft_isquote(str[cmd->index])))
 		{
-			handle_word(str, cmd, tokens);
+			if (handle_word(str, cmd, tokens) == -1)
+				return (-1);
 			cmd->wd_count++;
 		}
 		if (str[cmd->index] && redirectors(str, cmd->index))
 		{
-			handle_redirector(str, cmd, tokens);
+			if (handle_redirector(str, cmd, tokens))
+				return (-1);
 			cmd->wd_count++;
 		}
 		if (str[cmd->index] && (ft_isquote(str[cmd->index])))
 		{
-			handle_quote(str, cmd, tokens);
+			if (handle_quote(str, cmd, tokens) == -1)
+				return (-1);
 			cmd->wd_count++;
 		}
 		if (str[cmd->index] != '\0')
 			cmd->index++;
 	}
+	return (0);
 }
 
 t_token	*ft_cmdtrim(char *str, t_token *tokens)
@@ -107,6 +118,10 @@ t_token	*ft_cmdtrim(char *str, t_token *tokens)
 	init_tokens(tokens, wd_count);
 	cmd.wd_count = 0;
 	cmd.index = 0;
-	init_result(str, &cmd, tokens);
+	if (init_result(str, &cmd, tokens) == -1)
+	{
+		free_tokens(tokens);
+		return (NULL);
+	}
 	return (tokens);
 }

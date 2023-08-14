@@ -6,13 +6,13 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 16:00:20 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/09 10:29:07 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_env **env)
+int	ft_env(t_env **env)
 {
 	t_env	*tmp;
 
@@ -31,4 +31,5 @@ void	ft_env(t_env **env)
 		}
 		tmp = tmp->next;
 	}
+	return (0);
 }

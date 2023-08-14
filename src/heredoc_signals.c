@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_utils.c                                      :+:      :+:    :+:   */
+/*   heredoc_signals.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/08 18:47:38 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/14 18:24:44 by atoof            ###   ########.fr       */
+/*   Created: 2023/08/14 18:11:31 by atoof             #+#    #+#             */
+/*   Updated: 2023/08/14 18:12:06 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_tokens(t_token *tokens, int wd_count)
+static void	heredoc_signal_handler(int signal)
 {
-	int	index;
+	(void)signal;
+	write(1, "\n", 1);
+	exit(1);
+}
 
-	index = 0;
-	while (index < wd_count)
-	{
-		tokens[index].type = 0;
-		tokens[index].value = NULL;
-		index++;
-	}
+void	heredoc_signals(void)
+{
+	struct sigaction	sa;
+
+	echoing_control_chars(0);
+	sa.sa_flags = SA_RESTART;
+	sa.sa_handler = heredoc_signal_handler;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }

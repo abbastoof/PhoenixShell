@@ -3,23 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 15:33:21 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 01:58:29 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 13:11:32 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_realloc(char **ptr, size_t size)
+static size_t	ft_ptrlen(char **ptr)
 {
-	size_t		index;
-	char		**new;
+	size_t	index;
 
 	index = 0;
 	while (ptr[index])
 		index++;
+	return (index);
+}
+
+char	**ft_realloc(char **ptr, size_t size)
+{
+	size_t	index;
+	char	**new;
+
+	index = ft_ptrlen(ptr);
 	if (size <= index)
 		return (ptr);
 	new = ft_calloc(sizeof(char *), size);

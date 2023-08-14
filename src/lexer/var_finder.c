@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_finder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/20 13:03:36 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 17:25:36 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	checker(char *str, t_lexer *state, int var_flag)
 {
-	if (var_flag == 1 && !ft_isspace(str[state->i + 1]) && str[state->i
-			+ 1] != '\0')
+	if (var_flag == 1 && !ft_isspace(str[state->i + 1]) && str[state->i \
+		+ 1] != '\0')
 	{
 		state->i++;
 		if ((ft_isdigit(str[state->i]) && var_flag == 1)
@@ -34,6 +34,24 @@ int	checker(char *str, t_lexer *state, int var_flag)
 	return (0);
 }
 
+static int	malloc_error(char *ptr)
+{
+	if (!ptr)
+	{
+		ft_putstr_fd("Malloc var finder\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
+static void	extract_var(char *str, int indx, t_lexer *state, char *des)
+{
+	while (!ft_isspace(str[indx]) && str[indx] != '\0' && !ft_isquote(str[indx])
+		&& (str[indx] == '_' || ft_isalnum(str[indx])))
+		indx++;
+	state->var = ft_strnjoin(des, (str + state->i), indx - state->i);
+}
+
 char	*var_finder(char *str, t_lexer *state, t_env **env, int var_flag)
 {
 	int		indx;
@@ -47,15 +65,11 @@ char	*var_finder(char *str, t_lexer *state, t_env **env, int var_flag)
 		return ("$");
 	indx = state->i;
 	des = ft_calloc(1, 1);
-	if (!des)
-	//message for malloc
+	if (malloc_error(des))
 		return (NULL);
-	while (!ft_isspace(str[indx]) && str[indx] != '\0'
-		&& !ft_isquote(str[indx]) \
-		&& (str[indx] == '_' || ft_isalnum(str[indx])))
-		indx++;
-	state->var = ft_strnjoin(des, (str + state->i), indx - state->i);
-	//protect malloc
+	extract_var(str, indx, state, des);
+	if (malloc_error(state->var))
+		return (NULL);
 	free(des);
 	des = NULL;
 	state->i = indx;

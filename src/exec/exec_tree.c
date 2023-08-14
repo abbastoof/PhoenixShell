@@ -6,41 +6,22 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 14:08:20 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 15:39:44 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*  The last line of exec_tree is needed because we
-	want our exit code to always remain between 0 and 255*/
-
-/*  X_OK for execute/search permission),
-	the existence test (F_OK)*/
-
-// int	check_heredoc(t_tree *tree)
-// {
-// 	while (tree != NULL)
-// 	{
-		
-// 	}
-// }
-
-void	exec_tree(t_tree *tree, t_env **env)
+void	exec_tree(t_tree **tree, t_env **env, pid_t	parent_pid)
 {
-	if (tree != NULL)
+	if (*tree != NULL)
 	{
-		if (tree->type == TOKEN_PIPE)
-			create_pipe(tree, env);
-		else if (tree->type >= TOKEN_INPUT && tree->type <= TOKEN_OUTPUT_APPEND)
-			exec_cmd_redir(tree->redir, tree, env);
-		else if (tree->type == TOKEN_CMD)
-		{
-			if (built_in(tree, env) == 0)
-				exec_cmd(tree, env);
-		}
-		else if (tree->type == TOKEN_HEREDOC)
-			run_heredoc(tree, env);
-		g_exit_status = g_exit_status % 255;
+		if ((*tree)->type == TOKEN_PIPE)
+			create_pipe(&(*tree), env);
+		else if ((*tree)->type >= TOKEN_INPUT && (*tree)->type <= TOKEN_HEREDOC)
+			exec_cmd_redir((*tree)->redir, tree, env, parent_pid);
+		else if ((*tree)->type == TOKEN_CMD)
+			exec_cmd(&(*tree), env, parent_pid);
+		g_tree.exit_status = g_tree.exit_status % 255;
 	}
 }

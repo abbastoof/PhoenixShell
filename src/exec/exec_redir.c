@@ -6,74 +6,71 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 17:18:11 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 16:17:35 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	open_output_file(t_redir *redir, int *fd)
+static void	dup_last_heredoc(t_redir *tmp_redir, t_tree *tree)
 {
-	if (redir->type == TOKEN_OUTPUT)
+	if (tmp_redir->last == 1)
 	{
-		*fd = open(redir->file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (*fd == -1)
-			error_access_filename(redir->file_name);
+		tree->fd_in = open(tmp_redir->file_name, O_RDONLY);
+		if (tree->fd_in < 0)
+		{
+			perror("open here");
+			return ;
+		}
+		dup2(tree->fd_in, STDIN_FILENO);
+		close(tree->fd_in);
+		unlink(tmp_redir->file_name);
 	}
-	else if (redir->type == TOKEN_OUTPUT_APPEND)
-	{
-		*fd = open(redir->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (*fd == -1)
-			error_access_filename(redir->file_name);
-	}
-}
-
-static void	open_input_file(t_redir *redir)
-{
-	int	fd;
-
-	fd = open(redir->file_name, O_RDONLY);
-	if (fd == -1)
-		error_access_filename(redir->file_name);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
 }
 
 static void	exec_redirect(t_redir *redir, t_tree *tree)
 {
 	t_redir	*tmp_redir;
-	int		fd;
 
 	tmp_redir = redir;
 	while (tmp_redir != NULL)
 	{
 		if (tmp_redir->type == TOKEN_INPUT)
+			open_input_file(tmp_redir, tree);
+		else if (tmp_redir->type == TOKEN_OUTPUT \
+			|| tmp_redir->type == TOKEN_OUTPUT_APPEND)
 		{
-			open_input_file(tmp_redir);
-			tmp_redir = tmp_redir->next;
-			continue ;
+			open_output_file(tmp_redir, tree);
+			if (tmp_redir->last == 0)
+				close(tree->fd_out);
+			if (tmp_redir->last == 1)
+			{
+				dup2(tree->fd_out, STDOUT_FILENO);
+				close(tree->fd_out);
+			}
 		}
-		else
-			open_output_file(tmp_redir, &fd);
-		if (tree->last_redir != NULL)
-			close(tree->fd_out);
-		tree->fd_out = fd;
-		tree->last_redir = tmp_redir;
+		else if (tmp_redir->type == TOKEN_HEREDOC)
+			dup_last_heredoc(tmp_redir, tree);
 		tmp_redir = tmp_redir->next;
 	}
-	if (tree->last_redir != NULL)
-		dup2(tree->fd_out, STDOUT_FILENO);
 }
 
-int	exec_cmd_redir(t_redir *redir, t_tree *tree, t_env **env)
+int	exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env, pid_t parent_pid)
 {
 	if (child_process() == 0)
 	{
-		exec_redirect(redir, tree);
-		if (tree->cmd != NULL)
-			run_cmd_token(tree, env);
+		if (redir != NULL)
+			check_for_last(redir);
+		exec_redirect(redir, (*tree));
+		if (g_tree.exit_status == 1)
+			return (1);
+		if ((*tree)->cmd != NULL)
+		{
+			if (built_in(&(*tree), env, parent_pid) == 0)
+				run_cmd_token((*tree), env);
+		}
 		exit(0);
 	}
-	wait(&(g_exit_status));
+	wait(&(g_tree.exit_status));
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:07:47 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/21 18:46:58 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 16:13:45 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	init_node(char **split, t_env **node)
 	if (split[1] != NULL)
 	{
 		if (split[0] != NULL && ft_strncmp(split[0], "SHLVL", 6) == 0)
-			(*node)->value = ft_strdup(shelvl_value(split[1]));
+			(*node)->value = shelvl_value(split[1]);
 		else if (split[0] != NULL && ft_strncmp(split[0], "OLDPWD", 6) == 0)
 			(*node)->value = NULL;
 		else
@@ -66,13 +66,21 @@ void	init_env(t_env **env, char **envp)
 	t_env	*node;
 	int		index;
 
-
 	index = 0;
 	while (envp[index] != NULL)
 	{
 		node = new_env_node(envp[index]);
 		if (!node)
 			exit(1);
+		if (ft_strcmp(node->key, "_") == 0)
+		{
+			free(node->key);
+			free(node->value);
+			free(node);
+			if (envp[index] != NULL)
+				index++;
+			continue ;
+		}
 		if (add_back_env(env, node) == -1)
 			exit(1);
 		if (envp[index] != NULL)

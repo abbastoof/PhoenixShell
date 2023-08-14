@@ -6,23 +6,23 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/21 15:28:40 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 18:11:00 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Function: tcsetattr
- 	 the effects of the functions on the terminal do not
- 	 become effective, nor are all errors detected, until the
- 	 tcsetattr() function is called.
- 	 If optional_actions is TCSANOW, the change shall occur immediately.
+ 		the effects of the functions on the terminal do not
+ 		become effective, nor are all errors detected, until the
+ 		tcsetattr() function is called.
+ 		If optional_actions is TCSANOW, the change shall occur immediately.
 */
 
 /* Macro: int SA_RESTART
-	 This flag controls what happens when a signal is delivered
-	 during certain primitives (such as open, read or write),
-	 and the signal handler returns normally. 
+		This flag controls what happens when a signal is delivered
+		during certain primitives (such as open, read or write),
+		and the signal handler returns normally. 
 */
 
 /* If a signal is caught during the system calls listed below, the call may
@@ -38,10 +38,10 @@
  */
 
 /* Function: rl_replace_line
-	 void rl_replace_line (const char *text, int clear_undo)
-	 Replace the contents of rl_line_buffer with text. The point and mark
-	 are preserved, if possible. If clear_undo is non-zero, the undo list
-	 associated with the current line is cleared.
+		void rl_replace_line (const char *text, int clear_undo)
+		Replace the contents of rl_line_buffer with text. The point and mark
+		are preserved, if possible. If clear_undo is non-zero, the undo list
+		associated with the current line is cleared.
 */
 
 void	echoing_control_chars(int enable)
@@ -65,15 +65,24 @@ void	handle_signal(int sig)
 	rl_redisplay();
 }
 
-void	init_signals(void)
+void	init_signals(int state)
 {
 	struct sigaction	sa;
+	struct sigaction	s_quit;
 
 	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = handle_signal;
-	signal(SIGQUIT, SIG_IGN);
+	if (state == 1)
+		sa.sa_handler = handle_signal;
+	else if (state == 0)
+		sa.sa_handler = SIG_IGN;
 	sigaction(SIGINT, &sa, NULL);
+	sigemptyset(&s_quit.sa_mask);
+	if (state == 1)
+		s_quit.sa_handler = SIG_IGN;
+	else if (state == 0)
+		s_quit.sa_handler = SIG_DFL;
+	sigaction(SIGQUIT, &s_quit, NULL);
 }
 
 void	ctrl_d_handler(void)
