@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 16:30:18 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 20:57:41 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void				process_cmd(char *line, t_env **env);
 int					check_quotes_syntax(t_token *tokens);
 int					expand_var(t_token *token, t_lexer *state, t_env **env,
 						int var_flag);
-void				check_dollar_sign(char *str, t_lexer *state, t_env **env,
+int					check_dollar_sign(char *str, t_lexer *state, t_env **env,
 						int var_flag);
 char				*var_finder(char *str, t_lexer *state, t_env **env,
 						int var_flag);

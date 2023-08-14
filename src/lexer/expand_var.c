@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/07/20 12:59:31 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 20:47:11 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,22 @@ static void	handlequote(char *str, t_lexer *state)
 	handledquote(str, state);
 }
 
-static void	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
+static int	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
 {
 	if (!state->tmp)
 	{
 		state->tmp = ft_calloc(sizeof(char), 2);
-		//protect malloc
 		if (!state->tmp)
-			return ;
+		{
+			ft_putstr_fd("Malloc expand_var\n", 2);
+			return (-1);
+		}
 	}
 	check_dollar_sign(str, state, env, var_flag);
+	return (0);
 }
 
-static void	replace_value(t_token *token, t_lexer *state)
+static int	replace_value(t_token *token, t_lexer *state)
 {
 	if (token->value)
 	{
@@ -71,10 +74,17 @@ static void	replace_value(t_token *token, t_lexer *state)
 		token->value = NULL;
 	}
 	if (state->res != NULL)
+	{
 		token->value = ft_strdup(state->res);
-		//protect malloc
+		if (token->value)
+		{
+			ft_putstr_fd("Malloc expand_var\n", 2);
+			return (-1);
+		}
+	}
 	else
 		token->value = NULL;
+	return (0);
 }
 
 int	expand_var(t_token *token, t_lexer *state, t_env **env, int var_flag)

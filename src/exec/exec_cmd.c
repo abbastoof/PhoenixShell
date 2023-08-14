@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 16:29:30 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 20:32:14 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,16 @@ char	*get_cmd(char **paths, char *cmd)
 	{
 		temp = ft_strjoin(*paths, "/");
 		if (!temp)
+		{
+			ft_putstr_fd("Malloc get_cmd\n", 2);
 			return (NULL);
+		}
 		unix_cmd = ft_strjoin(temp, cmd);
 		if (!unix_cmd)
+		{
+			ft_putstr_fd("Malloc get_cmd\n", 2);
 			return (NULL);
+		}
 		free(temp);
 		if (access(unix_cmd, X_OK) == 0)
 			return (unix_cmd);
@@ -76,7 +82,10 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 	if (is_absolute_path(tree->cmd))
 		tree->cmd = ft_strdup(tree->args[0]);
 	else
-		replace_cmd_absolute_path(tree);
+	{
+		if (tree->paths != NULL)
+			replace_cmd_absolute_path(tree);
+	}
 	env_to_char_ptr = env_char_ptr(env, env_to_char_ptr);
 	run_cmd_in_child(tree, env_to_char_ptr);
 	if (env_to_char_ptr != NULL)

@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/14 18:30:42 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 20:10:40 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ t_token	*ft_cmdtrim(char *str, t_token *tokens)
 	cmd.index = 0;
 	if (init_result(str, &cmd, tokens) == -1)
 	{
+		ft_putstr_fd("Malloc split_line\n", 2);
 		free_tokens(tokens);
 		return (NULL);
 	}

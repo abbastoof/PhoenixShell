@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:58:25 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/14 16:14:00 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/14 20:34:45 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ char	**env_char_ptr(t_env **env, char **env_ptr)
 		return (NULL);
 	env_ptr = ft_calloc(sizeof(char *), ft_listsize(env) * 2);
 	if (!env_ptr)
+	{
+		ft_putstr_fd("Malloc env_char_ptr\n", 2);
 		return (NULL);
+	}
 	tmp = *env;
 	index = 0;
 	while (tmp != NULL)
