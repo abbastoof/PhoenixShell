@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/14 20:57:29 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:42:59 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,48 +72,54 @@ static int	dollar_handler_util(t_lexer *state, int var_flag)
 	return (0);
 }
 
+static int	handle_special_character(char *str, t_lexer *state)
+{
+	if (str[state->i + 1] == '\\')
+	{
+		state->res = ft_strnjoin(state->tmp, str + state->i, 1);
+		if (!state->res)
+		{
+			ft_putstr_fd("Malloc dollar_sign\n", 2);
+			return (-1);
+		}
+		if (state->tmp)
+			free(state->tmp);
+		state->tmp = state->res;
+		state->i += 2;
+	}
+	if (result_join(state, str) == -1)
+	{
+		ft_putstr_fd("Malloc dollar_sign\n", 2);
+		return (-1);
+	}
+	return (0);
+}
+
 int	check_dollar_sign(char *str, t_lexer *state, t_env **env, int var_flag)
 {
-	if (str[state->i] == '$' && (str[state->i + 1] != '\\' && (str[state->i \
-		+ 1] != '%' && str[state->i + 1] != '!' && str[state->i \
-		+ 1] != '?')))
+	state->condition_result = dollar_with_character(str, state);
+	if (state->condition_result == 1)
 	{
 		state->path = var_finder(str, state, env, var_flag);
-		dollar_handler_util(state, var_flag);
-	}
-	else if (str[state->i] == '$' && str[state->i + 1] == '?')
-		return_exit_status(state);
-	else if (str[state->i] == '$' && (str[state->i + 1] == '\\' \
-	|| (str[state->i + 1] == '%') || (str[state->i + 1] == '?')))
-	{
-		if (str[state->i + 1] == '\\')
-		{
-			state->res = ft_strnjoin(state->tmp, str + state->i, 1);
-			if (!state->res)
-			{
-				ft_putstr_fd("Malloc dollar_sign\n", 2);
-				return (-1);
-			}
-			if (state->tmp)
-				free(state->tmp);
-			state->tmp = state->res;
-			state->i += 2;
-		}
-		if (result_join(state, str) == -1)
-		{
-			ft_putstr_fd("Malloc dollar_sign\n", 2);
+		if (dollar_handler_util(state, var_flag) == -1)
 			return (-1);
-		}
 	}
-	else if (str[state->i] == '$' && (str[state->i + 1] == '!'))
+	else if (state->condition_result == 2)
+	{
+		if (return_exit_status(state))
+			return (-1);
+	}
+	else if (state->condition_result == 3)
+	{
+		if (handle_special_character(str, state) == -1)
+			return (-1);
+	}
+	else if (state->condition_result == 4)
 		state->i++;
-	else
+	else if (state->condition_result == 5)
 	{
 		if (result_join(state, str) == -1)
-		{
-			ft_putstr_fd("Malloc dollar_sign\n", 2);
 			return (-1);
-		}
 	}
 	return (0);
 }

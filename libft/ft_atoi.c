@@ -27,12 +27,12 @@ int	ft_atoi(const char *str)
 	{
 		if (str[i] == '-')
 			sign = -1;
-	i++;
+		i++;
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + str[i] - 48;
-			i++;
+		i++;
 	}
 	return (sign * result);
 }

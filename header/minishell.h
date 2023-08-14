@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 20:57:41 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:43:43 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_lexer
 	int				inquote;
 	int				indquote;
 	int				token_indx;
+	int				condition_result;
 	char			*tmp;
 	char			*res;
 	char			*var;
@@ -116,7 +117,7 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-//cmd_trim
+// cmd_trim
 t_token				*ft_cmdtrim(char *str, t_token *tokens);
 int					check_isquote(char *str, t_cmdsplit *cmd);
 void				check_redirectors(char *str, t_cmdsplit *cmd);
@@ -124,12 +125,15 @@ void				init_cmdsplit(t_cmdsplit *cmd);
 int					redirectors(char *str, int i);
 int					words_count(char *str, t_cmdsplit *cmd);
 
-//lexer
+// lexer
+int					syntax(t_token *tokens);
 void				free_state(t_lexer *state);
 void				free_tokens(t_token *tokens);
 void				display_token(t_token *tokens);
 void				process_cmd(char *line, t_env **env);
 int					check_quotes_syntax(t_token *tokens);
+void				handlequote(char *str, t_lexer *state);
+void				handledquote(char *str, t_lexer *state);
 int					expand_var(t_token *token, t_lexer *state, t_env **env,
 						int var_flag);
 int					check_dollar_sign(char *str, t_lexer *state, t_env **env,
@@ -137,11 +141,11 @@ int					check_dollar_sign(char *str, t_lexer *state, t_env **env,
 char				*var_finder(char *str, t_lexer *state, t_env **env,
 						int var_flag);
 void				expand_quotes(t_token *tokens, t_env **env, t_lexer *state);
-// void				get_command_arguments(t_cmd *lst, t_token *cmd);
-int					syntax(t_token *tokens);
-// int					check_for_heredoc(t_tree **tree);
+int					join_char(char *str, t_lexer *state, t_env **env,
+						int var_flag);
+int					dollar_with_character(char *str, t_lexer *state);
 
-//built_in
+// built_in
 int					pwd(void);
 int					ft_echo(char **args);
 int					ft_env(t_env **env);
@@ -166,9 +170,9 @@ int					add_args(t_token **tokens, t_tree *new_node);
 int					create_tree(t_token **tokens, t_tree **tree);
 int					parse_cmd_node(t_token **tokens, t_tree *node);
 int					parse_redir(t_token **tokens, t_tree *new_node);
-//TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
+// TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
-//helper
+// helper
 int					ft_isquote(int c);
 int					ft_isspace(int c);
 void				ctrl_d_handler(void);
@@ -184,14 +188,14 @@ char				*ft_chrjoin(char const *s1, char const s2);
 void				rl_replace_line(const char *text, int clear_undo);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 
-//env_init
+// env_init
 t_env				*new_env_node(char *line);
 char				*shelvl_value(char *value);
 void				init_env(t_env **env, char **envp);
 int					add_back_env(t_env **env, t_env *new_node);
 int					ft_listsize(t_env **env);
 char				**env_char_ptr(t_env **env, char **env_ptr);
-//exec
+// exec
 pid_t				child_process(void);
 void				exit_status_chk(void);
 void				heredoc_signals(void);
@@ -209,10 +213,10 @@ void				exec_cmd(t_tree **tree, t_env **env, pid_t parent_pid);
 int					built_in(t_tree **tree, t_env **env, pid_t parent_pid);
 void				exec_tree(t_tree **tree, t_env **env, pid_t parent_pid);
 int					contains_heredoc(t_redir *redir_list);
-int					exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env, \
-					pid_t parent_pid);
-int					handle_only_heredoc_logic(t_redir *redir_list, \
-					t_tree *cmd_node);
+int					exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env,
+						pid_t parent_pid);
+int					handle_only_heredoc_logic(t_redir *redir_list,
+						t_tree *cmd_node);
 int					check_for_heredoc(t_tree **tree);
 
 #endif

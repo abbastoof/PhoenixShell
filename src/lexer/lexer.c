@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 20:21:56 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:42:42 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	init_info(t_lexer *state)
 	state->inquote = 0;
 	state->indquote = 0;
 	state->indx = 0;
+	state->condition_result = 0;
 	state->path = NULL;
 	state->var = NULL;
 	state->tmp = NULL;

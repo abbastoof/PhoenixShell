@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:11:17 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/04 15:36:42 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:27:01 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	init_info(t_lexer *state)
 	state->flag = 0;
 }
 
-static void	handledquote(char str, t_lexer *state)
+static void	handle_dquote(char str, t_lexer *state)
 {
 	if (str == '\"' && !state->inquote)
 	{
@@ -37,7 +37,7 @@ static void	handledquote(char str, t_lexer *state)
 	}
 }
 
-static void	handlequote(char str, t_lexer *state)
+static void	handle_quote(char str, t_lexer *state)
 {
 	if (str == '\'' && !state->indquote)
 	{
@@ -52,7 +52,7 @@ static void	handlequote(char str, t_lexer *state)
 			state->inquote = 0;
 		}
 	}
-	handledquote(str, state);
+	handle_dquote(str, state);
 }
 
 static int	quotes_validity(char *line)
@@ -64,7 +64,7 @@ static int	quotes_validity(char *line)
 	init_info(&state);
 	while (line[state.indx] != '\0')
 	{
-		handlequote(line[state.indx], &state);
+		handle_quote(line[state.indx], &state);
 		state.indx++;
 	}
 	if (state.inquote == 1 || state.indquote == 1)

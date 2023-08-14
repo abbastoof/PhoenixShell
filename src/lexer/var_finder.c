@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_finder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/14 17:25:36 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 01:12:27 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	checker(char *str, t_lexer *state, int var_flag)
 		if ((ft_isdigit(str[state->i]) && var_flag == 1)
 			|| (ft_isquote(str[state->i]) && var_flag))
 		{
-			state->i++;
+			if (str[state->i] != '\'')
+				state->i++;
 			return (1);
 		}
 	}

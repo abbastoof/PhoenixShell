@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 20:47:11 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:03:42 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handledquote(char *str, t_lexer *state)
+void	handledquote(char *str, t_lexer *state)
 {
 	if (str[state->i] == '\"' && !state->inquote)
 	{
@@ -31,7 +31,7 @@ static void	handledquote(char *str, t_lexer *state)
 	}
 }
 
-static void	handlequote(char *str, t_lexer *state)
+void	handlequote(char *str, t_lexer *state)
 {
 	if (str[state->i] == '\'' && !state->indquote)
 	{
@@ -51,7 +51,7 @@ static void	handlequote(char *str, t_lexer *state)
 	handledquote(str, state);
 }
 
-static int	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
+int	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
 {
 	if (!state->tmp)
 	{
@@ -62,52 +62,7 @@ static int	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
 			return (-1);
 		}
 	}
-	check_dollar_sign(str, state, env, var_flag);
-	return (0);
-}
-
-static int	replace_value(t_token *token, t_lexer *state)
-{
-	if (token->value)
-	{
-		free(token->value);
-		token->value = NULL;
-	}
-	if (state->res != NULL)
-	{
-		token->value = ft_strdup(state->res);
-		if (token->value)
-		{
-			ft_putstr_fd("Malloc expand_var\n", 2);
-			return (-1);
-		}
-	}
-	else
-		token->value = NULL;
-	return (0);
-}
-
-int	expand_var(t_token *token, t_lexer *state, t_env **env, int var_flag)
-{
-	state->flag = 0;
-	state->i = 0;
-	while (token->value[state->i])
-	{
-		handlequote(token->value, state);
-		if ((token->value[state->i] && state->flag == 0
-				&& token->value[state->i] != ' ')
-			&& (token->value[state->i] != '\'')
-			&& (token->value[state->i] != '\"'))
-			join_char(token->value, state, env, var_flag);
-		else if ((token->value[state->i] && (state->flag == 1
-					&& token->value[state->i] != '\''))
-			|| (token->value[state->i] && (state->flag == 2
-					&& token->value[state->i] != '\"')))
-			join_char(token->value, state, env, var_flag);
-		else if (state->flag == 0 && token->value[state->i] == ' ')
-			break ;
-	}
-	replace_value(token, state);
-	free_state(state);
+	if (check_dollar_sign(str, state, env, var_flag) == -1)
+		return (-1);
 	return (0);
 }
