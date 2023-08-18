@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir_node.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:04:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/14 17:06:04 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/17 18:09:17 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ t_redir	*new_redir_node(t_token **tokens, int type, char *index)
 		return (error_msg());
 	if ((*tokens)->type == TOKEN_HEREDOC)
 	{
-		(*tokens)++;
+		(*tokens) = (*tokens)->next;
 		heredoc_filename(tokens, index, &new);
 	}
 	else
 	{
-		(*tokens)++;
+		(*tokens) = (*tokens)->next;
 		new->file_name = ft_strdup((*tokens)->value);
 		new->key = NULL;
 	}

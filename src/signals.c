@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 18:11:00 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 21:46:45 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	handle_signal(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	rl_replace_line("", 1);
 	rl_redisplay();
 }
 
@@ -87,7 +87,6 @@ void	init_signals(int state)
 
 void	ctrl_d_handler(void)
 {
-	echoing_control_chars(1);
 	write(1, "exit\n", 6);
 	exit(1);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/15 00:03:42 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 13:20:56 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handledquote(char *str, t_lexer *state)
+void	checkdquote(char *str, t_lexer *state)
 {
 	if (str[state->i] == '\"' && !state->inquote)
 	{
@@ -31,7 +31,7 @@ void	handledquote(char *str, t_lexer *state)
 	}
 }
 
-void	handlequote(char *str, t_lexer *state)
+void	checkquote(char *str, t_lexer *state)
 {
 	if (str[state->i] == '\'' && !state->indquote)
 	{
@@ -48,7 +48,7 @@ void	handlequote(char *str, t_lexer *state)
 			state->inquote = 0;
 		}
 	}
-	handledquote(str, state);
+	checkdquote(str, state);
 }
 
 int	join_char(char *str, t_lexer *state, t_env **env, int var_flag)

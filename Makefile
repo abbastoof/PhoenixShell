@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+         #
+#    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/08/14 18:12:48 by atoof            ###   ########.fr        #
+#    Updated: 2023/08/18 22:36:48 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,17 +18,18 @@ UTILS_D = src/utils/
 TREE_D = src/tree/
 EXEC_D = src/exec/
 ENV_D = src/env/
-SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c helper.c ft_atol.c free_double_ptr.c \
+SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c ft_atol.c free_double_ptr.c \
 			ft_listsize.c
 SRC = main.c signals.c heredoc_signals.c
 SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c export_helper.c
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \
-			split_utils.c token_utils.c expand_quotes.c syntax.c check_quotes.c \
-			check_for_heredoc.c
-SRC_TREE = make_tree.c utils.c display_delete_tree.c parse_cmd_node.c parse_redir_node.c
+			split_utils.c split_utils2.c token_utils.c expand_quotes.c syntax.c \
+			check_quotes.c check_for_heredoc.c
+SRC_TREE = make_tree.c utils.c display_delete_tree.c parse_cmd_node.c parse_redir_node.c \
+			parse_args_list.c
 SRC_EXEC = child.c create_pipe.c error.c exec_tree.c exec_redir.c exec_cmd.c exec_cmd_utils.c \
-			heredoc.c helper.c open_files.c
-SRC_ENV = env_init.c env_utils.c
+			heredoc.c open_files.c
+SRC_ENV = env_init.c env_utils.c env_utils2.c
 SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)) \
 		$(addprefix $(LEXER_D), $(SRC_LEX)) $(addprefix $(UTILS_D), $(SRC_UTILS)) \
 		$(addprefix $(TREE_D), $(SRC_TREE)) $(addprefix $(EXEC_D), $(SRC_EXEC)) \

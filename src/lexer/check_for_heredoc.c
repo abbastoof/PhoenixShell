@@ -3,14 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   check_for_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 13:33:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 17:52:17 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 22:28:43 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	check_for_last(t_redir *redir)
+{
+	t_redir	*last_input;
+	t_redir	*last_outfile;
+
+	last_input = NULL;
+	last_outfile = NULL;
+	while (redir != NULL)
+	{
+		if (redir->type == TOKEN_HEREDOC || redir->type == TOKEN_INPUT)
+			last_input = redir;
+		if (redir->type == TOKEN_OUTPUT || redir->type == TOKEN_OUTPUT_APPEND)
+			last_outfile = redir;
+		redir = redir->next;
+	}
+	if (last_input != NULL)
+		last_input->last = 1;
+	if (last_outfile != NULL)
+		last_outfile->last = 1;
+}
+
+int	contains_heredoc(t_redir *redir_list)
+{
+	t_redir	*current;
+
+	current = redir_list;
+	while (current)
+	{
+		if (current->type == TOKEN_HEREDOC)
+			return (1);
+		current = current->next;
+	}
+	return (0);
+}
+
+int	handle_only_heredoc_logic(t_redir *redir_list, t_tree *cmd_node)
+{
+	int		exitstatus;
+	t_redir	*current_redir;
+
+	exitstatus = 0;
+	current_redir = redir_list;
+	while (current_redir != NULL)
+	{
+		if (current_redir->type == TOKEN_HEREDOC)
+		{
+			run_heredoc(current_redir, cmd_node);
+			wait(&(exitstatus));
+			exit_status_chk(exitstatus);
+			if (g_tree.exit_status == 1)
+				return (1);
+			if (redir_list->last == 0)
+				unlink(redir_list->file_name);
+		}
+		current_redir = current_redir->next;
+	}
+	return (0);
+}
 
 static int	go_for_heredocs(t_redir *redir, t_tree *tree)
 {
@@ -30,7 +89,6 @@ int	check_for_heredoc(t_tree **tree)
 	tmp = tree;
 	if (*tmp != NULL)
 	{
-		init_signals(0);
 		if ((*tmp)->left && (*tmp)->left->type == TOKEN_PIPE)
 			if (check_for_heredoc(&(*tmp)->left) == 1)
 				return (1);
@@ -43,7 +101,6 @@ int	check_for_heredoc(t_tree **tree)
 		if ((*tmp)->type == TOKEN_CMD)
 			if (go_for_heredocs((*tmp)->redir, (*tmp)) == 1)
 				return (1);
-		g_tree.exit_status = g_tree.exit_status % 255;
 	}
 	return (0);
 }

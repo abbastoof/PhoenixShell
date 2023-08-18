@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 20:32:14 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 21:45:46 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,35 @@ char	*get_cmd(char **paths, char *cmd)
 	return (cmd);
 }
 
-int	built_in(t_tree **tree, t_env **env, pid_t parent_pid)
+int	built_in(t_tree **tree, t_env **env, pid_t parent_flag)
 {
+	int	exit_sig;
+
 	if (!(ft_strcmp((*tree)->cmd, "exit")))
-		g_tree.exit_status = ft_exit((*tree), env, parent_pid);
+		exit_sig = ft_exit((*tree), env, parent_flag);
 	else if (!(ft_strcmp((*tree)->cmd, "echo")))
-		g_tree.exit_status = ft_echo((*tree)->args);
+		exit_sig = ft_echo(*tree);
 	else if (!(ft_strcmp((*tree)->cmd, "cd")))
-		g_tree.exit_status = ft_cd(env, (*tree)->args);
+		exit_sig = ft_cd(env, *tree);
 	else if (!(ft_strcmp((*tree)->cmd, "env")))
-		g_tree.exit_status = ft_env(env);
+		exit_sig = ft_env(env);
 	else if (!(ft_strcmp((*tree)->cmd, "export")))
-		g_tree.exit_status = ft_export(env, (*tree)->args);
+		exit_sig = ft_export(env, *tree);
 	else if (!(ft_strcmp((*tree)->cmd, "pwd")))
-		g_tree.exit_status = pwd();
+		exit_sig = pwd();
 	else if (!(ft_strcmp((*tree)->cmd, "unset")))
-		g_tree.exit_status = ft_unset((*tree)->args, env);
+		exit_sig = ft_unset(*tree, env);
 	else
 		return (0);
+	exit_status_chk(exit_sig);
 	return (1);
 }
 
 void	run_cmd_token(t_tree *tree, t_env **env)
 {
 	char	**env_to_char_ptr;
+	int		exit_sig;
 
-	init_signals(0);
 	env_to_char_ptr = NULL;
 	tree->paths = NULL;
 	tree->paths = find_path(env, "PATH");
@@ -90,19 +93,19 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 	run_cmd_in_child(tree, env_to_char_ptr);
 	if (env_to_char_ptr != NULL)
 		free_double_ptr(env_to_char_ptr);
-	wait(&(g_tree.exit_status));
-	init_signals(1);
-	g_tree.exit_status = g_tree.exit_status % 255;
-	exit_status_chk();
+	wait(&(exit_sig));
+	exit_status_chk(exit_sig);
 }
 
-void	exec_cmd(t_tree **tree, t_env **env, pid_t parent_pid)
+void	exec_cmd(t_tree **tree, t_env **env, pid_t parent_flag)
 {
+	init_signals(1);
 	if ((*tree)->redir != NULL)
-		exec_cmd_redir((*tree)->redir, &(*tree), env, parent_pid);
+		exec_cmd_redir((*tree)->redir, &(*tree), env, parent_flag);
 	else
 	{
-		if (built_in(&(*tree), env, parent_pid) == 0)
+		if (built_in(&(*tree), env, parent_flag) == 0)
 			run_cmd_token((*tree), env);
 	}
+	init_signals(0);
 }

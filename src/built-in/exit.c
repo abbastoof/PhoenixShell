@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 15:23:42 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/17 21:18:37 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_digits(t_tree *tree, int indx, t_env **env)
+static void	check_digits(t_tree *tree, int index, t_env **env)
 {
 	int	c;
 
 	c = 0;
-	while (tree->args[indx][c])
+	while (tree->args[index][c])
 	{
-		if (tree->args[indx][c] == '-' || tree->args[indx][c] == '+')
+		if (tree->args[index][c] == '-' || tree->args[index][c] == '+')
 			c++;
-		if (!ft_isdigit(tree->args[indx][c]) || (ft_strcmp(tree->args[1], "0")
+		if (!ft_isdigit(tree->args[index][c]) || (ft_strcmp(tree->args[1], "0")
 				&& ft_atol(tree->args[1]) == 0))
 		{
 			ft_putstr_fd("exit\nMinishell: exit: ", 2);
-			ft_putstr_fd(tree->args[indx], 2);
+			ft_putstr_fd(tree->args[index], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			free_tree(&tree);
 			free_env(env);
@@ -44,36 +44,48 @@ static void	exit_with_a_number(t_tree *tree, t_env **env)
 	exit_num = ft_atol(tree->args[1]);
 	free_tree(&tree);
 	free_env(env);
-	exit(exit_num % 256);
+	exit((unsigned char)exit_num);
 }
 
 static void	exit_without_args(t_tree *tree, t_env **env)
 {
 	free_tree(&tree);
 	free_env(env);
-	exit(0);
+	exit(g_tree.exit_status);
 }
 
-int	ft_exit(t_tree *tree, t_env **env, pid_t parent_pid)
+static void	exit_null_args(t_tree *tree, t_env **env)
 {
-	int		indx;
+	ft_putstr_fd("exit\nMinishell: exit: ", 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	free_tree(&tree);
+	free_env(env);
+	exit(255);
+}
 
-	indx = 1;
-	if (tree->args[indx] != NULL)
+int	ft_exit(t_tree *tree, t_env **env, pid_t parent_flag)
+{
+	int		index;
+
+	index = 1;
+	if (index < tree->size_args)
 	{
-		check_digits(tree, indx, env);
-		indx++;
-		if (tree->args[indx] != NULL)
+		if (tree->args[index] == NULL)
+			exit_null_args(tree, env);
+		check_digits(tree, index, env);
+		index++;
+		if (tree->args[index] != NULL)
 		{
-			ft_putstr_fd("exit\nMinishell: exit: too many arguments\n", 2);
-			g_tree.exit_status = 1;
+			if (parent_flag == 1)
+				ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
 			return (1);
 		}
 		exit_with_a_number(tree, env);
 	}
 	else
 	{
-		if (parent_pid == getpid())
+		if (parent_flag == 1)
 			ft_putstr_fd("exit\n", 1);
 		exit_without_args(tree, env);
 	}

@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:05:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 15:39:44 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/16 14:35:40 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_tree(t_tree **tree, t_env **env, pid_t	parent_pid)
+void	exec_tree(t_tree **tree, t_env **env, pid_t	parent_flag)
 {
 	if (*tree != NULL)
 	{
 		if ((*tree)->type == TOKEN_PIPE)
 			create_pipe(&(*tree), env);
 		else if ((*tree)->type >= TOKEN_INPUT && (*tree)->type <= TOKEN_HEREDOC)
-			exec_cmd_redir((*tree)->redir, tree, env, parent_pid);
+			exec_cmd_redir((*tree)->redir, tree, env, parent_flag);
 		else if ((*tree)->type == TOKEN_CMD)
-			exec_cmd(&(*tree), env, parent_pid);
-		g_tree.exit_status = g_tree.exit_status % 255;
+			exec_cmd(&(*tree), env, parent_flag);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/15 00:42:59 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 21:48:05 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,25 +98,25 @@ static int	handle_special_character(char *str, t_lexer *state)
 int	check_dollar_sign(char *str, t_lexer *state, t_env **env, int var_flag)
 {
 	state->condition_result = dollar_with_character(str, state);
-	if (state->condition_result == 1)
+	if (state->condition_result == 1 && state->flag != 1)
 	{
 		state->path = var_finder(str, state, env, var_flag);
 		if (dollar_handler_util(state, var_flag) == -1)
 			return (-1);
 	}
-	else if (state->condition_result == 2)
+	else if (state->condition_result == 2 && state->flag != 1)
 	{
 		if (return_exit_status(state))
 			return (-1);
 	}
-	else if (state->condition_result == 3)
+	else if (state->condition_result == 3 && state->flag != 1)
 	{
 		if (handle_special_character(str, state) == -1)
 			return (-1);
 	}
-	else if (state->condition_result == 4)
+	else if (state->condition_result == 4 && state->flag != 1)
 		state->i++;
-	else if (state->condition_result == 5)
+	else
 	{
 		if (result_join(state, str) == -1)
 			return (-1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/09 11:11:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 15:07:33 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	print_error(char **args, int args_indx, int flag)
 	if (flag == 0)
 	{
 		ft_putstr("Minishell: export: `");
-		ft_putstr(args[args_indx]);
+		if (args[args_indx] != NULL)
+			ft_putstr(args[args_indx]);
 		ft_putstr("': not a valid identifier\n");
 	}
 	else
@@ -68,8 +69,8 @@ int	find_key_in_env(t_env **env, char *key, char *value)
 			}
 			return (0);
 		}
-		if (ft_strchr(key, '=') && value == NULL && ft_strncmp(tmp->key, key, \
-		ft_strlen(key) - 1) == 0)
+		if (ft_strchr(key, '=') && value == NULL && ft_strncmp(tmp->key, key,
+				ft_strlen(key) - 1) == 0)
 			return (empty_key_with_equal(&tmp));
 		tmp = tmp->next;
 	}
@@ -92,6 +93,7 @@ static int	add_to_env(char *var, t_env **env)
 				free_double_ptr(split);
 			return (0);
 		}
+		return (add_back_env(env, new_env_node(var)));
 	}
 	else if (var != NULL)
 	{
@@ -104,25 +106,27 @@ static int	add_to_env(char *var, t_env **env)
 	return (0);
 }
 
-int	ft_export(t_env **env, char **args)
+int	ft_export(t_env **env, t_tree *tree)
 {
-	int	args_indx;
+	int	index;
 	int	flag;
 
 	flag = 0;
-	args_indx = 1;
-	if (args[args_indx] != NULL)
+	index = 1;
+	if (tree->size_args > 1)
 	{
-		while (args[args_indx] != NULL)
+		while (index < tree->size_args)
 		{
-			if (ft_isdigit(args[args_indx][0]))
-				flag = print_error(args, args_indx, 0);
+			if (tree->args[index] == NULL || ft_isdigit(tree->args[index][0]) \
+			|| tree->args[index][0] == ' ' || \
+			ft_strcmp(tree->args[index], "") == 0)
+				flag = print_error(tree->args, index, 0);
 			else
 			{
-				if (add_to_env(args[args_indx], env) != 0)
+				if (add_to_env(tree->args[index], env) != 0)
 					return (1);
 			}
-			args_indx++;
+			index++;
 		}
 	}
 	else

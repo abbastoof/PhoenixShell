@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:11:17 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/15 00:27:01 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/17 15:02:17 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,16 @@ static int	quotes_validity(char *line)
 	return (0);
 }
 
-int	check_quotes_syntax(t_token *tokens)
+int	check_quotes_syntax(t_token **tokens)
 {
-	int	indx;
+	t_token	*tmp;
 
-	indx = 0;
+	tmp = *tokens;
 	if (tokens == NULL)
 		return (1);
-	while (tokens[indx].value != NULL)
+	while (tmp != NULL)
 	{
-		if (quotes_validity(tokens[indx].value) == -1)
+		if (quotes_validity(tmp->value) == -1)
 		{
 			ft_putstr_fd("open quotes\n", 2);
 			{
@@ -89,7 +89,7 @@ int	check_quotes_syntax(t_token *tokens)
 				return (1);
 			}
 		}
-		indx++;
+		tmp = tmp->next;
 	}
 	if (syntax(tokens) == 1)
 	{

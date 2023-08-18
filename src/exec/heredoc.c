@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:19:45 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 16:57:00 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 21:46:13 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static void	write_lines_to_file(t_redir *redir, t_tree *tree)
 	input_line = readline("> ");
 	while (input_line && ft_strcmp(redir->key, input_line) != 0)
 	{
-		if (g_tree.exit_status == 1)
-			return ;
 		if (input_line)
 		{
 			ft_putstr_fd(input_line, tree->fd_in);
 			ft_putstr_fd("\n", tree->fd_in);
 		}
+		if (!input_line)
+			exit(0);
 		free(input_line);
 		input_line = readline("> ");
 	}

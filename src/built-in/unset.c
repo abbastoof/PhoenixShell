@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 15:43:07 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/17 20:58:01 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static int	handle_error(char *str)
 {
 	ft_putstr("Minishell: unset: `");
-	ft_putstr(str);
+	if (str != NULL)
+		ft_putstr(str);
 	ft_putstr("': not a valid identifier\n");
 	return (1);
 }
@@ -70,7 +71,7 @@ int	free_key_env(t_env **env, char *key)
 	return (0);
 }
 
-int	ft_unset(char **args, t_env **env)
+int	ft_unset(t_tree *tree, t_env **env)
 {
 	int	index;
 	int	flag;
@@ -79,14 +80,15 @@ int	ft_unset(char **args, t_env **env)
 	index = 1;
 	if (*env != NULL)
 	{
-		while (args[index] != NULL)
+		while (index < tree->size_args)
 		{
-			if (ft_isdigit(args[index][0]))
-				flag = handle_error(args[index]);
-			if (ft_strchr(args[index], '='))
-				flag = handle_error(args[index]);
+			if (tree->args[index] == NULL || ft_isdigit(tree->args[index][0]))
+				flag = handle_error(tree->args[index]);
+			else if (tree->args[index] != NULL && \
+			ft_strchr(tree->args[index], '='))
+				flag = handle_error(tree->args[index]);
 			else
-				free_key_env(env, args[index]);
+				free_key_env(env, tree->args[index]);
 			index++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 16:17:35 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 15:59:40 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	dup_last_heredoc(t_redir *tmp_redir, t_tree *tree)
 		tree->fd_in = open(tmp_redir->file_name, O_RDONLY);
 		if (tree->fd_in < 0)
 		{
-			perror("open here");
+			perror("open");
 			return ;
 		}
 		dup2(tree->fd_in, STDIN_FILENO);
@@ -38,7 +38,7 @@ static void	exec_redirect(t_redir *redir, t_tree *tree)
 		if (tmp_redir->type == TOKEN_INPUT)
 			open_input_file(tmp_redir, tree);
 		else if (tmp_redir->type == TOKEN_OUTPUT \
-			|| tmp_redir->type == TOKEN_OUTPUT_APPEND)
+		|| tmp_redir->type == TOKEN_OUTPUT_APPEND)
 		{
 			open_output_file(tmp_redir, tree);
 			if (tmp_redir->last == 0)
@@ -55,8 +55,11 @@ static void	exec_redirect(t_redir *redir, t_tree *tree)
 	}
 }
 
-int	exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env, pid_t parent_pid)
+int	exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env,
+		pid_t parent_flag)
 {
+	int	exit_sig;
+
 	if (child_process() == 0)
 	{
 		if (redir != NULL)
@@ -66,11 +69,12 @@ int	exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env, pid_t parent_pid)
 			return (1);
 		if ((*tree)->cmd != NULL)
 		{
-			if (built_in(&(*tree), env, parent_pid) == 0)
+			if (built_in(&(*tree), env, parent_flag) == 0)
 				run_cmd_token((*tree), env);
 		}
 		exit(0);
 	}
-	wait(&(g_tree.exit_status));
+	wait(&(exit_sig));
+	exit_status_chk(exit_sig);
 	return (1);
 }

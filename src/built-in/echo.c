@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/08 08:41:41 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/17 20:13:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,26 @@ static int	check_flag(char *option)
 	return (0);
 }
 
-int	ft_echo(char **args)
+int	ft_echo(t_tree *tree)
 {
 	int	index;
 	int	flag;
 
 	index = 1;
 	flag = 0;
-	if (args[1] != NULL && args[1][0] == '-')
+	if (tree->args[1] != NULL && tree->args[1][0] == '-')
 	{
-		while (check_flag(args[index]) == 0)
+		while (check_flag(tree->args[index]) == 0)
 		{
 			flag = 1;
 			index++;
 		}
 	}
-	while (args[index] != NULL)
+	while (index < tree->size_args)
 	{
-		ft_putstr(args[index]);
-		if (args[index + 1] != NULL)
+		if (tree->args[index] != NULL)
+			ft_putstr_fd(tree->args[index], 1);
+		if (index + 1 < tree->size_args)
 			ft_putchar(' ');
 		index++;
 	}

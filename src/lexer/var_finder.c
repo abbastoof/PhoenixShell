@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/15 01:12:27 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/15 21:27:58 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,19 @@ static int	malloc_error(char *ptr)
 	return (0);
 }
 
-static void	extract_var(char *str, int indx, t_lexer *state, char *des)
+static void	extract_var(char *str, int index, t_lexer *state, char *des)
 {
-	while (!ft_isspace(str[indx]) && str[indx] != '\0' && !ft_isquote(str[indx])
-		&& (str[indx] == '_' || ft_isalnum(str[indx])))
-		indx++;
-	state->var = ft_strnjoin(des, (str + state->i), indx - state->i);
+	while (!ft_isspace(str[index]) && str[index] != '\0' \
+		&& !ft_isquote(str[index]) && (str[index] == '_' \
+		|| ft_isalnum(str[index])))
+		index++;
+	state->var = ft_strnjoin(des, (str + state->i), index - state->i);
+	state->i = index;
 }
 
 char	*var_finder(char *str, t_lexer *state, t_env **env, int var_flag)
 {
-	int		indx;
+	int		index;
 	char	*des;
 	int		checker_result;
 
@@ -64,16 +66,16 @@ char	*var_finder(char *str, t_lexer *state, t_env **env, int var_flag)
 		return (NULL);
 	else if (checker_result == 2)
 		return ("$");
-	indx = state->i;
+	index = state->i;
 	des = ft_calloc(1, 1);
 	if (malloc_error(des))
 		return (NULL);
-	extract_var(str, indx, state, des);
+	extract_var(str, index, state, des);
 	if (malloc_error(state->var))
 		return (NULL);
-	free(des);
+	if (des)
+		free(des);
 	des = NULL;
-	state->i = indx;
 	if (var_flag == 1)
 		return (find_path(env, state->var));
 	else

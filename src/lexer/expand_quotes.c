@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:49:03 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/15 01:14:49 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 18:29:26 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	replace_value(t_token *token, t_lexer *state)
 {
-	if (token->value)
-	{
-		free(token->value);
-		token->value = NULL;
-	}
 	if (state->res != NULL)
 	{
+		if (token->value)
+		{
+			free(token->value);
+			token->value = NULL;
+		}
 		token->value = ft_strdup(state->res);
 		if (!token->value)
 		{
@@ -29,7 +29,11 @@ static int	replace_value(t_token *token, t_lexer *state)
 		}
 	}
 	else
+	{
+		if (token->value)
+			free(token->value);
 		token->value = NULL;
+	}
 	free_state(state);
 	return (0);
 }
@@ -64,7 +68,7 @@ int	expand_var(t_token *token, t_lexer *state, t_env **env, int var_flag)
 	state->i = 0;
 	while (token->value[state->i])
 	{
-		handlequote(token->value, state);
+		checkquote(token->value, state);
 		result = need_expantion(token, state, env, var_flag);
 		if (result == -1)
 			return (-1);
@@ -75,28 +79,30 @@ int	expand_var(t_token *token, t_lexer *state, t_env **env, int var_flag)
 	return (0);
 }
 
-void	expand_quotes(t_token *tokens, t_env **env, t_lexer *state)
+void	expand_quotes(t_token **tokens, t_env **env, t_lexer *state)
 {
-	int	value_indx;
+	int		value_indx;
+	t_token	*tmp;
 
-	while (tokens[state->token_indx].value)
+	tmp = *tokens;
+	while (tmp != NULL)
 	{
 		value_indx = 0;
-		while (tokens[state->token_indx].value[value_indx])
+		while (tmp->value[value_indx])
 		{
-			if (tokens[state->token_indx].value[value_indx] == '\'')
+			if (tmp->value[value_indx] == '\'')
 			{
-				expand_var(&tokens[state->token_indx], state, env, 0);
+				expand_var(tmp, state, env, 0);
 				break ;
 			}
-			else if ((tokens[state->token_indx].value[value_indx] == '\"') \
-			|| (tokens[state->token_indx].value[value_indx] == '$'))
+			else if ((tmp->value[value_indx] == '\"') \
+			|| (tmp->value[value_indx] == '$'))
 			{
-				expand_var(&tokens[state->token_indx], state, env, 1);
+				expand_var(tmp, state, env, 1);
 				break ;
 			}
 			value_indx++;
 		}
-		state->token_indx++;
+		tmp = tmp->next;
 	}
 }

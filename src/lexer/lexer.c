@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/15 00:42:42 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 18:00:50 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	execute_command(t_tree **tree, t_env **env)
 	res = 0;
 	res = check_for_heredoc(tree);
 	if (res == 0)
-		exec_tree(tree, env, getpid());
+		exec_tree(tree, env, 1);
 	if (tree)
 	{
 		free_tree(tree);
@@ -41,22 +41,28 @@ static void	execute_command(t_tree **tree, t_env **env)
 	}
 }
 
-static void	syntax_expantion(t_token *tokens, t_lexer state, t_tree **tree, \
+static int	syntax_expansion(t_token **tokens, t_lexer state, t_tree **tree, \
 t_env **env)
 {
 	if (check_quotes_syntax(tokens) != 0)
 	{
 		g_tree.exit_status = 258;
 		free_tokens(tokens);
-		return ;
+		return (1);
 	}
 	else
 	{
 		expand_quotes(tokens, env, &state);
-		if (create_tree(&tokens, tree) == -1)
+		if (create_tree(tokens, tree) == -1)
+		{
 			free_tree(tree);
-		free_tokens(tokens);
+			free_tokens(tokens);
+			return (1);
+		}
 	}
+	if (tokens)
+		free_tokens(tokens);
+	return (0);
 }
 
 void	process_cmd(char *line, t_env **env)
@@ -65,14 +71,19 @@ void	process_cmd(char *line, t_env **env)
 	t_lexer	state;
 	t_tree	*tree;
 
+	(void)env;
 	tree = NULL;
 	init_info(&state);
 	if (line[0] == '\0')
 		return ;
 	tokens = NULL;
-	tokens = ft_cmdtrim(line, tokens);
+	if (ft_cmdtrim(line, &tokens) == -1)
+		return ;
 	if (tokens == NULL)
 		return ;
-	syntax_expantion(tokens, state, &tree, env);
+	if (syntax_expansion(&tokens, state, &tree, env))
+		return ;
 	execute_command(&tree, env);
+	if (tree)
+		free_tree(&tree);
 }

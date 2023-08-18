@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 16:07:22 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/17 20:49:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static int	empty_key(char	*key)
 	return (-1);
 }
 
-static int	check_args(t_env **env, char **args, char **path, char **pwd_path)
+static int	check_args(t_env **env, t_tree *tree, char **path, char **pwd_path)
 {
-	if (!args[1])
+	if (tree->args[1] == NULL && tree->size_args == 1)
 	{
 		*path = find_path(env, "HOME");
 		if (*path == NULL)
 			return (empty_key("HOME"));
 	}
-	if (ft_strcmp(args[1], "-") == 0)
+	if (ft_strcmp(tree->args[1], "-") == 0)
 	{
 		*path = find_path(env, "OLDPWD");
 		if ((*path) == NULL)
@@ -82,17 +82,19 @@ static int	change_path_update_env(char *path, t_env **env, char *old_path)
 	return (0);
 }
 
-int	ft_cd(t_env **env, char **args)
+int	ft_cd(t_env **env, t_tree *tree)
 {
 	char	*path;
 	char	*current_path;
 
 	current_path = NULL;
 	path = NULL;
-	if (check_args(env, args, &path, &current_path) == -1)
+	if (tree->args[1] == NULL && tree->size_args > 1)
+		return (0);
+	if (check_args(env, tree, &path, &current_path) == -1)
 		return (1);
 	if (path == NULL)
-		path = args[1];
+		path = tree->args[1];
 	if (change_path_update_env(path, env, current_path))
 	{
 		path = NULL;

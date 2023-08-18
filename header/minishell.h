@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:39:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/15 00:43:43 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 22:59:07 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,22 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
+typedef struct s_args
+{
+	char			*value;
+	struct s_args	*next;
+}					t_args;
+
 typedef struct s_tree
 {
 	char			*tmp_file;
 	int				type;
 	char			*cmd;
+	char			**args;
+	t_args			*args_ptr;
+	int				size_args;
 	char			*paths;
 	char			**cmd_paths;
-	char			**args;
 	int				fd_in;
 	int				fd_out;
 	t_redir			*redir;
@@ -83,6 +91,7 @@ typedef struct s_token
 {
 	int				type;
 	char			*value;
+	struct s_token	*next;
 }					t_token;
 
 typedef struct s_result
@@ -110,51 +119,49 @@ typedef struct s_lexer
 
 typedef struct s_env
 {
-	char			**env_var;
 	char			*key;
 	char			*value;
-	int				counter;
 	struct s_env	*next;
 }					t_env;
 
 // cmd_trim
-t_token				*ft_cmdtrim(char *str, t_token *tokens);
-int					check_isquote(char *str, t_cmdsplit *cmd);
-void				check_redirectors(char *str, t_cmdsplit *cmd);
-void				init_cmdsplit(t_cmdsplit *cmd);
+t_token				*new_token(void);
 int					redirectors(char *str, int i);
-int					words_count(char *str, t_cmdsplit *cmd);
+void				init_cmdsplit(t_cmdsplit *cmd);
+int					ft_cmdtrim(char *str, t_token **tokens);
+int					ft_token_add_back(t_token **tokens, t_token *new);
 
 // lexer
-int					syntax(t_token *tokens);
+int					syntax(t_token **tokens);
 void				free_state(t_lexer *state);
-void				free_tokens(t_token *tokens);
-void				display_token(t_token *tokens);
+void				free_tokens(t_token **tokens);
+void				display_token(t_token **tokens);
 void				process_cmd(char *line, t_env **env);
-int					check_quotes_syntax(t_token *tokens);
-void				handlequote(char *str, t_lexer *state);
-void				handledquote(char *str, t_lexer *state);
+int					check_quotes_syntax(t_token **tokens);
+void				checkquote(char *str, t_lexer *state);
+void				checkdquote(char *str, t_lexer *state);
+int					dollar_with_character(char *str, t_lexer *state);
+int					split_quote(char *str, t_cmdsplit *cmd, t_token **tokens);
+void				expand_quotes(t_token **tokens, t_env **env,
+						t_lexer *state);
 int					expand_var(t_token *token, t_lexer *state, t_env **env,
 						int var_flag);
 int					check_dollar_sign(char *str, t_lexer *state, t_env **env,
 						int var_flag);
 char				*var_finder(char *str, t_lexer *state, t_env **env,
 						int var_flag);
-void				expand_quotes(t_token *tokens, t_env **env, t_lexer *state);
 int					join_char(char *str, t_lexer *state, t_env **env,
 						int var_flag);
-int					dollar_with_character(char *str, t_lexer *state);
-
 // built_in
 int					pwd(void);
-int					ft_echo(char **args);
+int					ft_echo(t_tree *tree);
 int					ft_env(t_env **env);
-int					ft_exit(t_tree *tree, t_env **env, pid_t parent_pid);
-int					ft_cd(t_env **env, char **args);
+int					ft_cd(t_env **env, t_tree *tree);
 int					empty_key_with_equal(t_env **tmp);
-int					ft_unset(char **args, t_env **env);
-int					ft_export(t_env **env, char **args);
+int					ft_unset(t_tree *tree, t_env **env);
+int					ft_export(t_env **env, t_tree *tree);
 int					find_key_in_env(t_env **env, char *key, char *value);
+int					ft_exit(t_tree *tree, t_env **env, pid_t parent_flag);
 int					free_env_assign_new_var(char **new_env, t_env **env,
 						char *var);
 
@@ -162,23 +169,28 @@ int					free_env_assign_new_var(char **new_env, t_env **env,
 int					redir(int type);
 t_tree				*new_tree_node(void);
 void				free_tree(t_tree **tree);
+t_args				*new_args_node(char *str);
+int					add_args_list(t_tree *node);
 void				display_list(t_tree **tree);
 void				free_double_ptr(char **args);
-t_redir				*new_redir_node(t_token **tokens, int type, char *index);
+int					args_add_back(t_args **args, t_args *new);
 int					add_back(t_redir **lst, t_redir *new_node);
+void				free_args_list(t_args **args, t_tree *node);
 int					add_args(t_token **tokens, t_tree *new_node);
 int					create_tree(t_token **tokens, t_tree **tree);
 int					parse_cmd_node(t_token **tokens, t_tree *node);
 int					parse_redir(t_token **tokens, t_tree *new_node);
+t_redir				*new_redir_node(t_token **tokens, int type, char *index);
 // TODO: DELETE OR COMMENT_OUT DISPLAY FUNCTION
 
 // helper
 int					ft_isquote(int c);
 int					ft_isspace(int c);
+void				child_signal(void);
 void				ctrl_d_handler(void);
 void				free_env(t_env **env);
-void				init_signals(int state);
 int					ft_atol(const char *str);
+void				init_signals(int state);
 void				echoing_control_chars(int enable);
 char				*find_path(t_env **env, char *str);
 char				**ft_realloc(char **ptr, size_t size);
@@ -189,18 +201,19 @@ void				rl_replace_line(const char *text, int clear_undo);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 
 // env_init
+int					ft_listsize(t_env **env);
 t_env				*new_env_node(char *line);
 char				*shelvl_value(char *value);
 void				init_env(t_env **env, char **envp);
 int					add_back_env(t_env **env, t_env *new_node);
-int					ft_listsize(t_env **env);
 char				**env_char_ptr(t_env **env, char **env_ptr);
 // exec
 pid_t				child_process(void);
-void				exit_status_chk(void);
 void				heredoc_signals(void);
+void				exit_status_chk(int exit_sig);
 void				check_for_last(t_redir *redir);
 char				*get_cmd(char **paths, char *cmd);
+int					contains_heredoc(t_redir *redir_list);
 void				error_access_filename(char *file_name);
 void				create_pipe(t_tree **tree, t_env **env);
 void				replace_cmd_absolute_path(t_tree *tree);
@@ -209,12 +222,11 @@ void				run_heredoc(t_redir *redir, t_tree *tree);
 void				run_cmd_in_child(t_tree *tree, char **env);
 void				open_input_file(t_redir *redir, t_tree *tree);
 void				open_output_file(t_redir *redir, t_tree *tree);
-void				exec_cmd(t_tree **tree, t_env **env, pid_t parent_pid);
-int					built_in(t_tree **tree, t_env **env, pid_t parent_pid);
-void				exec_tree(t_tree **tree, t_env **env, pid_t parent_pid);
-int					contains_heredoc(t_redir *redir_list);
+void				exec_cmd(t_tree **tree, t_env **env, pid_t parent_flag);
+int					built_in(t_tree **tree, t_env **env, pid_t parent_flag);
+void				exec_tree(t_tree **tree, t_env **env, pid_t parent_flag);
 int					exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env,
-						pid_t parent_pid);
+						pid_t parent_flag);
 int					handle_only_heredoc_logic(t_redir *redir_list,
 						t_tree *cmd_node);
 int					check_for_heredoc(t_tree **tree);

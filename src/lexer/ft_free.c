@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 08:44:57 by mtoof             #+#    #+#             */
-/*   Updated: 2023/07/03 09:21:02 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/17 16:35:22 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,20 @@ void	free_state(t_lexer *state)
 	}
 }
 
-void	free_tokens(t_token *tokens)
+void	free_tokens(t_token **tokens)
 {
-	int	indx;
+	t_token	*list;
 
-	indx = 0;
-	if (tokens[indx].value)
+	while ((*tokens))
 	{
-		while (tokens[indx].value != NULL)
+		list = (*tokens)->next;
+		if ((*tokens)->value)
 		{
-			free(tokens[indx].value);
-			tokens[indx].value = NULL;
-			indx++;
+			free((*tokens)->value);
+			(*tokens)->value = NULL;
 		}
-		free(tokens);
-		tokens = NULL;
+		free((*tokens));
+		(*tokens) = list;
 	}
 	return ;
 }

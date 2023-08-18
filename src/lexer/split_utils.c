@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 11:46:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/06/13 15:43:17 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/17 15:04:46 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,47 +49,36 @@ void	check_redirectors(char *str, t_cmdsplit *cmd)
 		cmd->index++;
 }
 
-int	check_isquote(char *str, t_cmdsplit *cmd)
+int	ft_token_add_back(t_token **tokens, t_token *new)
 {
-	cmd->quote = str[cmd->index];
-	cmd->index++;
-	if (str[cmd->index] == '\0')
-		return (1);
-	while (str[cmd->index] != '\0')
+	t_token	*last;
+
+	last = *tokens;
+	if (!tokens || !new)
+		return (-1);
+	if (*tokens == NULL)
 	{
-		if (str[cmd->index] == cmd->quote && (ft_isspace(str[cmd->index + 1])
-				|| str[cmd->index + 1] == '\0' || redirectors(str, cmd->index
-					+ 1)))
-			break ;
-		cmd->index++;
+		*tokens = new;
+		return (0);
 	}
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new;
 	return (0);
 }
 
-int	words_count(char *str, t_cmdsplit *cmd)
+t_token	*new_token(void)
 {
-	while (str[cmd->index] != '\0')
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
+	if (!new)
 	{
-		if (!ft_isspace(str[cmd->index]) && redirectors(str, cmd->index) == 0
-			&& !ft_isquote(str[cmd->index]))
-		{
-			while (str[cmd->index] != '\0' && !ft_isspace(str[cmd->index])
-				&& redirectors(str, cmd->index) == 0)
-				cmd->index++;
-			cmd->wd_count++;
-		}
-		if (redirectors(str, cmd->index) != 0)
-		{
-			check_redirectors(str, cmd);
-			cmd->wd_count++;
-		}
-		if (ft_isquote(str[cmd->index]))
-		{
-			if (!check_isquote(str, cmd))
-				cmd->wd_count++;
-		}
-		if (str[cmd->index] != '\0')
-			cmd->index++;
+		ft_putstr_fd("Malloc new _token\n", 2);
+		return (NULL);
 	}
-	return (cmd->wd_count);
+	new->value = NULL;
+	new->type = 0;
+	new->next = NULL;
+	return (new);
 }

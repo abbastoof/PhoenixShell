@@ -6,28 +6,26 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:30:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/14 16:25:32 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/18 16:59:59 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_status_chk(void)
+void	exit_status_chk(int exit_sig)
 {
-	if (WIFEXITED(g_tree.exit_status))
-		return ;
-	else if (WIFSIGNALED(g_tree.exit_status))
+	g_tree.exit_status = WEXITSTATUS(exit_sig);
+	if (WIFSIGNALED(exit_sig))
 	{
-		if (WTERMSIG(g_tree.exit_status) == 2)
-		{
+		if (WTERMSIG(exit_sig) == 2)
 			ft_putchar('\n');
-			g_tree.exit_status += 128;
-		}
-		else if (WTERMSIG(g_tree.exit_status) == 3)
-		{
+		else if (WTERMSIG(exit_sig) == SIGQUIT)
 			ft_putstr_fd("Quit: 3\n", 2);
-			g_tree.exit_status += 128;
-		}
+		else if (WTERMSIG(exit_sig) == SIGSEGV)
+			ft_putstr_fd("Segmentation fault: 11\n", 2);
+		else if (WTERMSIG(exit_sig) == SIGBUS)
+			ft_putstr_fd("Bus error: 10\n", 2);
+		g_tree.exit_status = 128 + WTERMSIG(exit_sig);
 	}
 }
 
@@ -49,10 +47,30 @@ void	replace_cmd_absolute_path(t_tree *tree)
 	}
 }
 
+static void	child_handler(int sig)
+{
+	(void)sig;
+	return ;
+}
+
+void	child_signal(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = child_handler;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
 void	run_cmd_in_child(t_tree *tree, char **env)
 {
+	init_signals(0);
+	signal(SIGQUIT, SIG_IGN);
 	if (child_process() == 0)
 	{
+		child_signal();
 		if (execve(tree->cmd, tree->args, env) == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
