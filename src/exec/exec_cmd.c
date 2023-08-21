@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/18 21:45:46 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 17:54:32 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 
 void	exec_cmd(t_tree **tree, t_env **env, pid_t parent_flag)
 {
-	init_signals(1);
 	if ((*tree)->redir != NULL)
 		exec_cmd_redir((*tree)->redir, &(*tree), env, parent_flag);
 	else
@@ -107,5 +106,4 @@ void	exec_cmd(t_tree **tree, t_env **env, pid_t parent_flag)
 		if (built_in(&(*tree), env, parent_flag) == 0)
 			run_cmd_token((*tree), env);
 	}
-	init_signals(0);
 }

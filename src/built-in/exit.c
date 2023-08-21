@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/17 21:18:37 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 15:15:48 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	exit_without_args(t_tree *tree, t_env **env)
 {
 	free_tree(&tree);
 	free_env(env);
-	exit(g_tree.exit_status);
+	exit(g_exit_status);
 }
 
 static void	exit_null_args(t_tree *tree, t_env **env)

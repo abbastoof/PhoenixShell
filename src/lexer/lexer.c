@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/18 18:00:50 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 15:15:07 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_env **env)
 {
 	if (check_quotes_syntax(tokens) != 0)
 	{
-		g_tree.exit_status = 258;
+		g_exit_status = 258;
 		free_tokens(tokens);
 		return (1);
 	}

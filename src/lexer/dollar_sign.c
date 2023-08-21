@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_sign.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/15 21:48:05 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 15:16:51 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	return_exit_status(t_lexer *state)
 {
 	char	*str_exit_status;
 
-	str_exit_status = ft_itoa(g_tree.exit_status);
+	str_exit_status = ft_itoa(g_exit_status);
 	if (!str_exit_status)
 	{
 		ft_putstr_fd("Malloc dollar_sign\n", 2);

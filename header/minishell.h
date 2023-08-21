@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:37:30 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/20 01:37:31 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 19:27:00 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -81,12 +80,11 @@ typedef struct s_tree
 	t_redir			*redir;
 	struct s_tree	*left;
 	struct s_tree	*right;
-	int				exit_status;
 	int				standard_input;
 	int				standard_output;
 }					t_tree;
 
-t_tree				g_tree;
+int					g_exit_status;	
 
 typedef struct s_token
 {
@@ -228,7 +226,7 @@ int					built_in(t_tree **tree, t_env **env, pid_t parent_flag);
 void				exec_tree(t_tree **tree, t_env **env, pid_t parent_flag);
 int					exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env,
 						pid_t parent_flag);
-int					handle_only_heredoc_logic(t_redir *redir_list,
+int					handle_only_heredoc_logic(t_redir *redir_list, \
 						t_tree *cmd_node);
 int					check_for_heredoc(t_tree **tree);
 

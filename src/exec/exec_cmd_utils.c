@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:30:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/18 16:59:59 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 17:56:46 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,20 @@
 
 void	exit_status_chk(int exit_sig)
 {
-	g_tree.exit_status = WEXITSTATUS(exit_sig);
+	g_exit_status = WEXITSTATUS(exit_sig);
 	if (WIFSIGNALED(exit_sig))
 	{
-		if (WTERMSIG(exit_sig) == 2)
+		if (WTERMSIG(exit_sig) == SIGINT)
+		{
 			ft_putchar('\n');
-		else if (WTERMSIG(exit_sig) == SIGQUIT)
+		}
+		if (WTERMSIG(exit_sig) == SIGQUIT)
 			ft_putstr_fd("Quit: 3\n", 2);
 		else if (WTERMSIG(exit_sig) == SIGSEGV)
 			ft_putstr_fd("Segmentation fault: 11\n", 2);
 		else if (WTERMSIG(exit_sig) == SIGBUS)
 			ft_putstr_fd("Bus error: 10\n", 2);
-		g_tree.exit_status = 128 + WTERMSIG(exit_sig);
+		g_exit_status = 128 + WTERMSIG(exit_sig);
 	}
 }
 
@@ -49,25 +51,28 @@ void	replace_cmd_absolute_path(t_tree *tree)
 
 static void	child_handler(int sig)
 {
-	(void)sig;
+	if (sig == 2)
+		printf("\n");
 	return ;
 }
 
 void	child_signal(void)
 {
-	struct sigaction	sa;
+	struct sigaction	s_act;
+	struct sigaction	s_quit;
 
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = child_handler;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	sigemptyset(&s_act.sa_mask);
+	s_act.sa_handler = child_handler;
+	s_act.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &s_act, NULL);
+	sigemptyset(&s_quit.sa_mask);
+	s_quit.sa_handler = child_handler;
+	sigaction(SIGQUIT, &s_quit, NULL);
 }
 
 void	run_cmd_in_child(t_tree *tree, char **env)
 {
-	init_signals(0);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	if (child_process() == 0)
 	{
 		child_signal();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:52:57 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/17 20:59:51 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 15:17:06 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	error_msg(int res, char *msg)
 		else if (msg != NULL)
 			ft_putstr_fd(msg, 2);
 		ft_putstr_fd("'\n", 2);
-		g_tree.exit_status = 1;
+		g_exit_status = 1;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/18 13:01:05 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 16:29:22 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int ac, char **av, char **envp)
 		if (cmd != NULL && cmd[0] != 0)
 			add_history(cmd);
 		process_cmd(cmd, &env);
-		signal(SIGINT, SIG_IGN);
 		if (cmd != NULL)
 			free(cmd);
 	}

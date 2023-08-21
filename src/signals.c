@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/18 21:46:45 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 19:28:24 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,35 +58,39 @@ void	echoing_control_chars(int enable)
 
 void	handle_signal(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay();
+	if (sig == SIGINT)
+	{
+		write(2, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
 }
 
 void	init_signals(int state)
 {
-	struct sigaction	sa;
-	struct sigaction	s_quit;
+	struct sigaction	int_action;
+	struct sigaction	quit_action;
 
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
+	sigemptyset(&int_action.sa_mask);
+	sigemptyset(&quit_action.sa_mask);
+	int_action.sa_flags = SA_RESTART;
 	if (state == 1)
-		sa.sa_handler = handle_signal;
+	{
+		int_action.sa_handler = handle_signal;
+		quit_action.sa_handler = SIG_IGN;
+	}
 	else if (state == 0)
-		sa.sa_handler = SIG_IGN;
-	sigaction(SIGINT, &sa, NULL);
-	sigemptyset(&s_quit.sa_mask);
-	if (state == 1)
-		s_quit.sa_handler = SIG_IGN;
-	else if (state == 0)
-		s_quit.sa_handler = SIG_DFL;
-	sigaction(SIGQUIT, &s_quit, NULL);
+	{
+		int_action.sa_handler = SIG_IGN;
+		quit_action.sa_handler = SIG_DFL;
+	}
+	sigaction(SIGINT, &int_action, NULL);
+	sigaction(SIGQUIT, &quit_action, NULL);
 }
 
 void	ctrl_d_handler(void)
 {
-	write(1, "exit\n", 6);
+	write(2, "exit\n", 6);
 	exit(1);
 }

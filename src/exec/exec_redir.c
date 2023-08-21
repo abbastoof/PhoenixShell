@@ -6,7 +6,7 @@
 /*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/18 15:59:40 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/21 16:36:20 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env,
 		if (redir != NULL)
 			check_for_last(redir);
 		exec_redirect(redir, (*tree));
-		if (g_tree.exit_status == 1)
+		if (g_exit_status == 1)
 			return (1);
 		if ((*tree)->cmd != NULL)
 		{
