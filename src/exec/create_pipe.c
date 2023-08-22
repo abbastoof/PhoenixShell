@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   create_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:26:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/21 19:31:09 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 14:43:42 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	first_child(t_tree **tree, t_env **env, pid_t pipe_fds[2])
+static void	first_child(t_tree **tree, t_env **env, pid_t pipe_fds[2], \
+	pid_t *pid_left)
 {
-	if (child_process() == 0)
+	*pid_left = child_process();
+	if (*pid_left == 0)
 	{
 		if (dup2(pipe_fds[FD_WRITE_END], STDOUT_FILENO) < 0)
 			exit(1);
@@ -29,26 +31,27 @@ void	create_pipe(t_tree **tree, t_env **env)
 {
 	pid_t	pipe_fds[2];
 	int		exit_status;
+	pid_t	pid_left;
+	pid_t	pid_right;
 
 	if (pipe(pipe_fds) < 0)
 		exit(1);
 	signal(SIGINT, SIG_IGN);
-	first_child(tree, env, pipe_fds);
+	first_child(tree, env, pipe_fds, &pid_left);
 	signal(SIGINT, SIG_DFL);
-	if (child_process() == 0)
+	pid_right = child_process();
+	if (pid_right == 0)
 	{
 		if (dup2(pipe_fds[FD_READ_END], STDIN_FILENO) < 0)
 			exit(1);
 		close(pipe_fds[FD_WRITE_END]);
 		close(pipe_fds[FD_READ_END]);
-		if (g_exit_status == 1)
-			exit(1);
 		exec_tree(&(*tree)->right, env, 0);
 		exit(g_exit_status);
 	}
 	close(pipe_fds[FD_READ_END]);
 	close(pipe_fds[FD_WRITE_END]);
-	while (waitpid(-1, &exit_status, 0) > 0)
-		;
+	waitpid(pid_left, &exit_status, 0);
+	waitpid(pid_right, &exit_status, 0);
 	exit_status_chk(exit_status);
 }

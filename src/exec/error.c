@@ -6,17 +6,11 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:19:47 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/17 23:39:29 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 15:44:38 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	error(char *error)
-{
-	perror(error);
-	exit(1);
-}
 
 void	error_access_filename(char *file_name)
 {

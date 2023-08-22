@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:47:38 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/17 14:35:50 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 16:48:34 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,17 @@ int	dollar_with_character(char *str, t_lexer *state)
 	return (0);
 }
 
-void	display_token(t_token **tokens)
-{
-	t_token	*tmp;
+// void	display_token(t_token **tokens)
+// {
+// 	t_token	*tmp;
 
-	tmp = *tokens;
-	if (tokens == NULL)
-		return ;
-	while (tmp != NULL)
-	{
-		printf("value = %s\n", tmp->value);
-		printf("type  = %d\n", tmp->type);
-		tmp = tmp->next;
-	}
-}
+// 	tmp = *tokens;
+// 	if (tokens == NULL)
+// 		return ;
+// 	while (tmp != NULL)
+// 	{
+// 		printf("value = %s\n", tmp->value);
+// 		printf("type  = %d\n", tmp->type);
+// 		tmp = tmp->next;
+// 	}
+// }

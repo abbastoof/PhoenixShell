@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:52:57 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/21 15:17:06 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 16:45:35 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,18 @@ int	syntax(t_token **tokens)
 	while (tmp != NULL)
 	{
 		init_res(&res, tmp);
-		if (res.token_1 == TOKEN_EXIT_STATUS && tmp->next != NULL)
+		if (check_consecutive_redirs(res, tmp) == 1)
 			tmp = tmp->next;
-		if ((res.token_1 != 0) && tmp->next == NULL)
+		if (check_consecutive_redirs(res, tmp) == 2)
 			return (handle_first_node(redirectors(tmp->value, 0)));
-		else if (res.token_1 == TOKEN_PIPE && (res.token_2 >= 4
-				&& res.token_2 <= 7 && tmp->next->next != NULL))
+		else if (check_consecutive_redirs(res, tmp) == 3)
 			tmp = tmp->next;
-		else if (res.token_1 == TOKEN_PIPE && res.token_2 == TOKEN_PIPE)
+		else if (check_consecutive_redirs(res, tmp) == 4)
 			return (empty_pipe_redirect(res.token_1, tmp->next->value));
-		else if (res.token_1 != 0 && res.token_2 != 0
-			&& res.token_2 != TOKEN_EXIT_STATUS && tmp->next->next == NULL)
+		else if (check_consecutive_redirs(res, tmp) == 5)
 			return (empty_pipe_redirect(res.token_1, tmp->next->value));
+		else if (check_consecutive_redirs(res, tmp) == 6)
+			return (empty_pipe_redirect(0, tmp->next->value));
 		tmp = tmp->next;
 	}
 	return (0);

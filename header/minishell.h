@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:37:30 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/21 19:27:00 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 16:46:39 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_tree
 	int				standard_output;
 }					t_tree;
 
-int					g_exit_status;	
+int					g_exit_status;
 
 typedef struct s_token
 {
@@ -116,6 +116,13 @@ typedef struct s_lexer
 	char			*des;
 }					t_lexer;
 
+typedef struct s_exitlist
+{
+	int				size;
+	int				index;
+	pid_t			*pid;
+}					t_exitlist;
+
 typedef struct s_env
 {
 	char			*key;
@@ -140,6 +147,7 @@ int					check_quotes_syntax(t_token **tokens);
 void				checkquote(char *str, t_lexer *state);
 void				checkdquote(char *str, t_lexer *state);
 int					dollar_with_character(char *str, t_lexer *state);
+int					check_consecutive_redirs(t_result res, t_token *tmp);
 int					split_quote(char *str, t_cmdsplit *cmd, t_token **tokens);
 void				expand_quotes(t_token **tokens, t_env **env,
 						t_lexer *state);
