@@ -6,7 +6,7 @@
 #    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/08/22 16:49:42 by mtoof            ###   ########.fr        #
+#    Updated: 2023/08/22 18:11:28 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ ENV_D = src/env/
 SRC_UTILS = ft_realloc.c ft_strcmp.c ft_strnjoin.c ft_atol.c free_double_ptr.c \
 			ft_listsize.c
 SRC = main.c signals.c heredoc_signals.c
-SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c export_helper.c
+SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c export_helper.c cd_utils.c
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \
 			split_utils.c split_utils2.c token_utils.c expand_quotes.c syntax.c \
 			check_quotes.c check_for_heredoc.c syntax_utils.c

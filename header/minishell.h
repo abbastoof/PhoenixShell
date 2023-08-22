@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:37:30 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/22 16:46:39 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 18:10:50 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,9 @@ int					join_char(char *str, t_lexer *state, t_env **env,
 						int var_flag);
 // built_in
 int					pwd(void);
-int					ft_echo(t_tree *tree);
 int					ft_env(t_env **env);
+void				free_path(char *path);
+int					ft_echo(t_tree *tree);
 int					ft_cd(t_env **env, t_tree *tree);
 int					empty_key_with_equal(t_env **tmp);
 int					ft_unset(t_tree *tree, t_env **env);

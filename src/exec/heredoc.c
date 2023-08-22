@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:19:45 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/21 16:28:52 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 18:14:18 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ static void	write_lines_to_file(t_redir *redir, t_tree *tree)
 
 void	run_heredoc(t_redir *redir, t_tree *tree)
 {
+	init_signals(0);
 	if (child_process() == 0)
 	{
-		init_signals(0);
 		heredoc_signals();
 		write_lines_to_file(redir, tree);
 		echoing_control_chars(1);

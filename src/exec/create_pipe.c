@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:26:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/22 14:43:42 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 18:49:20 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	create_pipe(t_tree **tree, t_env **env)
 		exit(1);
 	signal(SIGINT, SIG_IGN);
 	first_child(tree, env, pipe_fds, &pid_left);
-	signal(SIGINT, SIG_DFL);
 	pid_right = child_process();
 	if (pid_right == 0)
 	{
@@ -53,5 +52,6 @@ void	create_pipe(t_tree **tree, t_env **env)
 	close(pipe_fds[FD_WRITE_END]);
 	waitpid(pid_left, &exit_status, 0);
 	waitpid(pid_right, &exit_status, 0);
+	child_signal();
 	exit_status_chk(exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/17 20:49:11 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 19:01:11 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ static int	check_args(t_env **env, t_tree *tree, char **path, char **pwd_path)
 			return (empty_key("OLDPWD"));
 	}
 	*pwd_path = getcwd(NULL, 0);
-	if (!*pwd_path)
-	{
-		ft_putstr_fd("Minishell: getcwd\n", 2);
-		return (-1);
-	}
 	return (0);
 }
 
@@ -79,6 +74,7 @@ static int	change_path_update_env(char *path, t_env **env, char *old_path)
 		pwd = NULL;
 	}
 	find_key_in_env(env, "OLDPWD", old_path);
+	free_path(old_path);
 	return (0);
 }
 
@@ -98,8 +94,8 @@ int	ft_cd(t_env **env, t_tree *tree)
 	if (change_path_update_env(path, env, current_path))
 	{
 		path = NULL;
-		free(current_path);
-		current_path = NULL;
+		if (current_path != NULL)
+			free_path(current_path);
 		return (1);
 	}
 	return (0);
