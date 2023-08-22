@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:30:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/21 17:56:46 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 11:35:13 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@ void	exit_status_chk(int exit_sig)
 		if (WTERMSIG(exit_sig) == SIGINT)
 		{
 			ft_putchar('\n');
+			g_exit_status = 128 + WTERMSIG(exit_sig);
 		}
 		if (WTERMSIG(exit_sig) == SIGQUIT)
+		{
 			ft_putstr_fd("Quit: 3\n", 2);
+			g_exit_status = 128 + WTERMSIG(exit_sig);
+		}
 		else if (WTERMSIG(exit_sig) == SIGSEGV)
 			ft_putstr_fd("Segmentation fault: 11\n", 2);
 		else if (WTERMSIG(exit_sig) == SIGBUS)
 			ft_putstr_fd("Bus error: 10\n", 2);
-		g_exit_status = 128 + WTERMSIG(exit_sig);
 	}
 }
 

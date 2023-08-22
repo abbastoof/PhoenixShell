@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_for_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 13:33:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/21 16:35:27 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 11:33:31 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	handle_only_heredoc_logic(t_redir *redir_list, t_tree *cmd_node)
 			exit_status_chk(exitstatus);
 			if (g_exit_status == 1)
 				return (1);
-			if (redir_list->last == 0)
-				unlink(redir_list->file_name);
+			if (current_redir->last == 0)
+				unlink(current_redir->file_name);
 		}
 		current_redir = current_redir->next;
 	}

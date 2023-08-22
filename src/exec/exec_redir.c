@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:12:50 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/21 16:36:20 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/22 11:33:09 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	dup_last_heredoc(t_redir *tmp_redir, t_tree *tree)
 		}
 		dup2(tree->fd_in, STDIN_FILENO);
 		close(tree->fd_in);
-		unlink(tmp_redir->file_name);
 	}
 }
 
