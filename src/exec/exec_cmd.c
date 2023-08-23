@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/23 12:27:41 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 18:15:03 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*get_cmd(char **paths, char *cmd)
 			return (NULL);
 		}
 		free(temp);
+		temp = NULL;
 		if (access(unix_cmd, X_OK) == 0)
 			return (unix_cmd);
 		free(unix_cmd);
@@ -83,7 +84,7 @@ void	run_cmd_token(t_tree *tree, t_env **env)
 	if (tree->paths != NULL && tree->paths[0] != '\0')
 		tree->cmd_paths = ft_split(tree->paths, ':');
 	if (is_absolute_path(tree->cmd))
-		tree->cmd = ft_strdup(tree->args[0]);
+		;
 	else
 	{
 		if (tree->paths != NULL)

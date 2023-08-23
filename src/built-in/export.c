@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/23 11:25:13 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 18:48:03 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	print_error(char **args, int args_indx, int flag)
 		ft_putstr_fd("Malloc error in ft_export()\n", 2);
 		return (-1);
 	}
-	return (1);
+	return (256);
 }
 
 static void	print_export(t_env **env)
@@ -95,7 +95,7 @@ static int	add_to_env(char *var, t_env **env)
 				free_double_ptr(split);
 			return (0);
 		}
-		return (add_back_env(env, new_env_node(var)));
+		need_add_back(env, var, split);
 	}
 	else if (var != NULL)
 	{
@@ -121,12 +121,13 @@ int	ft_export(t_env **env, t_tree *tree)
 		{
 			if (tree->args[index] == NULL || ft_isdigit(tree->args[index][0]) \
 			|| tree->args[index][0] == ' ' || \
+			(tree->args[index][0] == '=') || \
 			ft_strcmp(tree->args[index], "") == 0)
 				flag = print_error(tree->args, index, 0);
 			else
 			{
 				if (add_to_env(tree->args[index], env) != 0)
-					return (1);
+					return (256);
 			}
 			index++;
 		}

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 16:34:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 19:12:42 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ static int	return_exit_status(t_lexer *state)
 			ft_strlen(str_exit_status));
 	if (!state->res)
 	{
+		free(str_exit_status);
 		ft_putstr_fd("Malloc dollar_sign\n", 2);
 		return (-1);
 	}
 	if (state->tmp)
 		free(state->tmp);
+	if (str_exit_status)
+		free(str_exit_status);
 	state->tmp = state->res;
 	state->i += 2;
 	return (0);
@@ -115,7 +118,7 @@ int	check_dollar_sign(char *str, t_lexer *state, t_env **env, int var_flag)
 			return (-1);
 	}
 	else if (state->condition_result == 4 && state->flag != 1)
-		state->i++;
+		state->i += 2;
 	else
 	{
 		if (result_join(state, str) == -1)

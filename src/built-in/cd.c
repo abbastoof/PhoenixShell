@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:43:48 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/22 19:01:11 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 18:34:09 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_cd(t_env **env, t_tree *tree)
 	if (tree->args[1] == NULL && tree->size_args > 1)
 		return (0);
 	if (check_args(env, tree, &path, &current_path) == -1)
-		return (1);
+		return (256);
 	if (path == NULL)
 		path = tree->args[1];
 	if (change_path_update_env(path, env, current_path))
@@ -96,7 +96,7 @@ int	ft_cd(t_env **env, t_tree *tree)
 		path = NULL;
 		if (current_path != NULL)
 			free_path(current_path);
-		return (1);
+		return (256);
 	}
 	return (0);
 }

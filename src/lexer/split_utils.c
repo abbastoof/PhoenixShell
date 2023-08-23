@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 11:46:24 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/17 15:04:46 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 19:45:41 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ int	redirectors(char *str, int i)
 		return (TOKEN_INPUT);
 	else if (ft_strncmp(str + i, ">", 1) == 0)
 		return (TOKEN_OUTPUT);
-	else if (str[i] == '$')
-	{
-		if (ft_strncmp(str + i + 1, "?", 1) == 0)
-			return (TOKEN_EXIT_STATUS);
-	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:37:30 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 16:32:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 18:24:15 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ int					find_key_in_env(t_env **env, char *key, char *value);
 int					ft_exit(t_tree *tree, t_env **env, pid_t parent_flag);
 int					free_env_assign_new_var(char **new_env, t_env **env,
 						char *var);
+int					need_add_back(t_env **env, char *var, char **split);
 
 // tree
 int					redir(int type);

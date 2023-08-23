@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/17 20:58:01 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 18:44:50 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	handle_error(char *str)
 	if (str != NULL)
 		ft_putstr(str);
 	ft_putstr("': not a valid identifier\n");
-	return (1);
+	return (256);
 }
 
 static void	free_node(t_env **node, t_env **prev)
