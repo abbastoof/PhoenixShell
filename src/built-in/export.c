@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/18 15:07:33 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 11:25:13 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ static void	print_export(t_env **env)
 		ft_putstr_fd("=", 1);
 		if (tmp->value != NULL)
 		{
+			ft_putstr_fd("\"", 1);
 			ft_putstr_fd(tmp->value, 1);
+			ft_putstr_fd("\"", 1);
 			ft_putstr_fd("\n", 1);
 		}
 		else

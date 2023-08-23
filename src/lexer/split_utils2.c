@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 21:25:14 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/18 22:36:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 11:09:53 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,34 @@ int	ft_isquote(int c)
 	if (c == '\'' || c == '\"')
 		return (1);
 	return (0);
+}
+
+void	word_contain_quote_2(char *str, t_cmdsplit *cmd)
+{
+	int		quote_num;
+
+	cmd->quote = str[cmd->index];
+	cmd->index++;
+	quote_num = 1;
+	while (str[cmd->index] != '\0')
+	{
+		if (str[cmd->index] == cmd->quote)
+			quote_num++;
+		if ((quote_num % 2) == 0 && (ft_isspace(str[cmd->index + 1]) \
+			|| str[cmd->index + 1] == '\0' || redirectors(str, cmd->index \
+			+ 1)))
+			break ;
+		cmd->index++;
+		if (quote_num % 2 == 0)
+		{
+			if (ft_isquote(str[cmd->index]))
+			{
+				cmd->quote = str[cmd->index];
+				quote_num = 1;
+				cmd->index++;
+			}
+		}
+	}
 }
 
 static void	word_contain_quote(char *str, t_cmdsplit *cmd)

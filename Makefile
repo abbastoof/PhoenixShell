@@ -6,7 +6,7 @@
 #    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/08/22 18:11:28 by mtoof            ###   ########.fr        #
+#    Updated: 2023/08/23 12:23:47 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC_BUILT = cd.c echo.c env.c exit.c export.c pwd.c unset.c export_helper.c cd_u
 SRC_LEX = lexer.c expand_var.c var_finder.c dollar_sign.c ft_free.c split_line.c \
 			split_utils.c split_utils2.c token_utils.c expand_quotes.c syntax.c \
 			check_quotes.c check_for_heredoc.c syntax_utils.c
-SRC_TREE = make_tree.c utils.c display_delete_tree.c parse_cmd_node.c parse_redir_node.c \
+SRC_TREE = create_tree.c utils.c display_delete_tree.c parse_cmd_node.c parse_redir_node.c \
 			parse_args_list.c
 SRC_EXEC = child.c create_pipe.c error.c exec_tree.c exec_redir.c exec_cmd.c exec_cmd_utils.c \
 			heredoc.c open_files.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:21:36 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/21 17:54:32 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 12:27:41 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_cmd(char **paths, char *cmd)
 	char	*temp;
 	char	*unix_cmd;
 
-	while (*paths)
+	while (*paths && cmd != NULL)
 	{
 		temp = ft_strjoin(*paths, "/");
 		if (!temp)

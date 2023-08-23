@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:37:30 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/22 18:10:50 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 11:01:21 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ char				*var_finder(char *str, t_lexer *state, t_env **env,
 						int var_flag);
 int					join_char(char *str, t_lexer *state, t_env **env,
 						int var_flag);
+void				word_contain_quote_2(char *str, t_cmdsplit *cmd);
+
 // built_in
 int					pwd(void);
 int					ft_env(t_env **env);
@@ -236,7 +238,7 @@ void				exec_tree(t_tree **tree, t_env **env, pid_t parent_flag);
 int					exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env,
 						pid_t parent_flag);
 int					handle_only_heredoc_logic(t_redir *redir_list, \
-						t_tree *cmd_node);
+								t_tree *cmd_node);
 int					check_for_heredoc(t_tree **tree);
 
 #endif

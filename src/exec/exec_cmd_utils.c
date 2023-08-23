@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:30:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/22 18:47:19 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 12:28:51 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	replace_cmd_absolute_path(t_tree *tree)
 	char	*tmp;
 
 	tmp = NULL;
+	if (!tree->cmd)
+		return ;
 	tmp = get_cmd(tree->cmd_paths, tree->cmd);
 	if (!tmp)
 	{

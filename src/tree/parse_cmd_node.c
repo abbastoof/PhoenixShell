@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 03:33:11 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/18 22:29:24 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 12:26:00 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,12 @@ int	add_args(t_token **tokens, t_tree *new_node)
 		{
 			if (new_node->cmd == NULL)
 			{
-				new_node->cmd = ft_strdup((*tokens)->value);
-				if (!new_node->cmd)
-					return (-1);
+				if ((*tokens)->value != NULL)
+				{
+					new_node->cmd = ft_strdup((*tokens)->value);
+					if (!new_node->cmd)
+						return (-1);
+				}
 			}
 			if (add_args_to_list(new_node, tokens) == -1)
 				return (-1);

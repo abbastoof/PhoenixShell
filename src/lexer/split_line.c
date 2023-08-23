@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:04:34 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/22 20:25:35 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 10:59:54 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,11 @@ static int	handle_word(char *str, t_cmdsplit *cmd, t_token **tokens)
 	cmd->start = cmd->index;
 	while (str[cmd->index] != '\0' && !ft_isspace(str[cmd->index])
 		&& redirectors(str, cmd->index) == 0)
+	{
+		if (ft_isquote(str[cmd->index]))
+			word_contain_quote_2(str, cmd);
 		cmd->index++;
+	}
 	new->value = ft_substr(str, cmd->start, (cmd->index - cmd->start));
 	if (!new->value)
 		return (-1);
