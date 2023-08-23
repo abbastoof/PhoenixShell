@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:00:56 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/23 12:18:44 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 16:36:50 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	execute_command(t_tree **tree, t_env **env)
 }
 
 static int	syntax_expansion(t_token **tokens, t_lexer state, t_tree **tree, \
-t_env **env)
+			t_env **env)
 {
 	if (check_quotes_syntax(tokens) != 0)
 	{
@@ -52,7 +52,8 @@ t_env **env)
 	}
 	else
 	{
-		expand_quotes(tokens, env, &state);
+		if (expansion(tokens, &state, env))
+			return (1);
 		if (create_tree(tokens, tree) == -1)
 		{
 			free_tree(tree);

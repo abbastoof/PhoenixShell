@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:49:03 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 11:16:05 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 16:34:59 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,22 @@ void	expand_quotes(t_token **tokens, t_env **env, t_lexer *state)
 		}
 		tmp = tmp->next;
 	}
+}
+
+int	expansion(t_token **tokens, t_lexer *state, t_env **env)
+{
+	int	flag;
+
+	flag = 0;
+	if (tokens_list_size(tokens) == 1 && (*tokens)->value[0] == '$')
+		flag = 1;
+	expand_quotes(tokens, env, state);
+	if (flag == 1 && (*tokens)->value == NULL)
+	{
+		free_tokens(tokens);
+		tokens = NULL;
+		g_exit_status = 0;
+		return (1);
+	}
+	return (0);
 }

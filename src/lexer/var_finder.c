@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:16:33 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/15 21:27:58 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 16:22:14 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ static int	malloc_error(char *ptr)
 
 static void	extract_var(char *str, int index, t_lexer *state, char *des)
 {
+	if (state->var != NULL)
+	{
+		free(state->var);
+		state->var = NULL;
+	}
 	while (!ft_isspace(str[index]) && str[index] != '\0' \
 		&& !ft_isquote(str[index]) && (str[index] == '_' \
 		|| ft_isalnum(str[index])))
@@ -73,7 +78,7 @@ char	*var_finder(char *str, t_lexer *state, t_env **env, int var_flag)
 	extract_var(str, index, state, des);
 	if (malloc_error(state->var))
 		return (NULL);
-	if (des)
+	if (des != NULL)
 		free(des);
 	des = NULL;
 	if (var_flag == 1)

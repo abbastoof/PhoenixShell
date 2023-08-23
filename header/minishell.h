@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:37:30 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 11:01:21 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 16:32:34 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,12 +142,14 @@ int					syntax(t_token **tokens);
 void				free_state(t_lexer *state);
 void				free_tokens(t_token **tokens);
 void				display_token(t_token **tokens);
+int					tokens_list_size(t_token **tokens);
 void				process_cmd(char *line, t_env **env);
 int					check_quotes_syntax(t_token **tokens);
 void				checkquote(char *str, t_lexer *state);
 void				checkdquote(char *str, t_lexer *state);
 int					dollar_with_character(char *str, t_lexer *state);
 int					check_consecutive_redirs(t_result res, t_token *tmp);
+int					expansion(t_token **tokens, t_lexer *state, t_env **env);
 int					split_quote(char *str, t_cmdsplit *cmd, t_token **tokens);
 void				expand_quotes(t_token **tokens, t_env **env,
 						t_lexer *state);

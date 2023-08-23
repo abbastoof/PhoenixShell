@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:30:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/23 12:28:51 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 16:05:16 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,14 @@ void	run_cmd_in_child(t_tree *tree, char **env)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(tree->cmd, 2);
-			ft_putstr_fd(": command not found\n", 2);
+			if (tree->cmd != NULL && ft_strchr(tree->cmd, '/') && \
+			access(tree->cmd, F_OK) == 0)
+				ft_putstr_fd(": is a directory\n", 2);
+			else if (tree->cmd != NULL && ft_strchr(tree->cmd, '/') && \
+			access(tree->cmd, F_OK) != 0)
+				ft_putstr_fd(": No such file or directory\n", 2);
+			else
+				ft_putstr_fd(": command not found\n", 2);
 			exit(127);
 		}
 	}

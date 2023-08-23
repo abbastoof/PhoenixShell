@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:19:45 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/22 18:14:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 15:48:38 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	write_lines_to_file(t_redir *redir, t_tree *tree)
 void	run_heredoc(t_redir *redir, t_tree *tree)
 {
 	init_signals(0);
+	signal(SIGQUIT, SIG_IGN);
 	if (child_process() == 0)
 	{
 		heredoc_signals();
