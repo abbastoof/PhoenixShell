@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:47:38 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 16:39:18 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 16:40:53 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,3 @@ int	tokens_list_size(t_token **tokens)
 	}
 	return (size);
 }
-
-// void	display_token(t_token **tokens)
-// {
-// 	t_token	*tmp;
-
-// 	tmp = *tokens;
-// 	if (tokens == NULL)
-// 		return ;
-// 	while (tmp != NULL)
-// 	{
-// 		printf("value = %s\n", tmp->value);
-// 		printf("type  = %d\n", tmp->type);
-// 		tmp = tmp->next;
-// 	}
-// }

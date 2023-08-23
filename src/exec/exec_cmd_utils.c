@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:30:59 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/23 16:05:16 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/23 16:47:13 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ void	run_cmd_in_child(t_tree *tree, char **env)
 			ft_putstr_fd(tree->cmd, 2);
 			if (tree->cmd != NULL && ft_strchr(tree->cmd, '/') && \
 			access(tree->cmd, F_OK) == 0)
+			{
 				ft_putstr_fd(": is a directory\n", 2);
+				exit(126);
+			}
 			else if (tree->cmd != NULL && ft_strchr(tree->cmd, '/') && \
 			access(tree->cmd, F_OK) != 0)
 				ft_putstr_fd(": No such file or directory\n", 2);
