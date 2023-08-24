@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:49:03 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 16:34:59 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/24 14:30:31 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,20 @@ static int	replace_value(t_token *token, t_lexer *state)
 	return (0);
 }
 
-int	need_expantion(t_token *token, t_lexer *state, t_env **env, int var_flag)
+int	need_expantion(t_token *token, t_lexer *state, t_env **env, int expand_flag)
 {
 	if ((token->value[state->i] && state->flag == 0 \
 	&& token->value[state->i] != ' ') \
 	&& (token->value[state->i] != '\'') && (token->value[state->i] != '\"'))
 	{
-		if (join_char(token->value, state, env, var_flag) == -1)
+		if (join_char(token->value, state, env, expand_flag) == -1)
 			return (-1);
 	}
 	else if ((token->value[state->i] && (state->flag == 1 \
 	&& token->value[state->i] != '\'')) || (token->value[state->i] \
 	&& (state->flag == 2 && token->value[state->i] != '\"')))
 	{
-		if (join_char(token->value, state, env, var_flag) == -1)
+		if (join_char(token->value, state, env, expand_flag) == -1)
 			return (-1);
 	}
 	else if (state->flag == 0 && token->value[state->i] == ' ')
@@ -59,7 +59,7 @@ int	need_expantion(t_token *token, t_lexer *state, t_env **env, int var_flag)
 	return (0);
 }
 
-int	expand_var(t_token *token, t_lexer *state, t_env **env, int var_flag)
+int	expand_var(t_token *token, t_lexer *state, t_env **env, int expand_flag)
 {
 	int	result;
 
@@ -69,12 +69,19 @@ int	expand_var(t_token *token, t_lexer *state, t_env **env, int var_flag)
 	while (token->value[state->i])
 	{
 		checkquote(token->value, state);
-		result = need_expantion(token, state, env, var_flag);
+		if ((token->value[state->i] != '\0' && state->indquote == 1 && \
+		expand_flag == 0) || (token->value[state->i] != '\0' \
+		&& state->indquote == 0 && state->inquote == 0 && \
+		expand_flag == 0 && token->value[state->i] == '$'))
+			expand_flag = 1;
+		result = need_expantion(token, state, env, expand_flag);
 		if (result == -1)
 			return (-1);
 		else if (result == -2)
 			break ;
 	}
+	if (token->value[state->i] != '\0')
+		return (0);
 	replace_value(token, state);
 	return (0);
 }
@@ -112,7 +119,8 @@ int	expansion(t_token **tokens, t_lexer *state, t_env **env)
 	int	flag;
 
 	flag = 0;
-	if (tokens_list_size(tokens) == 1 && (*tokens)->value[0] == '$')
+	if (tokens_list_size(tokens) == 1 && (*tokens)->value != NULL \
+	&& (*tokens)->value[0] == '$')
 		flag = 1;
 	expand_quotes(tokens, env, state);
 	if (flag == 1 && (*tokens)->value == NULL)

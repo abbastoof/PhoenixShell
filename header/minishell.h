@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:37:30 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 18:24:15 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/24 16:46:48 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ int					ft_token_add_back(t_token **tokens, t_token *new);
 int					syntax(t_token **tokens);
 void				free_state(t_lexer *state);
 void				free_tokens(t_token **tokens);
-void				display_token(t_token **tokens);
 int					tokens_list_size(t_token **tokens);
 void				process_cmd(char *line, t_env **env);
 int					check_quotes_syntax(t_token **tokens);
@@ -184,7 +183,6 @@ t_tree				*new_tree_node(void);
 void				free_tree(t_tree **tree);
 t_args				*new_args_node(char *str);
 int					add_args_list(t_tree *node);
-void				display_list(t_tree **tree);
 void				free_double_ptr(char **args);
 int					args_add_back(t_args **args, t_args *new);
 int					add_back(t_redir **lst, t_redir *new_node);
@@ -202,7 +200,7 @@ int					ft_isspace(int c);
 void				child_signal(void);
 void				ctrl_d_handler(void);
 void				free_env(t_env **env);
-int					ft_atol(const char *str);
+long long			ft_atoll(const char *str);
 void				init_signals(int state);
 void				echoing_control_chars(int enable);
 char				*find_path(t_env **env, char *str);
@@ -241,7 +239,7 @@ void				exec_tree(t_tree **tree, t_env **env, pid_t parent_flag);
 int					exec_cmd_redir(t_redir *redir, t_tree **tree, t_env **env,
 						pid_t parent_flag);
 int					handle_only_heredoc_logic(t_redir *redir_list, \
-								t_tree *cmd_node);
+						t_tree *cmd_node);
 int					check_for_heredoc(t_tree **tree);
 
 #endif

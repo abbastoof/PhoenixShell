@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/23 18:42:40 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/24 16:36:49 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	check_digits(t_tree *tree, int index, t_env **env)
 		if (tree->args[index][c] == '-' || tree->args[index][c] == '+')
 			c++;
 		if (!ft_isdigit(tree->args[index][c]) || (ft_strcmp(tree->args[1], "0")
-				&& ft_atol(tree->args[1]) == 0))
+			&& ft_atoll(tree->args[1]) == 0))
 		{
 			ft_putstr_fd("exit\nMinishell: exit: ", 2);
 			ft_putstr_fd(tree->args[index], 2);
@@ -41,7 +41,7 @@ static void	exit_with_a_number(t_tree *tree, t_env **env)
 
 	exit_num = 0;
 	ft_putstr_fd("exit\n", 1);
-	exit_num = ft_atol(tree->args[1]);
+	exit_num = ft_atoll(tree->args[1]);
 	free_tree(&tree);
 	free_env(env);
 	exit((unsigned char)exit_num);

@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2022/11/06 17:46:25 by atoof             #+#    #+#             */
 /*   Updated: 2022/11/22 17:28:07 by atoof            ###   ########.fr       */
 /*                                                                            */
@@ -12,10 +15,10 @@
 
 #include "minishell.h"
 
-int	ft_atol(const char *str)
+long long	ft_atoll(const char *str)
 {
-	long			result;
-	unsigned int	sign;
+	long long		result;
+	int				sign;
 	unsigned int	i;
 
 	result = 0;
@@ -33,8 +36,10 @@ int	ft_atol(const char *str)
 	{
 		result = result * 10 + str[i] - 48;
 		i++;
-		if (result > LONG_MAX || result < LONG_MIN)
+		if (((unsigned long long)result > ((unsigned long long)LLONG_MAX) && \
+			(sign == 1)) || ((sign == -1) && ((unsigned long long)result > \
+			(unsigned long long)LLONG_MIN)))
 			return (0);
 	}
-	return (sign * result);
+	return ((long long)sign * result);
 }

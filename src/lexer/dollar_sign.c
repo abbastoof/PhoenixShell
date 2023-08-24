@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:43:23 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 19:12:42 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/24 14:23:47 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	result_join(t_lexer *state, char *str)
 	return (0);
 }
 
-static int	dollar_handler_util(t_lexer *state, int var_flag)
+static int	dollar_handler_util(t_lexer *state, int expand_flag)
 {
 	if (state->path != NULL)
 	{
@@ -69,7 +69,7 @@ static int	dollar_handler_util(t_lexer *state, int var_flag)
 		if (state->tmp)
 			free(state->tmp);
 		state->tmp = state->res;
-		if (state->path && var_flag == 0)
+		if (state->path && expand_flag == 0)
 			free(state->path);
 	}
 	return (0);
@@ -98,13 +98,13 @@ static int	handle_special_character(char *str, t_lexer *state)
 	return (0);
 }
 
-int	check_dollar_sign(char *str, t_lexer *state, t_env **env, int var_flag)
+int	check_dollar_sign(char *str, t_lexer *state, t_env **env, int expand_flag)
 {
 	state->condition_result = dollar_with_character(str, state);
 	if (state->condition_result == 1 && state->flag != 1)
 	{
-		state->path = var_finder(str, state, env, var_flag);
-		if (dollar_handler_util(state, var_flag) == -1)
+		state->path = var_finder(str, state, env, expand_flag);
+		if (dollar_handler_util(state, expand_flag) == -1)
 			return (-1);
 	}
 	else if (state->condition_result == 2 && state->flag != 1)

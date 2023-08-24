@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:24:16 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/15 13:20:56 by atoof            ###   ########.fr       */
+/*   Updated: 2023/08/24 14:19:59 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	checkquote(char *str, t_lexer *state)
 	checkdquote(str, state);
 }
 
-int	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
+int	join_char(char *str, t_lexer *state, t_env **env, int expand_flag)
 {
 	if (!state->tmp)
 	{
@@ -62,7 +62,7 @@ int	join_char(char *str, t_lexer *state, t_env **env, int var_flag)
 			return (-1);
 		}
 	}
-	if (check_dollar_sign(str, state, env, var_flag) == -1)
+	if (check_dollar_sign(str, state, env, expand_flag) == -1)
 		return (-1);
 	return (0);
 }
