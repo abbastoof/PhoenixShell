@@ -6,7 +6,7 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:04:35 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/24 12:49:45 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/08/26 13:01:08 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ void	init_signals(int state)
 void	ctrl_d_handler(void)
 {
 	write(2, "exit\n", 6);
-	exit(0);
+	exit(g_exit_status);
 }
