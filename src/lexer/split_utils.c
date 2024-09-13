@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 int	redirectors(char *str, int i)
 {

@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static int	handle_error(char *str)
 {
-	ft_putstr("Minishell: unset: `");
+	ft_putstr("phoenix: unset: `");
 	if (str != NULL)
 		ft_putstr(str);
 	ft_putstr("': not a valid identifier\n");

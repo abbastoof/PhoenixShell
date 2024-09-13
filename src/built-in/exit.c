@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static void	check_digits(t_tree *tree, int index, t_env **env)
 {
@@ -24,7 +24,7 @@ static void	check_digits(t_tree *tree, int index, t_env **env)
 		if (!ft_isdigit(tree->args[index][c]) || (ft_strcmp(tree->args[1], "0")
 			&& ft_atoll(tree->args[1]) == 0))
 		{
-			ft_putstr_fd("exit\nMinishell: exit: ", 2);
+			ft_putstr_fd("exit\nphoenix: exit: ", 2);
 			ft_putstr_fd(tree->args[index], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			free_tree(&tree);
@@ -56,7 +56,7 @@ static void	exit_without_args(t_tree *tree, t_env **env)
 
 static void	exit_null_args(t_tree *tree, t_env **env)
 {
-	ft_putstr_fd("exit\nMinishell: exit: ", 2);
+	ft_putstr_fd("exit\nphoenix: exit: ", 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
 	free_tree(&tree);
 	free_env(env);
@@ -78,7 +78,7 @@ int	ft_exit(t_tree *tree, t_env **env, pid_t parent_flag)
 		{
 			if (parent_flag == 1)
 				ft_putstr_fd("exit\n", 2);
-			ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
+			ft_putstr_fd("phoenix: exit: too many arguments\n", 2);
 			return (256);
 		}
 		exit_with_a_number(tree, env);

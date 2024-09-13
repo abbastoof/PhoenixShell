@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static void	heredoc_signal_handler(int signal)
 {

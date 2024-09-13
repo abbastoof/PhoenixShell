@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static char	*error_handling(void)
 {

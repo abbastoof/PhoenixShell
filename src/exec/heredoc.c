@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static void	write_lines_to_file(t_redir *redir, t_tree *tree)
 {

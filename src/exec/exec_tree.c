@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 void	exec_tree(t_tree **tree, t_env **env, pid_t	parent_flag)
 {

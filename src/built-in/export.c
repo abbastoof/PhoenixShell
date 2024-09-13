@@ -6,17 +6,17 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:22:43 by atoof             #+#    #+#             */
-/*   Updated: 2023/08/23 18:48:03 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/11/02 20:24:22 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static int	print_error(char **args, int args_indx, int flag)
 {
 	if (flag == 0)
 	{
-		ft_putstr("Minishell: export: `");
+		ft_putstr("phoenix: export: `");
 		if (args[args_indx] != NULL)
 			ft_putstr(args[args_indx]);
 		ft_putstr("': not a valid identifier\n");

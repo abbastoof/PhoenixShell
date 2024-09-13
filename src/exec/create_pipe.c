@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static void	first_child(t_tree **tree, t_env **env, pid_t pipe_fds[2], \
 	pid_t *pid_left)

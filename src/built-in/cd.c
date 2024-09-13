@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static int	empty_key(char	*key)
 {
-	ft_putstr_fd("Minishell: cd: ", 2);
+	ft_putstr_fd("phoenix: cd: ", 2);
 	ft_putstr_fd(key, 2);
 	ft_putstr_fd(" not set\n", 2);
 	return (-1);
@@ -42,13 +42,13 @@ static int	error_handling(char *path)
 {
 	if (errno == EACCES)
 	{
-		ft_putstr_fd("Minishell: cd: ", 2);
+		ft_putstr_fd("phoenix: cd: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 	}
 	else if (errno == ENOENT)
 	{
-		ft_putstr_fd("Minishell: cd: ", 2);
+		ft_putstr_fd("phoenix: cd: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
@@ -64,7 +64,7 @@ static int	change_path_update_env(char *path, t_env **env, char *old_path)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		ft_putstr_fd("Minishell: getcwd\n", 2);
+		ft_putstr_fd("phoenix: getcwd\n", 2);
 		return (1);
 	}
 	find_key_in_env(env, "PWD", pwd);

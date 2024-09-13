@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
+
+int	g_exit_status;
 
 int	main(int ac, char **av, char **envp)
 {
@@ -26,7 +28,8 @@ int	main(int ac, char **av, char **envp)
 	{
 		echoing_control_chars(0);
 		init_signals(1);
-		cmd = readline("Minishell>");
+        char *colored_prompt = COLOR_ORANGE "🐦‍🔥 Phoenix Prompt> " COLOR_RESET;
+		cmd = readline(colored_prompt);
 		if (cmd == NULL)
 			ctrl_d_handler();
 		echoing_control_chars(1);

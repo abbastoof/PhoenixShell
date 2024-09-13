@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 int	pwd(void)
 {
@@ -26,7 +26,7 @@ int	pwd(void)
 	}
 	else
 	{
-		ft_putstr_fd("Minishell: getcwd() error\n", 2);
+		ft_putstr_fd("phoenix: getcwd() error\n", 2);
 		return (256);
 	}
 	return (0);

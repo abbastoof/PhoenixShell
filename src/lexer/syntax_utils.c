@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 int	check_consecutive_redirs(t_result res, t_token *tmp)
 {

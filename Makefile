@@ -6,11 +6,11 @@
 #    By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 12:54:55 by atoof             #+#    #+#              #
-#    Updated: 2023/08/23 16:42:02 by mtoof            ###   ########.fr        #
+#    Updated: 2023/11/02 20:33:35 by mtoof            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME = phoenix
 SRC_DIR = src/
 BUILT_IN_DIR = src/built-in/
 LEXER_D = src/lexer/
@@ -35,13 +35,13 @@ SRCS = $(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILT_IN_DIR), $(SRC_BUILT)
 		$(addprefix $(TREE_D), $(SRC_TREE)) $(addprefix $(EXEC_D), $(SRC_EXEC)) \
 		$(addprefix $(ENV_D), $(SRC_ENV))
 HEADER_DIR = header/
-HEADER = minishell.h
+HEADER = phoenix.h
 OBJ_DIR = obj/
 OBJS = $(SRCS:%.c=$(OBJ_DIR)%.o)
 LIBFT = ./libft/libft.a
 FLAGS = -Wall -Werror -Wextra
 ERROR_FLAGS =  -fsanitize=address -static-libsan -g -fno-omit-frame-pointer -overflow
-EXTRA_FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
+# EXTRA_FLAGS = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
 # ANSI escape sequences for text formatting
 BOLD = \033[1m
@@ -55,13 +55,15 @@ vpath %.h $(HEADER_DIR)
 
 all: $(NAME)
 
+EXTRA_FLAGS = -lreadline
+
 $(NAME): $(OBJS)
 	@if [ -f $(NAME) ] && [ "$(OBJS)" -ot "$(NAME)" ]; then \
 		echo "$(GREEN)$(BOLD)$(NAME) is already up-to-date!$(NC)"; \
 	else \
 		echo "$(YELLOW)$(BOLD)Compiling $(NAME)...$(NC)"; \
 		make -C ./libft; \
-		cc $(FLAGS) $(EXTRA_FLAGS) $(OBJS) -I$(HEADER_DIR) $(LIBFT) -o $@ ; \
+		cc $(FLAGS) $(OBJS) -I$(HEADER_DIR) $(LIBFT) -o $@ $(EXTRA_FLAGS); \
 		echo "$(GREEN)$(BOLD)$(NAME) successfully compiled!$(NC)"; \
 	fi
 

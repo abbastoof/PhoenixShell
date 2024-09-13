@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 void	exit_status_chk(int exit_sig)
 {
@@ -83,7 +83,7 @@ void	run_cmd_in_child(t_tree *tree, char **env)
 		child_signal();
 		if (execve(tree->cmd, tree->args, env) == -1)
 		{
-			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd("phoenix: ", 2);
 			ft_putstr_fd(tree->cmd, 2);
 			if (tree->cmd != NULL && ft_strchr(tree->cmd, '/') && \
 			access(tree->cmd, F_OK) == 0)

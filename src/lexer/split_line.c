@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static int	handle_in_out_pipe(char *str, t_cmdsplit *cmd, t_token *new)
 {

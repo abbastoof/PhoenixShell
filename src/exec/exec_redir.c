@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static void	dup_last_heredoc(t_redir *tmp_redir, t_tree *tree)
 {

@@ -2,18 +2,18 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+      
+/*   By: atoof <atoof@student.hive.fi>              +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2022/11/06 17:46:25 by atoof             #+#    #+#             */
 /*   Updated: 2022/11/22 17:28:07 by atoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 long long	ft_atoll(const char *str)
 {

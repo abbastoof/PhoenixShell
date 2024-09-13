@@ -6,11 +6,11 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:07:47 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 11:26:06 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/11/02 20:02:35 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 static void	*error_handling(void)
 {

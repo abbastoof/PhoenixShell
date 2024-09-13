@@ -6,11 +6,11 @@
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:33:05 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/23 18:25:34 by mtoof            ###   ########.fr       */
+/*   Updated: 2023/11/02 20:28:48 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 int	empty_key_with_equal(t_env **tmp)
 {

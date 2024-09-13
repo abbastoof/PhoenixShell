@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoof <atoof@student.hive.fi>              +#+  +:+       +#+        */
+/*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:58:25 by mtoof             #+#    #+#             */
-/*   Updated: 2023/08/14 20:34:45 by atoof            ###   ########.fr       */
+/*   Updated: 2023/11/02 20:30:01 by mtoof            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 char	*shelvl_value(char *value)
 {
@@ -63,7 +63,7 @@ char	**env_char_ptr(t_env **env, char **env_ptr)
 	int		index;
 	t_env	*tmp;
 
-	if (!env)
+	if (*env == NULL)
 		return (NULL);
 	env_ptr = ft_calloc(sizeof(char *), ft_listsize(env) * 2);
 	if (!env_ptr)

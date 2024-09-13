@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   phoenix.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtoof <mtoof@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PHOENIX_H
+# define PHOENIX_H
 
 # include "../libft/libft.h"
+# include "colors.h"
+# include <stdio.h>
+# include <wait.h>
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <sys/ioctl.h>
-# include <sys/syslimits.h>
+# include <limits.h>
 # include <termios.h>
 
 # define TOKEN_CMD 1
@@ -84,7 +87,7 @@ typedef struct s_tree
 	int				standard_output;
 }					t_tree;
 
-int					g_exit_status;
+extern int					g_exit_status;
 
 typedef struct s_token
 {

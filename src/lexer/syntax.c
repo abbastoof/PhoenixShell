@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "phoenix.h"
 
 void	error_msg(int res, char *msg)
 {
 	if (res != TOKEN_EXIT_STATUS)
 	{
-		ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd("phoenix: syntax error near unexpected token `", 2);
 		if (res >= 4 && res <= 7)
 			ft_putstr_fd("newline", 2);
 		else if (res == 3)
@@ -58,6 +58,8 @@ int	syntax(t_token **tokens)
 {
 	t_token		*tmp;
 	t_result	res;
+
+    res = (t_result){0, 0};
 
 	tmp = *tokens;
 	if (tmp->type == TOKEN_PIPE)
